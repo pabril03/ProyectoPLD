@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://pyqdanv2cm78"]
+
+[ext_resource type="Script" uid="uid://dkop16ogm1qe1" path="res://scripts/gun.gd" id="1_yemot"]
+[ext_resource type="Texture2D" uid="uid://iam3vlg00het" path="res://Icon29_29.png" id="2_tddgn"]
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_yemot")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(11, 0)
+rotation = 0.785398
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_tddgn")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(26, 0)
