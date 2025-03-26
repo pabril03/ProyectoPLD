@@ -15,6 +15,7 @@ func _process(delta: float) -> void:
 		scale.y = 1
 
 	if Input.is_action_just_pressed("shoot"):
+		$Timer.start()
 		var bullet_i = bala.instantiate()
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position

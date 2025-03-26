@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="ProyectoPLD"
+run/main_scene="uid://cimfsyn1lj3c7"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://sprites/icon.svg"
 
 [file_customization]
 
 folder_colors={
-"res://escenas/": "purple"
+"res://escenas/": "purple",
+"res://sprites/": "yellow"
 }
 
 [input]
