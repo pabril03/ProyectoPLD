@@ -1,9 +1,10 @@
 extends RigidBody2D
 
 const SPEED:int = 300
+var enemigo
 
 func _ready():
-	add_to_group("balas")
+	pass
 
 func _process(delta: float) -> void:
 	#transform es la dirección en la que va

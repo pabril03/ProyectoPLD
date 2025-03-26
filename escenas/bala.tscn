@@ -11,7 +11,7 @@ height = 12.0
 radius = 2.9999
 height = 12.0
 
-[node name="Bullet" type="RigidBody2D"]
+[node name="Bullet" type="RigidBody2D" groups=["balas"]]
 script = ExtResource("1_66u8n")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

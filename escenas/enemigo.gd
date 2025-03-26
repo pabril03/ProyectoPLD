@@ -8,7 +8,7 @@ func _process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("balas"):  # Asegura que solo las balas bajen la vida
-		VIDA -= 1
+		VIDA -= 2
 		print("Vida restante:", VIDA)
 		body.queue_free()  # Destruye la bala tras impactar
 	
