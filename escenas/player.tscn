@@ -52,6 +52,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
+collision_priority = 2.0
 script = ExtResource("1_0s3u6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -68,4 +69,4 @@ frame_progress = 0.381751
 position = Vector2(-1, 2)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
+zoom = Vector2(2.5, 2.5)

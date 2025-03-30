@@ -2,7 +2,6 @@ extends Node2D
 
 const bala = preload("res://escenas/bala.tscn")
 
-
 @onready var punta: Marker2D = $Marker2D
 var puedoDisparar: bool = true
 
@@ -26,6 +25,8 @@ func disparo():
 		var bullet_i = bala.instantiate()
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
+		var direction = (get_global_mouse_position() - punta.global_position).normalized()
+		bullet_i.velocity = direction * bullet_i.SPEED
 		bullet_i.rotation = rotation
 		puedoDisparar = false
 

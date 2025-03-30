@@ -4,6 +4,10 @@ extends CharacterBody2D
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
 
+func _ready() -> void:
+	collision_layer = 2  # Establece un valor que no se use para las balas
+	collision_mask = 1   # Establece las capas con las que el jugador debe colisionar.
+
 func _physics_process(delta: float) -> void:
 	
 	var direction := Vector2.ZERO
@@ -13,24 +17,28 @@ func _physics_process(delta: float) -> void:
 	else:
 		animaciones.flip_h = false
 	
-	if Input.is_action_pressed("left"):
-		direction.x -= 1
-		animaciones.flip_h = true
-	if Input.is_action_pressed("right"):
-		direction.x += 1
-		animaciones.flip_h = false
-	if Input.is_action_pressed("up"):
-		direction.y -= 1
-	if Input.is_action_pressed("down"):
-		direction.y += 1
-	
-	velocity = direction * SPEED
-	
-	if direction:
+	var directionX := Input.get_axis("left", "right")
+	var directionY := Input.get_axis("up", "down")
+	#Aplicar fuerza
+	if directionX:
+		velocity.x = directionX * SPEED
 		animaciones.play("run")
+		if directionX > 0:
+			animaciones.flip_h = false
+		else:
+			animaciones.flip_h = true
+			
 	else:
 		animaciones.play("default")
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		
+	if directionY:
+		velocity.y = directionY * SPEED
+	else:
+		velocity.y = move_toward(velocity.y, 0, SPEED)
 	
 	velocity.normalized()
 	
 	move_and_slide()
+	
+	
