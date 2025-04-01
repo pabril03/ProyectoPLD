@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://uhk3m1a2dc6f"]
 
-[ext_resource type="Script" uid="uid://c3q7huropm8l4" path="res://escenas/bala.gd" id="1_66u8n"]
+[ext_resource type="Script" uid="uid://c3q7huropm8l4" path="res://scripts/bala.gd" id="1_66u8n"]
 [ext_resource type="Texture2D" uid="uid://cie4rig1wwhjn" path="res://sprites/icon.svg" id="2_2qn40"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2qn40"]

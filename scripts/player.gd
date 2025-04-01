@@ -1,8 +1,12 @@
 extends CharacterBody2D
 
-@export var SPEED:float = 50.0
+@export var SPEED:float = 100.0
+var escudo_activo:bool = false
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
+@onready var escudo = $Escudo
+@onready var escudo_sprite = $Escudo/Sprite2D
+
 
 func _ready() -> void:
 	collision_layer = 2  # Establece un valor que no se use para las balas
@@ -41,4 +45,20 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
+	if Input.is_action_pressed("shield"):
+		activar_escudo()
+	else:
+		desactivar_escudo()
 	
+
+func activar_escudo():
+	escudo_activo = true
+	escudo.visible = true #Muestra el Area2D
+	escudo_sprite.visible = true #Muestra sprite
+	escudo.monitoring = true
+
+func desactivar_escudo():
+	escudo_activo = false
+	escudo.visible = false 
+	escudo_sprite.visible = false
+	escudo.monitoring = false

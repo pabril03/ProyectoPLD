@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
-var SPEED: float = 200.0
+var SPEED: float = 150.0
 var dano: int = 2
 var num_colisiones: int = 0
 
-var max_distance: float = 200.0
+var max_distance: float = 1000.0
 var distance_traveled: float = 0.0
 var last_position: Vector2
 
@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	# Mueve la bala y detecta colisiones
 	var colision = move_and_collide(velocity * delta)
 	
-	if num_colisiones >= 4:
+	if num_colisiones >= 10:
 		queue_free()
 		return
 	
@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		num_colisiones += 1
 	
 		# Aumentamos la velocidad tras cada rebote
-		velocity *= 1.25
+		velocity *= 1.1
 		
 		# Rebote en ángulo espejo
 		velocity = velocity.bounce(colision.get_normal())

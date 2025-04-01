@@ -25,6 +25,7 @@ func disparo():
 		var bullet_i = bala.instantiate()
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
+		bullet_i.set_start_position(punta.global_position)
 		var direction = (get_global_mouse_position() - punta.global_position).normalized()
 		bullet_i.velocity = direction * bullet_i.SPEED
 		bullet_i.rotation = rotation
