@@ -295,4 +295,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAA
 tile_set = SubResource("TileSet_dkga6")
 
 [node name="Enemigo" parent="." instance=ExtResource("4_26pgj")]
-position = Vector2(316, 168)
+position = Vector2(395, 238)

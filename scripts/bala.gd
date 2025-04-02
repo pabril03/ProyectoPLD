@@ -14,7 +14,7 @@ func set_start_position(pos: Vector2) -> void:
 
 func _ready():
 	collision_layer = 2 # Capa 2 para que no colisionen entre sí
-	collision_mask = 1 # Para que colisione con los elementos del mapa y el jugador
+	collision_mask = 1 & 3 # Para que colisione con los elementos del mapa y el jugador
 	if last_position == Vector2.ZERO:  # Si no se inicializa la bala desde fuera se utiliza la posición global.
 		last_position = global_position
 
