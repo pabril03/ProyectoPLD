@@ -1,7 +1,9 @@
 extends CharacterBody2D
 
 @export var SPEED:float = 100.0
+@export var VIDA:int = 20
 var escudo_activo:bool = false
+
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
 @onready var escudo = $Escudo
@@ -9,7 +11,7 @@ var escudo_activo:bool = false
 
 
 func _ready() -> void:
-	collision_layer = 2  # Establece un valor que no se use para las balas
+	collision_layer = 3  # Establece un valor que no se use para las balas
 	collision_mask = 1   # Establece las capas con las que el jugador debe colisionar.
 
 func _physics_process(delta: float) -> void:
@@ -50,6 +52,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		desactivar_escudo()
 	
+	if VIDA <= 0:
+		queue_free()
+	
 
 func activar_escudo():
 	escudo_activo = true
@@ -62,3 +67,8 @@ func desactivar_escudo():
 	escudo.visible = false 
 	escudo_sprite.visible = false
 	escudo.monitoring = false
+
+
+func reducirVida(dano: int):
+	VIDA -= dano
+	print(VIDA)

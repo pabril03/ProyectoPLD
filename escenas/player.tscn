@@ -52,7 +52,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_priority = 2.0
 script = ExtResource("1_0s3u6")
 

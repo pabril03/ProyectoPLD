@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=4 uid="uid://cimfsyn1lj3c7"]
+[gd_scene load_steps=12 format=4 uid="uid://cimfsyn1lj3c7"]
 
 [ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/player.tscn" id="1_d7u15"]
+[ext_resource type="Script" uid="uid://cng754emwdrr7" path="res://escenas/main.gd" id="1_dkga6"]
 [ext_resource type="Texture2D" uid="uid://hcmgyxv0eotv" path="res://0x72_DungeonTilesetII_v1.7/atlas_floor-16x16.png" id="2_jumxm"]
 [ext_resource type="Texture2D" uid="uid://bfyw406e1n3ho" path="res://0x72_DungeonTilesetII_v1.7/atlas_walls_high-16x32.png" id="3_26pgj"]
 [ext_resource type="PackedScene" uid="uid://b4443vhnliebx" path="res://escenas/enemigo.tscn" id="4_26pgj"]
@@ -278,9 +279,10 @@ texture = ExtResource("2_jumxm")
 sources/0 = SubResource("TileSetAtlasSource_26pgj")
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_dkga6")
 
 [node name="Player" parent="." instance=ExtResource("1_d7u15")]
-position = Vector2(252, 213)
+position = Vector2(272, 262)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -1
@@ -296,3 +298,6 @@ tile_set = SubResource("TileSet_dkga6")
 
 [node name="Enemigo" parent="." instance=ExtResource("4_26pgj")]
 position = Vector2(395, 238)
+
+[node name="PuntoRespawn" type="Marker2D" parent="."]
+position = Vector2(204, 292)

@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var SPEED: float = 150.0
+var SPEED: float = 200.0
 var dano: int = 2
 var num_colisiones: int = 0
 
@@ -14,7 +14,7 @@ func set_start_position(pos: Vector2) -> void:
 
 func _ready():
 	collision_layer = 2 # Capa 2 para que no colisionen entre sí
-	collision_mask = 1 & 3 # Para que colisione con los elementos del mapa y el jugador
+	collision_mask = 1 or 3 # Para que colisione con los elementos del mapa y el jugador
 	if last_position == Vector2.ZERO:  # Si no se inicializa la bala desde fuera se utiliza la posición global.
 		last_position = global_position
 
@@ -55,6 +55,14 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemigo"):
 		body.reducirVida(dano)
 		queue_free()
+	
+	if body.is_in_group("player"):
+		if body.escudo_activo:
+			pass
+		else:
+			body.reducirVida(dano)
+			queue_free()
+		
 
 
 #func _physics_process(delta: float) -> void:
