@@ -15,6 +15,7 @@ func set_start_position(pos: Vector2) -> void:
 func _ready():
 	collision_layer = 2 # Capa 2 para que no colisionen entre sí
 	collision_mask = 1 or 3 # Para que colisione con los elementos del mapa y el jugador
+	
 	if last_position == Vector2.ZERO:  # Si no se inicializa la bala desde fuera se utiliza la posición global.
 		last_position = global_position
 
@@ -52,13 +53,31 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	# Recuperamos quién disparó la bala
+	var shooter = get_meta("shooter")
+	
+	# Si la bala colisiona con el escudo del shooter, ignoramos la colisión
+	if body.get_parent() == shooter:
+		add_collision_exception_with(body)
+		return
+		
+	# Si la bala fue disparada por un jugador y choca contra el mismo que disparó, ignoramos el daño
+	if shooter and body == shooter:
+		return
+	
+	# Si choca con un enemigo, se aplica daño y destruye la bala
 	if body.is_in_group("enemigo"):
 		body.reducirVida(dano)
 		queue_free()
+		return
 	
-	if body.is_in_group("player"):
+	# Si choca contra un jugador distinto del shooter
+	if body.is_in_group("player") and body != shooter:
+		# Si tiene escudo activo, rebota
 		if body.escudo_activo:
-			pass
+			set_meta("shooter", body)
+			add_collision_exception_with(body)
+			return
 		else:
 			body.reducirVida(dano)
 			queue_free()

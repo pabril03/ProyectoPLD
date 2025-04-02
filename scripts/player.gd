@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var SPEED:float = 100.0
 @export var VIDA:int = 20
 var escudo_activo:bool = false
+var puede_activar_escudo = true
 
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
@@ -57,10 +58,24 @@ func _physics_process(delta: float) -> void:
 	
 
 func activar_escudo():
+	if not puede_activar_escudo:
+		return
+
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
 	escudo_sprite.visible = true #Muestra sprite
 	escudo.monitoring = true
+	
+	# El escudo se activa un lapso de tiempo
+	await get_tree().create_timer(0.75).timeout
+	desactivar_escudo()
+	
+	# Evitamos el spam incluyendo un timer
+	puede_activar_escudo = false
+	
+	# Esperamos 1.5s para recargar el escudo
+	await get_tree().create_timer(1.25).timeout
+	puede_activar_escudo = true
 
 func desactivar_escudo():
 	escudo_activo = false
