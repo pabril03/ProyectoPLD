@@ -14,6 +14,9 @@ func _process(delta):
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
 		spawnear_jugador()
 
+	if Input.is_action_just_pressed("exit"):
+		get_tree().quit()
+
 func spawnear_jugador():
 	jugador = JugadorEscena.instantiate()
 	jugador.global_position = punto_respawn.global_position  # Ubicación de respawn
