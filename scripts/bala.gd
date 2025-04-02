@@ -47,10 +47,6 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.bounce(colision.get_normal())
 		# Ajustar la rotación para seguir la nueva dirección
 		rotation = velocity.angle()
-	
-
-func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	queue_free()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Recuperamos quién disparó la bala
