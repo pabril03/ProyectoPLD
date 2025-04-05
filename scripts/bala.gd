@@ -59,7 +59,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		
 	# Si la bala fue disparada por un jugador y choca contra el mismo que disparó, ignoramos el daño
 	if shooter and body == shooter:
-		return
+		if shooter.is_in_group("player"):
+			return
 	
 	# Si choca con un enemigo, se aplica daño y destruye la bala
 	if body.is_in_group("enemigo"):

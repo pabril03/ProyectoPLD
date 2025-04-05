@@ -15,9 +15,7 @@ func _ready() -> void:
 	collision_layer = 3  # Establece un valor que no se use para las balas
 	collision_mask = 1   # Establece las capas con las que el jugador debe colisionar.
 
-func _physics_process(delta: float) -> void:
-	
-	var direction := Vector2.ZERO
+func _physics_process(_delta: float) -> void:
 	
 	if get_global_mouse_position().x < global_position.x:
 		animaciones.flip_h = true

@@ -4,7 +4,6 @@ extends StaticBody2D
 const bala = preload("res://escenas/bala.tscn")
 
 @onready var punta: Marker2D = $Marker2D
-@onready var timer_rafaga = $TimerRafaga
 
 var puedoDisparar: bool = true
 var disparando = false
@@ -14,7 +13,7 @@ func _ready() -> void:
 	collision_layer = 3
 	collision_mask = 1
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if(VIDA <= 0):
 		queue_free()
 	
@@ -36,7 +35,7 @@ func disparo():
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		
+		bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		puedoDisparar = false
@@ -55,6 +54,7 @@ func disparo_libre():
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
+		bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		

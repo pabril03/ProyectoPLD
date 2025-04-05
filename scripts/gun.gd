@@ -7,7 +7,7 @@ var puedoDisparar: bool = true
 var en_rafaga = false
 var cooldown_rafaga = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	
 	look_at(get_global_mouse_position())
 	
