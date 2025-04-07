@@ -12,8 +12,24 @@ var enemy: StaticBody2D # Referencia al dummy
 var player_respawning = false # Flag para evitar múltiples respawns
 var enemy_respawning = false
 
-func spawnear_jugador():
+const PLAYER_ID_START = 0
+const ENEMY_ID_START = 1000000
+var next_player_id = PLAYER_ID_START
+var next_enemy_id = ENEMY_ID_START
+
+func get_next_player_id() -> int:
+	var id = next_player_id
+	next_player_id += 1
+	return id
+
+func get_next_enemy_id() -> int:
+	var id = next_enemy_id
+	next_enemy_id += 1
+	return id
+
+func spawnear_jugador() -> void:
 	jugador = JugadorEscena.instantiate()
+	jugador.player_id = get_next_player_id()
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
@@ -23,6 +39,7 @@ func spawnear_jugador():
 	
 func spawnear_dummy():
 	enemy = EnemigoEscena.instantiate()
+	enemy.enemy_id = get_next_enemy_id()
 	
 	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
 	enemy.global_position = punto_respawn_enemigo.global_position + Vector2(0, -10)
@@ -33,8 +50,7 @@ func _ready():
 	spawnear_jugador()
 	spawnear_dummy()
 
-
-func _process(delta):
+func _process(_delta: float) -> void:
 	if not is_instance_valid(jugador) and not player_respawning:
 		player_respawning = true
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn

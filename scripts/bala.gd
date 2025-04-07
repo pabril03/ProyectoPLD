@@ -7,10 +7,17 @@ var num_colisiones: int = 0
 var max_distance: float = 1000.0
 var distance_traveled: float = 0.0
 var last_position: Vector2
+var shooter_id = 0
 
 # Creamos una función para definir la posición de la bala al dispararla
 func set_start_position(pos: Vector2) -> void:
 	last_position = pos
+
+func get_bala() -> bool:
+	return true
+
+func get_shooter_id() -> int:
+	return shooter_id
 
 func _ready():
 	collision_layer = 2 # Capa 2 para que no colisionen entre sí
@@ -49,45 +56,29 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	# Recuperamos quién disparó la bala
-	var shooter = get_meta("shooter")
-	
-	# Si la bala colisiona con el escudo del shooter, ignoramos la colisión
-	if body.get_parent() == shooter:
-		add_collision_exception_with(body)
-		return
-		
-	# Si la bala fue disparada por un jugador y choca contra el mismo que disparó, ignoramos el daño
-	if shooter and body == shooter:
-		if shooter.is_in_group("player"):
+
+	# Si la bala tiene un ID distinto del cuerpo con el que colisiona
+	if body.has_method("get_shooter_id") and body.get_shooter_id() != shooter_id:
+
+		# Si se disparan entre enemigos, ignora la colisión
+		if shooter_id >= 1000000 and (body.has_method("get_shooter_id") and body.get_shooter_id() >= 1000000):
+			self.add_collision_exception_with(body)
 			return
-	
-	# Si choca con un enemigo, se aplica daño y destruye la bala
-	if body.is_in_group("enemigo"):
-		body.reducirVida(dano)
-		queue_free()
-		return
-	
-	# Si choca contra un jugador distinto del shooter
-	if body.is_in_group("player") and body != shooter:
-		# Si tiene escudo activo, rebota
-		if body.escudo_activo:
-			set_meta("shooter", body)
-			add_collision_exception_with(body)
+
+		# Si el cuerpo es un jugador con un escudo activo
+		if body.has_method("get_escudo_activo") and body.get_escudo_activo():
+			# La bala pasa a ser propiedad del jugador
+			shooter_id = body.get_shooter_id()
 			return
+
 		else:
-			body.reducirVida(dano)
+			# Le hace daño al cuerpo y desaparece
+			body.take_damage(dano)
 			queue_free()
-		
+			return
 
-
-#func _physics_process(delta: float) -> void:
-#	var colision:KinematicCollision2D
-#	var movimiento = dir * velocidad * delta
-#	colision = move_and_collide(dir * velocidad * delta)
-	
-#	while colision:
-#		movimiento = colision.get_remainder().bounce(colision.get_normal())
-#		dir = dir.bounce(colision.get_normal())
-		#rotation = dir.angle()
-#		colision = move_and_collide(movimiento)
+	# Si la bala colisiona con el objeto que la disparó o con su escudo:
+	if (body.has_method("get_shooter_id") and body.get_shooter_id() == self.shooter_id) || (body.has_method("get_escudo_id") and body.get_shooter_id() == shooter_id):
+		# Atraviesa al objeto
+		self.add_collision_exception_with(body)
+		return

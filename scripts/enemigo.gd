@@ -1,7 +1,10 @@
 extends StaticBody2D
 
-@export var VIDA:int = 20
+signal health_changed(new_health)
+var max_health = 20
+var health = 20
 const bala = preload("res://escenas/bala.tscn")
+var enemy_id: int
 
 @onready var punta: Marker2D = $Marker2D
 
@@ -12,20 +15,34 @@ var disparos_realizados = 0
 func _ready() -> void:
 	collision_layer = 3
 	collision_mask = 1
+	# Conectar la señal 'health_changed' a la función que actualiza la barra de vida
+	connect("health_changed", Callable(self, "_on_health_changed"))
+	# Inicializar la barra de vida con el valor máximo de salud
+	emit_signal("health_changed", health)
+
+func get_shooter_id() -> int:
+	return enemy_id
 
 func _process(_delta: float) -> void:
-	if(VIDA <= 0):
+	if(health <= 0):
 		queue_free()
 	
-	if(VIDA >= 10):
+	if(health >= 10):
 		disparo_libre()
 	
 	else:
 		disparo()
-		
-func reducirVida(dano: int):
-	VIDA -= dano
-	print(VIDA)
+	
+func take_damage(amount: float) -> void:
+	health = clamp(health - amount, 0, max_health)
+	emit_signal("health_changed", health)
+	
+	if health <= 0:
+		queue_free()
+	
+func heal(amount: float) -> void:
+	health = clamp(health + amount, 0, max_health)
+	emit_signal("health_changed", health)
 
 
 func disparo():
@@ -35,7 +52,11 @@ func disparo():
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
+		bullet_i.shooter_id = enemy_id	# Asignamos un id al shooter que disparó el arma
+		
+		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
+		
+		#bullet_i.add_collision_exception_with(self)
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		puedoDisparar = false
@@ -54,7 +75,10 @@ func disparo_libre():
 		get_tree().root.add_child(bullet_i)
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
+		bullet_i.shooter_id = enemy_id
+		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
+		#bullet_i.add_collision_exception_with(self)		#Ignoramos la colisión de las balas del enemigo
+															# Consigo mismo
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		

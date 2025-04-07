@@ -1,9 +1,13 @@
 extends CharacterBody2D
 
 @export var SPEED:float = 100.0
-@export var VIDA:int = 20
 var escudo_activo:bool = false
 var puede_activar_escudo = true
+var max_health = 20
+var health = 20
+var player_id: int
+
+signal health_changed(new_health)
 
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
@@ -11,9 +15,28 @@ var puede_activar_escudo = true
 @onready var escudo_sprite = $Escudo/Sprite2D
 
 
-func _ready() -> void:
+func _ready():
 	collision_layer = 3  # Establece un valor que no se use para las balas
-	collision_mask = 1   # Establece las capas con las que el jugador debe colisionar.
+	collision_mask = 1 | 2   # Establece las capas con las que el jugador debe colisionar.
+	emit_signal("health_changed", health)
+	escudo.escudo_id = player_id
+
+func get_shooter_id() -> int:
+	return player_id
+	
+func get_escudo_activo() -> bool:
+	return escudo_activo
+
+func take_damage(amount: float) -> void:
+	health = clamp(health - amount, 0, max_health)
+	emit_signal("health_changed", health)
+	
+	if health <= 0:
+		queue_free()
+	
+func heal(amount: float) -> void:
+	health = clamp(health + amount, 0, max_health)
+	emit_signal("health_changed", health)
 
 func _physics_process(_delta: float) -> void:
 	
@@ -51,9 +74,6 @@ func _physics_process(_delta: float) -> void:
 	else:
 		desactivar_escudo()
 	
-	if VIDA <= 0:
-		queue_free()
-	
 
 func activar_escudo():
 	if not puede_activar_escudo:
@@ -71,7 +91,7 @@ func activar_escudo():
 	# Evitamos el spam incluyendo un timer
 	puede_activar_escudo = false
 	
-	# Esperamos 1.5s para recargar el escudo
+	# Esperamos 1.25s para recargar el escudo
 	await get_tree().create_timer(1.25).timeout
 	puede_activar_escudo = true
 
@@ -80,8 +100,3 @@ func desactivar_escudo():
 	escudo.visible = false 
 	escudo_sprite.visible = false
 	escudo.monitoring = false
-
-
-func reducirVida(dano: int):
-	VIDA -= dano
-	print(VIDA)

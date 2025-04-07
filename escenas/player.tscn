@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bghg4cc4p4p7q"]
+[gd_scene load_steps=15 format=3 uid="uid://bghg4cc4p4p7q"]
 
 [ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/player.gd" id="1_0s3u6"]
 [ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_gd0y7"]
@@ -11,9 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://juh3ux2o2t1h" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f3.png" id="9_8mtn0"]
 [ext_resource type="PackedScene" uid="uid://pyqdanv2cm78" path="res://escenas/gun.tscn" id="10_t5tro"]
 [ext_resource type="PackedScene" uid="uid://dbklotbaagktf" path="res://escenas/escudo.tscn" id="11_w7fad"]
+[ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_n2wyw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
-radius = 8.0
+radius = 9.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5vuvg"]
 animations = [{
@@ -72,3 +73,13 @@ frame_progress = 0.381751
 zoom = Vector2(2.5, 2.5)
 
 [node name="Escudo" parent="." instance=ExtResource("11_w7fad")]
+position = Vector2(2, -1)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 2.0
+scale = Vector2(1, 0.35)
+show_percentage = false
+script = ExtResource("12_n2wyw")
