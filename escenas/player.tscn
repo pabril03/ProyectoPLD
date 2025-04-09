@@ -76,10 +76,10 @@ zoom = Vector2(2.5, 2.5)
 position = Vector2(2, -1)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -25.0
-offset_top = -25.0
-offset_right = 25.0
-offset_bottom = 2.0
+offset_left = -12.0
+offset_top = -20.0
+offset_right = 13.0
+offset_bottom = -7.0
 scale = Vector2(1, 0.35)
 show_percentage = false
 script = ExtResource("12_n2wyw")

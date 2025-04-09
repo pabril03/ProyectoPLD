@@ -92,7 +92,7 @@ func activar_escudo():
 	puede_activar_escudo = false
 	
 	# Esperamos 1.25s para recargar el escudo
-	await get_tree().create_timer(1.25).timeout
+	await get_tree().create_timer(1.0).timeout
 	puede_activar_escudo = true
 
 func desactivar_escudo():

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://xiw5bedht0x7" path="res://scripts/escudo.gd" id="1_uq7k6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2wyw"]
-radius = 11.0
+radius = 14.0
 
 [node name="Escudo" type="Area2D"]
 collision_priority = 2.0

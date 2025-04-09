@@ -10,10 +10,12 @@ func get_escudo_id() -> int:
 	return escudo_id
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.has_method("get_shooter_id") and body.get_shooter_id() == escudo_id:
-		return
+	#if body.has_method("get_shooter_id") and body.get_shooter_id() == escudo_id:
+	#	return
 
-	elif body.is_in_group("balas"):
+	#elif body.is_in_group("balas"):
+	#	repeler_bala(body)
+	if body.is_in_group("balas"):
 		repeler_bala(body)
 
 #Método para repeler la bala
