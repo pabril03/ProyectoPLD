@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group('player') or body.is_in_group('enemigo'):
+	if body.is_in_group("player") or body.is_in_group("enemigo"):
 		body.take_damage(dano)
 		queue_free()
 	

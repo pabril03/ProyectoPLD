@@ -57,7 +57,7 @@ animations = [{
 collision_priority = 2.0
 script = ExtResource("1_0s3u6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(1, -2)
 shape = SubResource("CircleShape2D_qm0ti")
 

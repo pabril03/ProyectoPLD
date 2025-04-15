@@ -22,7 +22,7 @@ func _ready():
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
 	GameManager.registrar_jugador(self)
 	#print(player_id)
-	collision_layer = 2  # Layer 2, 3, 4 o 5
+	#collision_layer = 2  # Layer 2, 3, 4 o 5
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	

@@ -34,6 +34,7 @@ func spawnear_jugador() -> void:
 		# Si existe un ID guardado, lo usamos para el nuevo jugador
 		jugador = JugadorEscena.instantiate()
 		jugador.player_id = id_a_usar
+		jugador.collision_layer = 1 << (jugador.player_id)
 		
 		# Limpiamos el ID guardado para no usarlo en un futuro
 		GameManager.guardar_id_jugador(-1)
@@ -41,6 +42,7 @@ func spawnear_jugador() -> void:
 		# Si no hay ID guardado, asignamos un nuevo ID
 		jugador = JugadorEscena.instantiate()
 		jugador.player_id = get_next_player_id()
+		jugador.collision_layer = 1 << (jugador.player_id)
 	
 	#print("Id del jugador actual: " + str(jugador.player_id))
 	

@@ -46,14 +46,14 @@ func disparo():
 		# - todos los jugadores excepto el que dispara
 
 		var mask = 1  # siempre incluir el entorno (bit 0)
-		print(player.player_id)
+		#print(player.player_id)
 		for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 			if i != player.player_id:
 				mask |= 1 << i  # activar ese bit
 		
 		mask |= 1 << 6  # Añadir la capa 7 (bit 6)
 		bullet_i.collision_mask = mask
-		print(bullet_i.collision_mask)
+		#print(bullet_i.collision_mask)
 		
 		# También aplica a su Area2D, si tiene
 		var area = bullet_i.get_node("Area2D")
@@ -87,11 +87,34 @@ func disparo_rafaga():
 	for i in range(3):   # Disparara ráfagas de 3 disparos rápidos
 		var bullet_i = bala.instantiate()
 		bullet_i.shooter_id = player.player_id
-		get_tree().root.add_child(bullet_i)
+		
+		# Colocamos a la bala en la capa 6 (bit 5)
+		bullet_i.collision_layer = 1 << 5  # = 32
+
+		# Queremos que colisione con:
+		# - el entorno (capa 1 → bit 0 → valor 1)
+		# - todos los jugadores excepto el que dispara
+
+		var mask = 1  # siempre incluir el entorno (bit 0)
+		#print(player.player_id)
+		for j in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
+			if j != player.player_id:
+				mask |= 1 << j  # activar ese bit
+		
+		mask |= 1 << 6  # Añadir la capa 7 (bit 6)
+		bullet_i.collision_mask = mask
+		#print(bullet_i.collision_mask)
+		
+		# También aplica a su Area2D, si tiene
+		var area = bullet_i.get_node("Area2D")
+		area.collision_layer = 1 << 5
+		area.collision_mask = mask
+		
 		bullet_i.global_position = posicion_rafaga
 		bullet_i.set_start_position(posicion_rafaga)
 		bullet_i.velocity = direction * bullet_i.SPEED
 		bullet_i.rotation = direction.angle()
+		get_tree().root.add_child(bullet_i)
 		await get_tree().create_timer(0.075).timeout
 
 	en_rafaga = false
