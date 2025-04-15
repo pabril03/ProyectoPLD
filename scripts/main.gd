@@ -18,9 +18,8 @@ var next_player_id = PLAYER_ID_START
 var next_enemy_id = ENEMY_ID_START
 
 func get_next_player_id() -> int:
-	var id = next_player_id
 	next_player_id += 1
-	return id
+	return next_player_id
 
 func get_next_enemy_id() -> int:
 	var id = next_enemy_id
@@ -28,13 +27,26 @@ func get_next_enemy_id() -> int:
 	return id
 
 func spawnear_jugador() -> void:
-	jugador = JugadorEscena.instantiate()
-	jugador.player_id = get_next_player_id()
+	# Comprobar si hay un ID guardado
+	var id_a_usar = GameManager.obtener_id_jugador_eliminado()
+	#print("Id guardado: " + str(id_a_usar))
+	if id_a_usar != -1:
+		# Si existe un ID guardado, lo usamos para el nuevo jugador
+		jugador = JugadorEscena.instantiate()
+		jugador.player_id = id_a_usar
+		
+		# Limpiamos el ID guardado para no usarlo en un futuro
+		GameManager.guardar_id_jugador(-1)
+	else:
+		# Si no hay ID guardado, asignamos un nuevo ID
+		jugador = JugadorEscena.instantiate()
+		jugador.player_id = get_next_player_id()
+	
+	#print("Id del jugador actual: " + str(jugador.player_id))
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
 	jugador.global_position = punto_respawn.global_position + Vector2(0, -10)
-	
 	add_child(jugador)
 	
 func spawnear_dummy():

@@ -7,7 +7,7 @@ var num_colisiones: int = 0
 var max_distance: float = 1000.0
 var distance_traveled: float = 0.0
 var last_position: Vector2
-var shooter_id = 0
+var shooter_id = -1
 
 # Creamos una función para definir la posición de la bala al dispararla
 func set_start_position(pos: Vector2) -> void:
@@ -20,11 +20,14 @@ func get_shooter_id() -> int:
 	return shooter_id
 
 func _ready():
-	collision_layer = 2 # Capa 2 para que no colisionen entre sí
-	collision_mask = 1 or 3 # Para que colisione con los elementos del mapa y el jugador
+	#collision_layer = 2 # Capa 2 para que no colisionen entre sí
+	#collision_mask = 1 # Para que colisione con los elementos del mapa y el jugador
 	
 	if last_position == Vector2.ZERO:  # Si no se inicializa la bala desde fuera se utiliza la posición global.
 		last_position = global_position
+		
+	#print(collision_layer)
+	#print(collision_mask)
 
 func _physics_process(delta: float) -> void:
 	# Actualizamos la distancia recorrida para esta bala
@@ -56,29 +59,7 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-
-	# Si la bala tiene un ID distinto del cuerpo con el que colisiona
-	if body.has_method("get_shooter_id") and body.get_shooter_id() != shooter_id:
-
-		# Si se disparan entre enemigos, ignora la colisión
-		if shooter_id >= 1000000 and (body.has_method("get_shooter_id") and body.get_shooter_id() >= 1000000):
-			self.add_collision_exception_with(body)
-			return
-
-		# Si el cuerpo es un jugador con un escudo activo
-		if body.has_method("get_escudo_activo") and body.get_escudo_activo():
-			# La bala pasa a ser propiedad del jugador
-			shooter_id = body.get_shooter_id()
-			return
-
-		else:
-			# Le hace daño al cuerpo y desaparece
-			body.take_damage(dano)
-			queue_free()
-			return
-
-	# Si la bala colisiona con el objeto que la disparó o con su escudo:
-	if (body.has_method("get_shooter_id") and body.get_shooter_id() == self.shooter_id) || (body.has_method("get_escudo_id") and body.get_shooter_id() == shooter_id):
-		# Atraviesa al objeto
-		self.add_collision_exception_with(body)
-		return
+	if body.is_in_group('player') or body.is_in_group('enemigo'):
+		body.take_damage(dano)
+		queue_free()
+	

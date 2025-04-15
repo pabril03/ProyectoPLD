@@ -3,8 +3,8 @@ extends Area2D
 var escudo_id: int
 
 func _ready() -> void:
-	collision_layer = 1  
-	collision_mask = 2   # Establece las capas con las que el jugador debe colisionar.
+	collision_layer = 1 << 6  # Capa 7 (bit 6) 
+	collision_mask = (1 << 0) | (1 << 5)   # Establece las capas con las que el jugador debe colisionar.
 
 func get_escudo_id() -> int:
 	return escudo_id

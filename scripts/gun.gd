@@ -26,21 +26,49 @@ func _process(_delta: float) -> void:
 
 func disparo():
 	var player = get_parent()
+	#print(player.player_id)
 	
 	if not puedoDisparar or player.escudo_activo:
 		return
-		
+	
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
 		bullet_i.shooter_id = player.player_id
-		get_tree().root.add_child(bullet_i)
+		# Capa de la bala: del 6 al 9 según el player_id
+		# Para la capa del jugador que dispara
+		
+		# Colocamos a la bala en la capa 6 (bit 5)
+		bullet_i.collision_layer = 1 << 5  # = 32
+
+		# Queremos que colisione con:
+		# - el entorno (capa 1 → bit 0 → valor 1)
+		# - todos los jugadores excepto el que dispara
+
+		var mask = 1  # siempre incluir el entorno (bit 0)
+		print(player.player_id)
+		for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
+			if i != player.player_id:
+				mask |= 1 << i  # activar ese bit
+		
+		mask |= 1 << 6  # Añadir la capa 7 (bit 6)
+		bullet_i.collision_mask = mask
+		print(bullet_i.collision_mask)
+		
+		# También aplica a su Area2D, si tiene
+		var area = bullet_i.get_node("Area2D")
+		area.collision_layer = 1 << 5
+		area.collision_mask = mask
+		
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
 		var direction = (get_global_mouse_position() - punta.global_position).normalized()
 		bullet_i.velocity = direction * bullet_i.SPEED
 		bullet_i.rotation = rotation
+		get_tree().root.add_child(bullet_i)
+		#print("Mi id es: " + str(bullet_layer))
 		puedoDisparar = false
+		
 
 func disparo_rafaga():
 	var player = get_parent()
@@ -73,3 +101,5 @@ func disparo_rafaga():
 
 func _on_timer_timeout() -> void:
 	puedoDisparar = true
+	
+func capa(n): return pow(2, n - 1)

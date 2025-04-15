@@ -15,6 +15,10 @@ run/main_scene="uid://cimfsyn1lj3c7"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://sprites/icon.svg"
 
+[autoload]
+
+GameManager="*res://scripts/GameManager.gd"
+
 [file_customization]
 
 folder_colors={

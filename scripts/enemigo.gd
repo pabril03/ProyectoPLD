@@ -54,6 +54,8 @@ func disparo():
 		bullet_i.set_start_position(punta.global_position)
 		bullet_i.shooter_id = enemy_id	# Asignamos un id al shooter que disparó el arma
 		
+		bullet_i.collision_layer = 1 << 5  # = 32
+		bullet_i.collision_mask = 1
 		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
 		
 		#bullet_i.add_collision_exception_with(self)
@@ -76,9 +78,13 @@ func disparo_libre():
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
 		bullet_i.shooter_id = enemy_id
+		#Capas de colision
+		bullet_i.collision_layer = 1 << 5  # = 32
+		bullet_i.collision_mask = 1
 		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
-		#bullet_i.add_collision_exception_with(self)		#Ignoramos la colisión de las balas del enemigo
-															# Consigo mismo
+		#bullet_i.add_collision_exception_with(self)
+		#Ignoramos la colisión de las balas del enemigo
+		# Consigo mismo
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		
