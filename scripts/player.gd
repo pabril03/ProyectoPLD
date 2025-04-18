@@ -16,13 +16,9 @@ signal health_changed(new_health)
 
 
 func _ready():
-	#collision_layer = 3  # Establece un valor que no se use para las balas
-	#collision_mask = 1 | 2   # Establece las capas con las que el jugador debe colisionar.
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
 	GameManager.registrar_jugador(self)
-	#print(player_id)
-	#collision_layer = 2  # Layer 2, 3, 4 o 5
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	
@@ -40,7 +36,7 @@ func take_damage(amount: float) -> void:
 	if health <= 0:
 		# Guardamos el player_id antes de eliminar al jugador
 		var id_guardado = player_id
-		#print(id_guardado)
+
 		queue_free()
 		# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
 		GameManager.guardar_id_jugador(id_guardado)
@@ -111,11 +107,3 @@ func desactivar_escudo():
 	escudo.visible = false 
 	escudo_sprite.visible = false
 	escudo.monitoring = false
-
-func configurar_colisiones():
-	# Cada jugador se pone en su propia capa: capa = 1 << player_id
-	set_collision_layer_value(player_id + 1, true)  # player_id 0 → capa 1, etc.
-
-	# Máscara: colisionar con todas las capas de otros jugadores
-	for i in range(4):
-		set_collision_mask_value(i + 1, i != player_id)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dru65xtsab1g1"]
+
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/player.tscn" id="1_8fbmj"]
+
+[node name="Player" instance=ExtResource("1_8fbmj")]
+
+[editable path="Gun"]

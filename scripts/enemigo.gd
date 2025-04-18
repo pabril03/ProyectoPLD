@@ -13,7 +13,7 @@ var disparando = false
 var disparos_realizados = 0
 
 func _ready() -> void:
-	collision_layer = 1 << 2
+	collision_layer = 1 << 7
 	collision_mask = 1
 	# Conectar la señal 'health_changed' a la función que actualiza la barra de vida
 	connect("health_changed", Callable(self, "_on_health_changed"))
@@ -60,15 +60,12 @@ func disparo():
 		var mask = 1 << 0  # Entorno
 
 		for i in range(1, 5):  # bits 1 a 4 = capas 2 a 5
-			if i != 2:  # El enemigo está en capa 3 → bit 2 → i=2
-				mask |= 1 << i
+			mask |= 1 << i
 
 		mask |= 1 << 6  # Escudos (capa 7)
 
 		bullet_i.collision_mask = mask
-		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
-		
-		#bullet_i.add_collision_exception_with(self)
+
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		get_tree().root.add_child(bullet_i)
@@ -95,13 +92,10 @@ func disparo_libre():
 		var mask = 1 << 0  # Entorno
 
 		for j in range(1, 5):  # bits 1 a 4 = capas 2 a 5
-			if j != 2:  # El enemigo está en capa 3 → bit 2 → i=2
-				mask |= 1 << j
+			mask |= 1 << j
 		mask |= 1 << 6  # Escudos (capa 7)
 		
 		bullet_i.collision_mask = mask
-		#bullet_i.set_meta("shooter", self)  # Asignamos el meta shooter
-		#bullet_i.add_collision_exception_with(self)
 		#Ignoramos la colisión de las balas del enemigo
 		# Consigo mismo
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED

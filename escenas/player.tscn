@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_n2wyw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
-radius = 9.0
+radius = 7.07107
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5vuvg"]
 animations = [{
@@ -36,16 +36,16 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("6_8b7ct")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("7_63xfq")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("8_3w4lm")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("9_8mtn0")
 }],
 "loop": true,
@@ -73,7 +73,7 @@ frame_progress = 0.381751
 zoom = Vector2(2.5, 2.5)
 
 [node name="Escudo" parent="." instance=ExtResource("11_w7fad")]
-position = Vector2(2, -1)
+position = Vector2(1, -2)
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -12.0

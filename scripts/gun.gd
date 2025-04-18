@@ -52,21 +52,15 @@ func disparo():
 				mask |= 1 << i  # activar ese bit
 		
 		mask |= 1 << 6  # Añadir la capa 7 (bit 6)
+		mask |= 1 << 7  # Añadimos la capa 8, la de los enemigos
 		bullet_i.collision_mask = mask
-		#print(bullet_i.collision_mask)
-		
-		# También aplica a su Area2D, si tiene
-		var area = bullet_i.get_node("Area2D")
-		area.collision_layer = 1 << 5
-		area.collision_mask = mask
-		
+
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
 		var direction = (get_global_mouse_position() - punta.global_position).normalized()
 		bullet_i.velocity = direction * bullet_i.SPEED
 		bullet_i.rotation = rotation
 		get_tree().root.add_child(bullet_i)
-		#print("Mi id es: " + str(bullet_layer))
 		puedoDisparar = false
 		
 
@@ -102,14 +96,9 @@ func disparo_rafaga():
 				mask |= 1 << j  # activar ese bit
 		
 		mask |= 1 << 6  # Añadir la capa 7 (bit 6)
+		mask |= 1 << 7  # Añadimos la capa 8, la de los enemigos
 		bullet_i.collision_mask = mask
-		#print(bullet_i.collision_mask)
-		
-		# También aplica a su Area2D, si tiene
-		var area = bullet_i.get_node("Area2D")
-		area.collision_layer = 1 << 5
-		area.collision_mask = mask
-		
+
 		bullet_i.global_position = posicion_rafaga
 		bullet_i.set_start_position(posicion_rafaga)
 		bullet_i.velocity = direction * bullet_i.SPEED
