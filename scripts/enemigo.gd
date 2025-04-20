@@ -5,6 +5,7 @@ var max_health = 20
 var health = 20
 const bala = preload("res://escenas/bala.tscn")
 var enemy_id: int
+var tipo_enemigo
 
 @onready var punta: Marker2D = $Marker2D
 
@@ -33,11 +34,12 @@ func _process(_delta: float) -> void:
 	else:
 		disparo()
 	
-func take_damage(amount: float) -> void:
+func take_damage(amount: float, autor: int, _aux: String = "Jugador") -> void:
 	health = clamp(health - amount, 0, max_health)
 	emit_signal("health_changed", health)
 	
 	if health <= 0:
+		print("El jugador con ID: %d ha asesinado a un %s" % [autor, tipo_enemigo])
 		queue_free()
 	
 func heal(amount: float) -> void:
@@ -68,6 +70,7 @@ func disparo():
 
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
+		bullet_i.tipo_enemigo = tipo_enemigo
 		get_tree().root.add_child(bullet_i)
 		puedoDisparar = false
 		
@@ -100,6 +103,7 @@ func disparo_libre():
 		# Consigo mismo
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
+		bullet_i.tipo_enemigo = tipo_enemigo
 		get_tree().root.add_child(bullet_i)
 		# Espera 0.2 segundos antes de disparar la siguiente bala
 		await get_tree().create_timer(0.2).timeout

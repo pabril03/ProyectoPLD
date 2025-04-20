@@ -1,6 +1,12 @@
 extends Node2D
 
 const bala = preload("res://escenas/bala.tscn")
+const DEADZONE := 0.2
+const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
+var dispositivo # null = teclado/rató, int = joy_id
+var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
+var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
+var direccion_disparo = Vector2.ZERO
 
 @onready var punta: Marker2D = $Marker2D
 var puedoDisparar: bool = true
@@ -9,8 +15,18 @@ var cooldown_rafaga = true
 
 func _process(_delta: float) -> void:
 	
-	look_at(get_global_mouse_position())
+	var input_vector = Vector2.ZERO
+	if dispositivo == null:
+		look_at(get_global_mouse_position())
 	
+	else:
+		input_vector.x = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
+		input_vector.y = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_Y)
+		
+		if input_vector.length() > DEADZONE:
+			rotation = input_vector.angle()
+			direccion_disparo = input_vector.normalized()
+
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
 		scale.y = -1
@@ -26,7 +42,6 @@ func _process(_delta: float) -> void:
 
 func disparo():
 	var player = get_parent()
-	#print(player.player_id)
 	
 	if not puedoDisparar or player.escudo_activo:
 		return
@@ -57,8 +72,11 @@ func disparo():
 
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		var direction = (get_global_mouse_position() - punta.global_position).normalized()
-		bullet_i.velocity = direction * bullet_i.SPEED
+		
+		if dispositivo == null:
+			direccion_disparo = (get_global_mouse_position() - punta.global_position).normalized()
+			
+		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = rotation
 		get_tree().root.add_child(bullet_i)
 		puedoDisparar = false
@@ -76,7 +94,8 @@ func disparo_rafaga():
 	# Guardamos la posición y dirección de las balas para que sigan las 3 la misma
 	# trayectoria
 	var posicion_rafaga = punta.global_position
-	var direction = (get_global_mouse_position() - posicion_rafaga).normalized()
+	if dispositivo == null:
+		direccion_disparo = (get_global_mouse_position() - punta.global_position).normalized()
 
 	for i in range(3):   # Disparara ráfagas de 3 disparos rápidos
 		var bullet_i = bala.instantiate()
@@ -101,8 +120,8 @@ func disparo_rafaga():
 
 		bullet_i.global_position = posicion_rafaga
 		bullet_i.set_start_position(posicion_rafaga)
-		bullet_i.velocity = direction * bullet_i.SPEED
-		bullet_i.rotation = direction.angle()
+		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
+		bullet_i.rotation = direccion_disparo.angle()
 		get_tree().root.add_child(bullet_i)
 		await get_tree().create_timer(0.075).timeout
 

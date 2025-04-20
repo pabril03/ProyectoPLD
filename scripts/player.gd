@@ -9,19 +9,18 @@ var player_id: int
 
 signal health_changed(new_health)
 
-
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
 @onready var escudo = $Escudo
 @onready var escudo_sprite = $Escudo/Sprite2D
+@onready var arma = $Gun
 
 
 func _ready():
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
-	GameManager.registrar_jugador(self)
 	collision_mask = 1
 	escudo.escudo_id = player_id
-	
+	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 
 func get_shooter_id() -> int:
 	return player_id
@@ -29,18 +28,24 @@ func get_shooter_id() -> int:
 func get_escudo_activo() -> bool:
 	return escudo_activo
 
-func take_damage(amount: float) -> void:
+func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador") -> void:
 	health = clamp(health - amount, 0, max_health)
 	emit_signal("health_changed", health)
-	
+
 	if health <= 0:
 		# Guardamos el player_id antes de eliminar al jugador
 		var id_guardado = player_id
 
-		queue_free()
 		# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
 		GameManager.guardar_id_jugador(id_guardado)
-	
+		
+		if tipo_enemigo == "Jugador":
+			print("Jugador con ID: %d ha asesinado al jugador con ID: %d" % [autor, player_id])
+		
+		else:
+			print("¡El jugador %d ha sido víctima de %s!" % [player_id, tipo_enemigo])
+		queue_free()
+
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)
 	emit_signal("health_changed", health)
