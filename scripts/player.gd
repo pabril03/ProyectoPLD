@@ -25,7 +25,6 @@ func _ready():
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
 	collision_mask = 1
 	escudo.escudo_id = player_id
-	print("Arma encontrada:", arma)
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 
 func get_shooter_id() -> int:
@@ -75,6 +74,8 @@ func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", ti
 		
 		else:
 			print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
+			
+		GameManager.jugador_muerto()
 		queue_free()
 
 func heal(amount: float) -> void:

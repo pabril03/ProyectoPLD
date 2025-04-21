@@ -9,6 +9,7 @@ var jugadores: Array = []
 # Índices de player: 0 = jugador1, 1 = jugador2
 var device_for_player := []
 var player_devices := {}
+var jugadores_vivos := 0
 
 func _ready() -> void:
 		# Obtener lista de joypads conectados
@@ -28,7 +29,6 @@ func _ready() -> void:
 			# Dos o más mandos: asigna los dos primeros
 			device_for_player.append(joypads[0]) # Jugador 1
 			device_for_player.append(joypads[1]) # Jugador 2
-	print("Asignación de dispositivos:", device_for_player)
 
 func registrar_jugador(id_jugador: int) -> void:
 	jugadores.append(id_jugador)
@@ -64,6 +64,7 @@ func guardar_id_jugador(id: int) -> void:
 
 # Método para obtener el player_id guardado
 func obtener_id_jugador_eliminado() -> int:
+
 	#return id_jugador_eliminado
 	if jugadores_eliminados.is_empty():
 		return -1
@@ -72,3 +73,12 @@ func obtener_id_jugador_eliminado() -> int:
 		var id_jugador_eliminado = jugadores_eliminados.front()
 		jugadores_eliminados.pop_front()
 		return id_jugador_eliminado
+
+func get_jugadores_vivos() -> int:
+	return jugadores_vivos
+
+func jugador_vivo() -> void:
+	jugadores_vivos += 1
+
+func jugador_muerto() -> void:
+	jugadores_vivos -= 1

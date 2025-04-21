@@ -56,6 +56,7 @@ func spawnear_jugador() -> void:
 	# para que no se solape con el suelo.
 	jugador.global_position = punto_respawn.global_position + Vector2(0, -20)
 	add_child(jugador)
+	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
 
 
@@ -70,13 +71,15 @@ func spawnear_sniper() -> void:
 		sniper = SniperEscena.instantiate()
 		sniper.player_id = get_next_player_id()
 
+		GameManager.registrar_jugador(sniper.player_id)
+
 	# Igualamos capas y máscaras si lo necesitas:
 	sniper.collision_layer = 1 << sniper.player_id
 	sniper.collision_mask  = 1
-	GameManager.registrar_jugador(sniper.player_id)
 
 	sniper.global_position = punto_respawn.global_position + Vector2(100, -10)
 	add_child(sniper)
+	GameManager.jugador_vivo()
 	print("¡Ha aparecido el sniper %d!" % [sniper.player_id])
 
 
@@ -92,12 +95,10 @@ func spawnear_dummy():
 
 func _ready():
 	var devices = Input.get_connected_joypads()
-	for id in devices:
-		print("Mando detectado en slot:", id, "-", Input.get_joy_name(id))
-	
+
 	if devices.size() == 0:
 		spawnear_jugador()
-		
+
 	else:
 		spawnear_jugador()
 		spawnear_jugador()
@@ -105,18 +106,17 @@ func _ready():
 	spawnear_dummy()
 
 func _process(_delta: float) -> void:
-	if not is_instance_valid(jugador) and not player_respawning:
+	if GameManager.jugadores_vivos <= 1 and not player_respawning:
 		player_respawning = true
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
 		spawnear_jugador()
-		spawnear_jugador()
 		player_respawning = false
 	
-	if not is_instance_valid(sniper) and not sniper_respawning and (Input.get_connected_joypads().size() > 1):
-		sniper_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_sniper()
-		sniper_respawning = false
+	#if GameManager.jugadores_vivos <= 1 and not sniper_respawning:
+		#sniper_respawning = true
+		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		#spawnear_sniper()
+		#sniper_respawning = false
 		
 	if not is_instance_valid(enemy) and not enemy_respawning:
 		enemy_respawning = true

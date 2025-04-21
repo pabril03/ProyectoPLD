@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d0jdgx6p7oksp"]
 
-[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/player.tscn" id="1_5cihm"]
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://player.tscn" id="1_5cihm"]
 [ext_resource type="Script" uid="uid://xe8qs2blbufx" path="res://scripts/sniper_riffle.gd" id="2_ox7qh"]
 
 [node name="Player" instance=ExtResource("1_5cihm")]
