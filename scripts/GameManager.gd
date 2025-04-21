@@ -14,44 +14,37 @@ func _ready() -> void:
 		# Obtener lista de joypads conectados
 	var joypads = Input.get_connected_joypads()
 	
-	if joypads.size() <= 1:
-		# Solo un mando o ninguno: player1 = KB+Mouse, player2 = mando (si hay)
-		device_for_player = []
-		device_for_player.append(null)                         # null = teclado+ratón
+	match joypads.size():
+		0:
+			# Sin mandos: se juega 1 solo jugador con teclado y ratón
+			device_for_player.append(null) # Jugador 1
 
-		if joypads.size() == 1:
-			device_for_player.append(joypads[0])
-		else:
-			device_for_player.append(null)
+		1:
+			# Un mando: Jugador 1 usa teclado+ratón, Jugador 2 usa mando
+			device_for_player.append(null)      # Jugador 1
+			device_for_player.append(joypads[0]) # Jugador 2
 
-	else:
-		# Dos o más mandos: player1 = primer joystick, player2 = segundo
-		device_for_player = []
-		device_for_player.append(joypads[0])
-		device_for_player.append(joypads[1])
+		_:
+			# Dos o más mandos: asigna los dos primeros
+			device_for_player.append(joypads[0]) # Jugador 1
+			device_for_player.append(joypads[1]) # Jugador 2
 	print("Asignación de dispositivos:", device_for_player)
 
 func registrar_jugador(id_jugador: int) -> void:
 	jugadores.append(id_jugador)
 	
-	var joypads = Input.get_connected_joypads()
-	
-	if jugadores.size() == 1:
-		if joypads.size() > 0:
-			player_devices[id_jugador] = joypads[0]
-		else:
-			player_devices[id_jugador] = null
-	
+	var player_index := jugadores.size() - 1
+	if player_index < device_for_player.size():
+		player_devices[id_jugador] = device_for_player[player_index]
 	else:
-		var device_index = jugadores.size() - 1
-		if device_index < joypads.size():
-			player_devices[id_jugador] = joypads[device_index]
-		else:
-			player_devices[id_jugador] = null
+		player_devices[id_jugador] = null
 
 	print("Jugador %d registrado con dispositivo %s" % [id_jugador, str(player_devices[id_jugador])])
 
 	return jugadores.size()  # Devuelve un player_id único (1, 2, 3, ...)
+
+func get_devices() -> Variant:
+	return player_devices
 
 func get_device_for_player(id_jugador: int) -> Variant:
 	return player_devices.get(id_jugador, null)

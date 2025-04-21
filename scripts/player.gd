@@ -1,11 +1,16 @@
 extends CharacterBody2D
 
 @export var SPEED:float = 100.0
+var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
 var max_health = 20
 var health = 20
 var player_id: int
+
+var death_sentences_player: Array = [""]
+var death_sentences_enemies: Array = [""]
+var death_sentences_executions: Array = [""]
 
 signal health_changed(new_health)
 
@@ -20,6 +25,7 @@ func _ready():
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
 	collision_mask = 1
 	escudo.escudo_id = player_id
+	print("Arma encontrada:", arma)
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 
 func get_shooter_id() -> int:
@@ -28,7 +34,32 @@ func get_shooter_id() -> int:
 func get_escudo_activo() -> bool:
 	return escudo_activo
 
-func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador") -> void:
+func generar_frase_pvp(asesino_id: int, victima_id: int, tipo_muerte: String) -> String:
+	var frases = [
+		"Jugador %d humilló al jugador %d con un %s." % [asesino_id, victima_id, tipo_muerte],
+		"%s letal de jugador %d a jugador %d. ¡Sin misericordia!" % [tipo_muerte.capitalize(), asesino_id, victima_id],
+		"Jugador %d le enseñó a %d quién manda en el campo de batalla (usando un %s)." % [asesino_id, victima_id, tipo_muerte],
+		"%s brutal por parte de jugador %d. Jugador %d ha caído." % [tipo_muerte.capitalize(), asesino_id, victima_id],
+		"Jugador %d borró a %d del mapa con un %s." % [asesino_id, victima_id, tipo_muerte],
+		"%d no tuvo oportunidad ante el ataque de %d (%s)." % [victima_id, asesino_id, tipo_muerte],
+		"Jugador %d: 1 — Jugador %d: 0. Causa: %s." % [asesino_id, victima_id, tipo_muerte],
+	]
+
+	return frases[randi() % frases.size()]
+
+func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
+	var frases = [
+		"Jugador con ID: %d fue derrotado por un %s (%s fatal)." % [player_id, tipo_enemigo, tipo_muerte],
+		"¡El jugador %d fue eliminado sin piedad por un %s con un %s!" % [player_id, tipo_enemigo, tipo_muerte],
+		"Un %s ha acabado con el jugador %d usando un %s." % [tipo_enemigo, player_id, tipo_muerte],
+		"%s mortal de un %s al jugador %d. ¡Descanse en paz!" % [tipo_muerte.capitalize(), tipo_enemigo, player_id],
+		"Jugador %d cayó ante un %s. Causa: %s." % [player_id, tipo_enemigo, tipo_muerte],
+		"Fin del juego para el jugador %d... cortesía de un %s (%s)." % [player_id, tipo_enemigo, tipo_muerte],
+	]
+	
+	return frases[randi() % frases.size()]
+
+func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 	health = clamp(health - amount, 0, max_health)
 	emit_signal("health_changed", health)
 
@@ -40,10 +71,10 @@ func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador") ->
 		GameManager.guardar_id_jugador(id_guardado)
 		
 		if tipo_enemigo == "Jugador":
-			print("Jugador con ID: %d ha asesinado al jugador con ID: %d" % [autor, player_id])
+			print(generar_frase_pvp(autor, player_id, tipo_muerte))
 		
 		else:
-			print("¡El jugador %d ha sido víctima de %s!" % [player_id, tipo_enemigo])
+			print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 		queue_free()
 
 func heal(amount: float) -> void:
@@ -51,41 +82,55 @@ func heal(amount: float) -> void:
 	emit_signal("health_changed", health)
 
 func _physics_process(_delta: float) -> void:
-	
-	if get_global_mouse_position().x < global_position.x:
-		animaciones.flip_h = true
-	else:
-		animaciones.flip_h = false
-	
-	var directionX := Input.get_axis("left", "right")
-	var directionY := Input.get_axis("up", "down")
-	#Aplicar fuerza
-	if directionX:
+
+	var usar_escudo := false
+	var dispositivo = GameManager.get_device_for_player(player_id)
+
+	if dispositivo == null:
+		# JUGADOR CON TECLADO
+		var directionX := Input.get_axis("left", "right")
+		var directionY := Input.get_axis("up", "down")
+
 		velocity.x = directionX * SPEED
-		animaciones.play("run")
-		if directionX > 0:
-			animaciones.flip_h = false
-		else:
-			animaciones.flip_h = true
-			
-	else:
-		animaciones.play("default")
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		
-	if directionY:
 		velocity.y = directionY * SPEED
+		
+		usar_escudo = Input.is_action_pressed("shield")
+		
 	else:
-		velocity.y = move_toward(velocity.y, 0, SPEED)
-	
-	velocity.normalized()
-	
+		# JUGADOR CON MANDO
+		var directionX := Input.get_joy_axis(dispositivo, JOY_AXIS_LEFT_X)
+		var directionY := Input.get_joy_axis(dispositivo, JOY_AXIS_LEFT_Y)
+
+		if abs(directionX) > DEADZONE:
+			velocity.x = directionX * SPEED
+		else:
+			velocity.x = 0
+
+		if abs(directionY) > DEADZONE:
+			velocity.y = directionY * SPEED
+		else:
+			velocity.y = 0
+
+
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		usar_escudo = Input.is_action_pressed("shield_pad")
+
+	# Movimiento real
+	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
-	
-	if Input.is_action_pressed("shield"):
+
+	# Escudo
+	if usar_escudo:
 		activar_escudo()
 	else:
 		desactivar_escudo()
-	
+
+	# Animaciones (opcional)
+	if velocity.length() > 0:
+		animaciones.play("run")
+		animaciones.flip_h = velocity.x < 0
+	else:
+		animaciones.play("default")
 
 func activar_escudo():
 	if not puede_activar_escudo:

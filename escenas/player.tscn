@@ -61,21 +61,21 @@ script = ExtResource("1_0s3u6")
 position = Vector2(1, -2)
 shape = SubResource("CircleShape2D_qm0ti")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_5vuvg")
 animation = &"run"
 frame_progress = 0.381751
 
-[node name="Gun" parent="." instance=ExtResource("10_t5tro")]
+[node name="Gun" parent="." groups=["player"] instance=ExtResource("10_t5tro")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["player"]]
 zoom = Vector2(2.5, 2.5)
 
-[node name="Escudo" parent="." instance=ExtResource("11_w7fad")]
+[node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_w7fad")]
 position = Vector2(1, -2)
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ProgressBar" type="ProgressBar" parent="." groups=["player"]]
 offset_left = -12.0
 offset_top = -20.0
 offset_right = 13.0

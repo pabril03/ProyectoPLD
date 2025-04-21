@@ -6,8 +6,12 @@ var health = 20
 const bala = preload("res://escenas/bala.tscn")
 var enemy_id: int
 var tipo_enemigo
+var damage_on_touch = 2
 
 @onready var punta: Marker2D = $Marker2D
+@onready var detector: Area2D = $Detector
+@onready var damage_timer: Timer = $DamageTimer
+var cuerpos_en_contacto: Array = []
 
 var puedoDisparar: bool = true
 var disparando = false
@@ -20,6 +24,17 @@ func _ready() -> void:
 	connect("health_changed", Callable(self, "_on_health_changed"))
 	# Inicializar la barra de vida con el valor máximo de salud
 	emit_signal("health_changed", health)
+	
+	# Hacemos que el detector solo "vea" jugadores
+	detector.collision_layer = 1 << 7
+	for layer in range(1, 5):
+		detector.collision_mask |= 1 << layer
+	
+	# Conectamos el detector de colisiones
+	detector.connect("body_entered", Callable(self, "_on_body_entered"))
+	detector.connect("body_exited", Callable(self, "_on_body_exited"))
+	damage_timer.connect("timeout", Callable(self, "_on_damage_timer_timeout"))
+	damage_timer.start()
 
 func get_shooter_id() -> int:
 	return enemy_id
@@ -34,7 +49,7 @@ func _process(_delta: float) -> void:
 	else:
 		disparo()
 	
-func take_damage(amount: float, autor: int, _aux: String = "Jugador") -> void:
+func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
 	health = clamp(health - amount, 0, max_health)
 	emit_signal("health_changed", health)
 	
@@ -112,3 +127,25 @@ func disparo_libre():
 	await get_tree().create_timer(1.5).timeout
 	
 	disparando = false
+	
+func set_damage_on_touch(damage: float) -> void:
+	damage_on_touch = damage
+
+func _on_body_entered(body: Node) -> void:
+	# Si el cuerpo que entra pertenece al grupo "jugador", le hacemos daño
+	if body.is_in_group("player") and body.has_method("take_damage"):
+		if not cuerpos_en_contacto.has(body):
+			cuerpos_en_contacto.append(body)
+			if not body.get_escudo_activo():
+				body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "mordisco")
+
+func _on_body_exited(body: Node) -> void:
+	if cuerpos_en_contacto.has(body):
+		cuerpos_en_contacto.erase(body)
+		
+func _on_damage_timer_timeout() -> void:
+	for body in cuerpos_en_contacto:
+		if is_instance_valid(body):
+			if body.is_in_group("player") and body.has_method("take_damage"):
+				if not body.get_escudo_activo():
+					body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "mordisco")

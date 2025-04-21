@@ -87,20 +87,28 @@ func spawnear_dummy():
 	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
 	enemy.global_position = punto_respawn_enemigo.global_position + Vector2(0, -10)
 	enemy.tipo_enemigo = "Dummy"
+	enemy.set_damage_on_touch(5)
 	add_child(enemy)
 
 func _ready():
 	var devices = Input.get_connected_joypads()
 	for id in devices:
 		print("Mando detectado en slot:", id, "-", Input.get_joy_name(id))
-	spawnear_jugador()
-	#spawnear_sniper()
+	
+	if devices.size() == 0:
+		spawnear_jugador()
+		
+	else:
+		spawnear_jugador()
+		spawnear_jugador()
+
 	spawnear_dummy()
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(jugador) and not player_respawning:
 		player_respawning = true
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		spawnear_jugador()
 		spawnear_jugador()
 		player_respawning = false
 	

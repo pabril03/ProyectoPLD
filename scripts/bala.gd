@@ -3,7 +3,7 @@ extends CharacterBody2D
 var SPEED: float = 200.0
 var dano: float = 2
 var num_colisiones: int = 0
-var max_colissions: int = 10
+var max_colissions: int = 4
 
 var max_distance: float = 1000.0
 var distance_traveled: float = 0.0
@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 
 		if collider.has_method("take_damage"):
 			if tipo_enemigo != null:
-				collider.take_damage(dano, shooter_id, tipo_enemigo)
+				collider.take_damage(dano, shooter_id, tipo_enemigo, "disparo")
 			else:
 				collider.take_damage(dano, shooter_id)
 			queue_free()

@@ -3,7 +3,7 @@ extends Node2D
 const bala = preload("res://escenas/bala.tscn")
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
-var dispositivo # null = teclado/rató, int = joy_id
+var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
 var direccion_disparo = Vector2.ZERO
@@ -14,10 +14,17 @@ var en_rafaga = false
 var cooldown_rafaga = true
 
 func _process(_delta: float) -> void:
+
+	var player = get_parent()
+	dispositivo = GameManager.get_device_for_player(player.player_id)
+	var disparar := false
+	var disparar_alterno := false
 	
 	var input_vector = Vector2.ZERO
 	if dispositivo == null:
 		look_at(get_global_mouse_position())
+		disparar = Input.is_action_pressed("shoot")
+		disparar_alterno = Input.is_action_pressed("Alter-shoot")
 	
 	else:
 		input_vector.x = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
@@ -26,6 +33,9 @@ func _process(_delta: float) -> void:
 		if input_vector.length() > DEADZONE:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
+		
+		disparar = Input.is_action_pressed("shoot_pad") # o el que definas
+		disparar_alterno = Input.is_action_pressed("alter-shoot_pad") # o el que definas
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
@@ -33,10 +43,10 @@ func _process(_delta: float) -> void:
 	else:
 		scale.y = 1
 	
-	if Input.is_action_pressed("shoot"):
+	if disparar:
 		disparo()
 		
-	if Input.is_action_pressed("Alter-shoot"):
+	if disparar_alterno:
 		disparo_rafaga()
 	
 
