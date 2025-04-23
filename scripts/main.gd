@@ -4,7 +4,9 @@ const JugadorEscena = preload("res://escenas/player.tscn")  # Ruta de la escena 
 const EnemigoEscena = preload("res://escenas/enemigo.tscn")
 const SniperEscena = preload("res://escenas/sniper.tscn")
 
-@onready var punto_respawn = $PuntoRespawn  # Un marcador para el punto de respawn
+@onready var punto_respawn = $PuntoRespawn1  # Un marcador para el punto de respawn
+@onready var punto_respawn2 = $PuntoRespawn2
+@onready var punto_respawn3 = $PuntoRespawn3
 @onready var punto_respawn_enemigo = $PuntoRespawnEnemigo
 
 var jugador: CharacterBody2D  # Referencia al jugador
@@ -20,6 +22,8 @@ const ENEMY_ID_START = 1000000
 var next_player_id = PLAYER_ID_START
 var next_enemy_id = ENEMY_ID_START
 var max_players = 4
+
+var toggled_on = false
 
 func get_next_player_id() -> int:
 	next_player_id += 1
@@ -54,7 +58,15 @@ func spawnear_jugador() -> void:
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
-	jugador.global_position = punto_respawn.global_position + Vector2(0, -20)
+	match randi_range(1,3):
+		1:
+			jugador.global_position = punto_respawn.global_position + Vector2(0, -20)
+		2:
+			jugador.global_position = punto_respawn2.global_position + Vector2(0, -20)
+		3:
+			jugador.global_position = punto_respawn3.global_position + Vector2(0, -20)
+		
+		
 	add_child(jugador)
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
@@ -66,13 +78,13 @@ func spawnear_sniper() -> void:
 	if id_a_usar != -1:
 		sniper = SniperEscena.instantiate()
 		sniper.player_id = id_a_usar
-
+		
 	else:
 		sniper = SniperEscena.instantiate()
 		sniper.player_id = get_next_player_id()
-
+		
 		GameManager.registrar_jugador(sniper.player_id)
-
+		
 	# Igualamos capas y máscaras si lo necesitas:
 	sniper.collision_layer = 1 << sniper.player_id
 	sniper.collision_mask  = 1
@@ -125,4 +137,7 @@ func _process(_delta: float) -> void:
 		enemy_respawning = false
 
 	if Input.is_action_just_pressed("exit"):
+		#Hacer pausa del juego
+		#toggled_on = !toggled_on
+		#get_tree().paused = toggled_on
 		get_tree().quit()

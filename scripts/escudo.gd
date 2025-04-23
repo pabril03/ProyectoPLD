@@ -18,6 +18,7 @@ func repeler_bala(bala: Node2D) -> void:
 	var direction = (bala.global_position - global_position).normalized()
 	bala.velocity = direction * bala.SPEED * 1.1
 	bala.rotation = bala.velocity.angle()
+	bala.distance_traveled = 0
 
 	#Para poder reflectar las balas y que se vuelvan de la propiedad del jugador
 	var player = get_parent()

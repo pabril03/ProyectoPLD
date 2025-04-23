@@ -3,9 +3,9 @@ extends CharacterBody2D
 var SPEED: float = 200.0
 var dano: float = 2
 var num_colisiones: int = 0
-var max_colissions: int = 4
+var max_colissions: int = 6
 
-var max_distance: float = 1000.0
+var max_distance: float = 150.0
 var distance_traveled: float = 0.0
 var last_position: Vector2
 var shooter_id = -1
@@ -56,7 +56,15 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if colision:
+		#Cuando rebota la bala, la distancia se resetea
+		distance_traveled = 0
 		num_colisiones += 1
+		
+		#La primera colision hace que la bala vaya mas lejos, pero luego se resetea a la default
+		if num_colisiones == 1:
+			max_distance += 100
+		else:
+			max_distance = 150
 		var collider = colision.get_collider()
 
 		if collider.has_method("take_damage"):

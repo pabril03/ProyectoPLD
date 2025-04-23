@@ -59,7 +59,17 @@ func disparo():
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
+		var spriteBala = bullet_i.get_node("Sprite2D")
 		bullet_i.shooter_id = player.player_id
+		match bullet_i.shooter_id:
+			1:
+				spriteBala.self_modulate = Color(1,0,0)
+			2:
+				spriteBala.self_modulate = Color(0,1,0)
+			3:
+				spriteBala.self_modulate = Color(0,1,0)
+			4:
+				spriteBala.self_modulate = Color(0,1,1)
 		# Capa de la bala: del 6 al 9 según el player_id
 		# Para la capa del jugador que dispara
 		
@@ -110,7 +120,16 @@ func disparo_rafaga():
 	for i in range(3):   # Disparara ráfagas de 3 disparos rápidos
 		var bullet_i = bala.instantiate()
 		bullet_i.shooter_id = player.player_id
-		
+		var spriteBala = bullet_i.get_node("Sprite2D")
+		match bullet_i.shooter_id:
+			1:
+				spriteBala.self_modulate = Color(1,0,0)
+			2:
+				spriteBala.self_modulate = Color(0,1,0)
+			3:
+				spriteBala.self_modulate = Color(0,1,0)
+			4:
+				spriteBala.self_modulate = Color(0,1,1)
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bullet_i.collision_layer = 1 << 5  # = 32
 
