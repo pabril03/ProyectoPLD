@@ -1,44 +1,160 @@
 extends CharacterBody2D
 
-@export var SPEED:float = 50.0
+@export var SPEED:float = 100.0
+var DEADZONE := 0.2
+var escudo_activo:bool = false
+var puede_activar_escudo = true
+var max_health = 20
+var health = 20
+var player_id: int
+
+var death_sentences_player: Array = [""]
+var death_sentences_enemies: Array = [""]
+var death_sentences_executions: Array = [""]
+
+signal health_changed(new_health)
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
+@onready var escudo = $Escudo
+@onready var escudo_sprite = $Escudo/Sprite2D
+@onready var arma = $Gun
 
-func _ready() -> void:
-	collision_layer = 2  # Establece un valor que no se use para las balas
-	collision_mask = 1   # Establece las capas con las que el jugador debe colisionar.
 
-func _physics_process(delta: float) -> void:
+func _ready():
+	emit_signal("health_changed", health)
+	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
+	collision_mask = 1
+	escudo.escudo_id = player_id
+	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
+
+func get_shooter_id() -> int:
+	return player_id
 	
-	var direction := Vector2.ZERO
+func get_escudo_activo() -> bool:
+	return escudo_activo
+
+func generar_frase_pvp(asesino_id: int, victima_id: int, tipo_muerte: String) -> String:
+	var frases = [
+		"Jugador %d humilló al jugador %d con un %s." % [asesino_id, victima_id, tipo_muerte],
+		"%s letal de jugador %d a jugador %d. ¡Sin misericordia!" % [tipo_muerte.capitalize(), asesino_id, victima_id],
+		"Jugador %d le enseñó a %d quién manda en el campo de batalla (usando un %s)." % [asesino_id, victima_id, tipo_muerte],
+		"%s brutal por parte de jugador %d. Jugador %d ha caído." % [tipo_muerte.capitalize(), asesino_id, victima_id],
+		"Jugador %d borró a %d del mapa con un %s." % [asesino_id, victima_id, tipo_muerte],
+		"%d no tuvo oportunidad ante el ataque de %d (%s)." % [victima_id, asesino_id, tipo_muerte],
+		"Jugador %d: 1 — Jugador %d: 0. Causa: %s." % [asesino_id, victima_id, tipo_muerte],
+	]
+
+	return frases[randi() % frases.size()]
+
+func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
+	var frases = [
+		"Jugador con ID: %d fue derrotado por un %s (%s fatal)." % [player_id, tipo_enemigo, tipo_muerte],
+		"¡El jugador %d fue eliminado sin piedad por un %s con un %s!" % [player_id, tipo_enemigo, tipo_muerte],
+		"Un %s ha acabado con el jugador %d usando un %s." % [tipo_enemigo, player_id, tipo_muerte],
+		"%s mortal de un %s al jugador %d. ¡Descanse en paz!" % [tipo_muerte.capitalize(), tipo_enemigo, player_id],
+		"Jugador %d cayó ante un %s. Causa: %s." % [player_id, tipo_enemigo, tipo_muerte],
+		"Fin del juego para el jugador %d... cortesía de un %s (%s)." % [player_id, tipo_enemigo, tipo_muerte],
+	]
 	
-	if get_global_mouse_position().x < global_position.x:
-		animaciones.flip_h = true
-	else:
-		animaciones.flip_h = false
-	
-	var directionX := Input.get_axis("left", "right")
-	var directionY := Input.get_axis("up", "down")
-	#Aplicar fuerza
-	if directionX:
-		velocity.x = directionX * SPEED
-		animaciones.play("run")
-		if directionX > 0:
-			animaciones.flip_h = false
+	return frases[randi() % frases.size()]
+
+func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
+	health = clamp(health - amount, 0, max_health)
+	emit_signal("health_changed", health)
+
+	if health <= 0:
+		# Guardamos el player_id antes de eliminar al jugador
+		var id_guardado = player_id
+
+		# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
+		GameManager.guardar_id_jugador(id_guardado)
+		
+		if tipo_enemigo == "Jugador":
+			print(generar_frase_pvp(autor, player_id, tipo_muerte))
+		
 		else:
-			animaciones.flip_h = true
+			print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 			
+		GameManager.jugador_muerto()
+		queue_free()
+
+func heal(amount: float) -> void:
+	health = clamp(health + amount, 0, max_health)
+	emit_signal("health_changed", health)
+
+func _physics_process(_delta: float) -> void:
+
+	var usar_escudo := false
+	var dispositivo = GameManager.get_device_for_player(player_id)
+
+	if dispositivo == null:
+		# JUGADOR CON TECLADO
+		var directionX := Input.get_axis("left", "right")
+		var directionY := Input.get_axis("up", "down")
+
+		velocity.x = directionX * SPEED
+		velocity.y = directionY * SPEED
+		
+		usar_escudo = Input.is_action_pressed("shield")
+		
+	else:
+		# JUGADOR CON MANDO
+		var directionX := Input.get_joy_axis(dispositivo, JOY_AXIS_LEFT_X)
+		var directionY := Input.get_joy_axis(dispositivo, JOY_AXIS_LEFT_Y)
+
+		if abs(directionX) > DEADZONE:
+			velocity.x = directionX * SPEED
+		else:
+			velocity.x = 0
+
+		if abs(directionY) > DEADZONE:
+			velocity.y = directionY * SPEED
+		else:
+			velocity.y = 0
+
+
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		usar_escudo = Input.is_action_pressed("shield_pad")
+
+	# Movimiento real
+	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
+	move_and_slide()
+
+	# Escudo
+	if usar_escudo:
+		activar_escudo()
+	else:
+		desactivar_escudo()
+
+	# Animaciones (opcional)
+	if velocity.length() > 0:
+		animaciones.play("run")
+		animaciones.flip_h = velocity.x < 0
 	else:
 		animaciones.play("default")
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		
-	if directionY:
-		velocity.y = directionY * SPEED
-	else:
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+
+func activar_escudo():
+	if not puede_activar_escudo:
+		return
+
+	escudo_activo = true
+	escudo.visible = true #Muestra el Area2D
+	escudo_sprite.visible = true #Muestra sprite
+	escudo.monitoring = true
 	
-	velocity.normalized()
+	# El escudo se activa un lapso de tiempo
+	await get_tree().create_timer(0.75).timeout
+	desactivar_escudo()
 	
-	move_and_slide()
+	# Evitamos el spam incluyendo un timer
+	puede_activar_escudo = false
 	
-	
+	# Esperamos 1.25s para recargar el escudo
+	await get_tree().create_timer(1.0).timeout
+	puede_activar_escudo = true
+
+func desactivar_escudo():
+	escudo_activo = false
+	escudo.visible = false 
+	escudo_sprite.visible = false
+	escudo.monitoring = false

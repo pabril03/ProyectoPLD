@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_n2wyw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
-radius = 7.07107
+radius = 9.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5vuvg"]
 animations = [{
@@ -36,16 +36,16 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("6_8b7ct")
 }, {
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("7_63xfq")
 }, {
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("8_3w4lm")
 }, {
-"duration": 0.5,
+"duration": 1.0,
 "texture": ExtResource("9_8mtn0")
 }],
 "loop": true,
@@ -57,30 +57,29 @@ animations = [{
 collision_priority = 2.0
 script = ExtResource("1_0s3u6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -2)
 shape = SubResource("CircleShape2D_qm0ti")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_5vuvg")
 animation = &"run"
 frame_progress = 0.381751
 
-[node name="Gun" parent="." groups=["player"] instance=ExtResource("10_t5tro")]
+[node name="Gun" parent="." instance=ExtResource("10_t5tro")]
 
-[node name="Camera2D" type="Camera2D" parent="." groups=["player"]]
-enabled = false
+[node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.5, 2.5)
 
-[node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_w7fad")]
-position = Vector2(1, -2)
+[node name="Escudo" parent="." instance=ExtResource("11_w7fad")]
+position = Vector2(2, -1)
 
-[node name="ProgressBar" type="ProgressBar" parent="." groups=["player"]]
-offset_left = -12.0
-offset_top = -20.0
-offset_right = 13.0
-offset_bottom = -7.0
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 2.0
 scale = Vector2(1, 0.35)
 show_percentage = false
 script = ExtResource("12_n2wyw")
