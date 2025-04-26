@@ -21,7 +21,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	
 	var player = get_parent()
-	var dispositivo = GameManager.get_device_for_player(player.player_id)
+	dispositivo = GameManager.get_device_for_player(player.player_id)
 	var disparar := false
 	var disparar_alterno := false
 	

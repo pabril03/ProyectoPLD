@@ -118,7 +118,15 @@ func _ready():
 	spawnear_dummy()
 
 func _process(_delta: float) -> void:
-	if GameManager.jugadores_vivos <= 1 and not player_respawning:
+	var devices = Input.get_connected_joypads()
+	
+	if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
+		player_respawning = true
+		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		spawnear_jugador()
+		player_respawning = false
+		
+	elif devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
 		player_respawning = true
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
 		spawnear_jugador()

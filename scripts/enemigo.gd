@@ -48,13 +48,31 @@ func _process(_delta: float) -> void:
 	
 	else:
 		disparo()
+
+
+func generar_frase(autor: int, type: String) -> String:
+	var frases = [
+		"¡Monstruo %s aniquilado! Excelente trabajo, jugador %d." % [type, autor],
+		"Has vencido al temible %s, ¡imbatible!." % [type],
+		"Jugador %d destrozó al %s sin piedad." % [autor, type],
+		"El %s no supo qué le esperaba contra ti, jugador %d." % [type, autor],
+		"¡Victoria! El %s ha sido erradicado del reino." % [type],
+		"%s eliminado con maestría por el jugador %d." % [type, autor],
+		"Otro %s menos en este mundo, cortesía de jugador %d." % [type, autor],
+		"El %s cayó ante tu habilidad, jugador %d." % [type, autor],
+		"Has sobrevivido a la amenaza %s y la has destruido." % [type],
+		"Jugador %d: 1 — %s: 0. Punto para ti." % [ autor, type],
+	]
+
+	return frases[randi() % frases.size()]
 	
 func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
 	health = clamp(health - amount, 0, max_health)
 	emit_signal("health_changed", health)
 	
 	if health <= 0:
-		print("El jugador con ID: %d ha asesinado a un %s" % [autor, tipo_enemigo])
+		var msj = generar_frase(autor, String(tipo_enemigo))
+		print(msj)
 		queue_free()
 	
 func heal(amount: float) -> void:
