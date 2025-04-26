@@ -1,12 +1,14 @@
 extends CharacterBody2D
 
 @export var SPEED:float = 100.0
+var SPEED_DEFAULT = 100.0
 var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
 var max_health = 20
 var health = 20
 var player_id: int
+var danio_default = 2
 
 var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
@@ -158,3 +160,19 @@ func desactivar_escudo():
 	escudo.visible = false 
 	escudo_sprite.visible = false
 	escudo.monitoring = false
+
+func cambiar_arma():
+	pass
+
+func aplicar_potenciador(tipo:String):
+	match tipo:
+		"speed":
+			SPEED *= 1.1
+			await get_tree().create_timer(10.0).timeout
+			SPEED = SPEED_DEFAULT
+		"health":
+			heal(5)
+		"damage":
+			arma.danio += 2
+			await get_tree().create_timer(10.0).timeout
+			arma.danio = danio_default

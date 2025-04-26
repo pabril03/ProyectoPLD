@@ -5,6 +5,7 @@ extends Node
 var num_jugadores: int = 1
 var jugadores_eliminados: Array = [] # Guardamos los ID de los jugadores eliminnados en orden
 var jugadores: Array = []
+var spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
 
 # Índices de player: 0 = jugador1, 1 = jugador2
 var device_for_player := []
@@ -82,3 +83,8 @@ func jugador_vivo() -> void:
 
 func jugador_muerto() -> void:
 	jugadores_vivos -= 1
+	
+func initialize_spawns(count):
+	spawn_states = []
+	for i in range(count):
+		spawn_states.append(0)  # Al inicio todos están libres

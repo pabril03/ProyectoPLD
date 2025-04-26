@@ -1,6 +1,7 @@
 extends Node2D
 
 const bala = preload("res://escenas/bala.tscn")
+@export var danio = 2
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -75,7 +76,7 @@ func disparo():
 		
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bullet_i.collision_layer = 1 << 5  # = 32
-
+		bullet_i.set_dano(danio)
 		# Queremos que colisione con:
 		# - el entorno (capa 1 → bit 0 → valor 1)
 		# - todos los jugadores excepto el que dispara
@@ -132,7 +133,7 @@ func disparo_rafaga():
 				spriteBala.self_modulate = Color(0,1,1)
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bullet_i.collision_layer = 1 << 5  # = 32
-
+		bullet_i.set_dano(danio)
 		# Queremos que colisione con:
 		# - el entorno (capa 1 → bit 0 → valor 1)
 		# - todos los jugadores excepto el que dispara

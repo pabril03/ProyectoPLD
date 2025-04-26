@@ -3,11 +3,18 @@ extends Node2D
 const JugadorEscena = preload("res://escenas/player.tscn")  # Ruta de la escena del jugador
 const EnemigoEscena = preload("res://escenas/enemigo.tscn")
 const SniperEscena = preload("res://escenas/sniper.tscn")
+var Potenciador = preload("res://escenas/potenciador.tscn")
 
-@onready var punto_respawn = $PuntoRespawn1  # Un marcador para el punto de respawn
-@onready var punto_respawn2 = $PuntoRespawn2
-@onready var punto_respawn3 = $PuntoRespawn3
-@onready var punto_respawn_enemigo = $PuntoRespawnEnemigo
+@onready var punto_respawn = $"Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
+@onready var punto_respawn2 = $"Spawns-J-E/PuntoRespawn2"
+@onready var punto_respawn3 = $"Spawns-J-E/PuntoRespawn3"
+@onready var punto_respawn_enemigo = $"Spawns-J-E/PuntoRespawnEnemigo"
+@onready var spawn_points = [
+	$"Spawns-PowerUp/Pot1",
+	$"Spawns-PowerUp/Pot2",
+	$"Spawns-PowerUp/Pot3",
+	$"Spawns-PowerUp/Pot4"
+]
 
 var jugador: CharacterBody2D  # Referencia al jugador
 var sniper: CharacterBody2D
@@ -60,11 +67,11 @@ func spawnear_jugador() -> void:
 	# para que no se solape con el suelo.
 	match randi_range(1,3):
 		1:
-			jugador.global_position = punto_respawn.global_position + Vector2(0, -20)
+			jugador.global_position = punto_respawn.global_position
 		2:
-			jugador.global_position = punto_respawn2.global_position + Vector2(0, -20)
+			jugador.global_position = punto_respawn2.global_position
 		3:
-			jugador.global_position = punto_respawn3.global_position + Vector2(0, -20)
+			jugador.global_position = punto_respawn3.global_position
 		
 		
 	add_child(jugador)
@@ -105,6 +112,37 @@ func spawnear_dummy():
 	enemy.set_damage_on_touch(5)
 	add_child(enemy)
 
+#Spawnear potenciadores en el spawn que haya hueco
+func spawnear_potenciador(index):
+	if GameManager.spawn_states[index] == 1:
+		return  # Ya hay un potenciador aquí
+
+	var potenciador_scene = tipoPotenciador() # Elige uno aleatorio
+	var potenciador = Potenciador.instantiate()
+	potenciador.tipo_potenciador = potenciador_scene
+	potenciador.global_position = spawn_points[index].global_position
+	potenciador.spawn_index = index  # GUARDAMOS en qué spawn está
+	add_child(potenciador)
+	GameManager.spawn_states[index] = 1
+
+func tipoPotenciador():
+	match randi_range(1,3):
+		1:
+			return "speed"
+		2:
+			return "health"
+		3:
+			return "damage"
+
+func reponer_potenciador(index:int):
+	await get_tree().create_timer(15.0).timeout
+	if GameManager.spawn_states[index] == 0:
+		spawnear_potenciador(index)
+
+func liberar_spawn(index):
+	GameManager.spawn_states[index] = 0  # Marcar spawn libre
+	reponer_potenciador(index)
+
 func _ready():
 	var devices = Input.get_connected_joypads()
 
@@ -116,7 +154,12 @@ func _ready():
 		spawnear_jugador()
 
 	spawnear_dummy()
-
+	
+	GameManager.initialize_spawns(4)
+	
+	for i in range(spawn_points.size()):
+		spawnear_potenciador(i)
+	
 func _process(_delta: float) -> void:
 	var devices = Input.get_connected_joypads()
 	
@@ -149,3 +192,6 @@ func _process(_delta: float) -> void:
 		#toggled_on = !toggled_on
 		#get_tree().paused = toggled_on
 		get_tree().quit()
+
+
+	
