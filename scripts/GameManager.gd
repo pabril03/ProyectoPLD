@@ -1,6 +1,10 @@
 # GameManager.gd
 extends Node
 
+# Armas:
+var shotgun_count: int = 0
+var pistol_count: int = 0
+
 # Variable global para el número de jugadores
 var num_jugadores: int = 1
 var jugadores_eliminados: Array = [] # Guardamos los ID de los jugadores eliminnados en orden
@@ -41,6 +45,9 @@ func registrar_jugador(id_jugador: int) -> void:
 		player_devices[id_jugador] = null
 
 	print("Jugador %d registrado con dispositivo %s" % [id_jugador, str(player_devices[id_jugador])])
+
+	# El nuevo player coge una pistola
+	arma_agarrada("Gun")
 
 	return jugadores.size()  # Devuelve un player_id único (1, 2, 3, ...)
 
@@ -88,3 +95,17 @@ func initialize_spawns(count):
 	spawn_states = []
 	for i in range(count):
 		spawn_states.append(0)  # Al inicio todos están libres
+
+func arma_soltada(tipo_arma: String) -> void:
+	if tipo_arma == "Shotgun":
+		shotgun_count -= 1
+	
+	elif tipo_arma == "Gun":
+		pistol_count -= 1
+
+func arma_agarrada(tipo_arma: String) -> void:
+	if tipo_arma == "Shotgun":
+		shotgun_count += 1
+	
+	elif tipo_arma == "Gun":
+		pistol_count += 1

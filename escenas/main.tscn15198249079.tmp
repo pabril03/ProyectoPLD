@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=4 uid="uid://cimfsyn1lj3c7"]
+[gd_scene load_steps=11 format=4 uid="uid://cimfsyn1lj3c7"]
 
 [ext_resource type="Script" uid="uid://cng754emwdrr7" path="res://scripts/main.gd" id="1_dkga6"]
 [ext_resource type="Texture2D" uid="uid://hcmgyxv0eotv" path="res://0x72_DungeonTilesetII_v1.7/atlas_floor-16x16.png" id="2_jumxm"]
 [ext_resource type="Texture2D" uid="uid://bfyw406e1n3ho" path="res://0x72_DungeonTilesetII_v1.7/atlas_walls_high-16x32.png" id="3_26pgj"]
+[ext_resource type="PackedScene" uid="uid://ci2va7t5skhnp" path="res://escenas/PickupWeapon.tscn" id="4_26pgj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jumxm"]
 friction = 0.0
@@ -295,6 +296,9 @@ tile_set = SubResource("TileSet_dkga6")
 position = Vector2(313, 183)
 zoom = Vector2(1.85, 2)
 
+[node name="PickupWeapon" parent="." instance=ExtResource("4_26pgj")]
+position = Vector2(177, 158)
+
 [node name="Spawns-J-E" type="Node" parent="."]
 
 [node name="PuntoRespawn1" type="Marker2D" parent="Spawns-J-E"]
@@ -325,10 +329,10 @@ position = Vector2(587, 293)
 
 [node name="Spawns-shotgun" type="Node" parent="."]
 
-[node name="ShotgunRestock1" type="Marker2D" parent="Spawns-shotgun"]
+[node name="PistolRestock1" type="Marker2D" parent="Spawns-shotgun"]
 position = Vector2(432, 159)
 
 [node name="Spawns-pistol" type="Node" parent="."]
 
-[node name="PistolRestock1" type="Marker2D" parent="Spawns-pistol"]
-position = Vector2(392, 118)
+[node name="ShotgunRestock1" type="Marker2D" parent="Spawns-pistol"]
+position = Vector2(175, 159)

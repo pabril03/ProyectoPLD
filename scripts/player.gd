@@ -21,6 +21,14 @@ signal health_changed(new_health)
 @onready var escudo_sprite = $Escudo/Sprite2D
 @onready var arma = $Gun
 
+# Auras de potenciadores
+@onready var auraDamage = $AuraDamage
+@onready var auraSpeed = $AuraSpeed
+@onready var auraHeal = $AuraHeal
+@onready var speedTimer  = $SpeedTimer
+@onready var damageTimer = $DamageTimer
+@onready var healTimer   = $HealTimer
+
 
 func _ready():
 	emit_signal("health_changed", health)
@@ -28,6 +36,16 @@ func _ready():
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
+	
+	for aura in [auraDamage, auraSpeed, auraHeal]:
+		aura.emitting = false
+	
+	speedTimer.one_shot = true
+	damageTimer.one_shot = true
+	healTimer.one_shot = true
+	speedTimer.timeout.connect(_on_speed_timeout)
+	damageTimer.timeout.connect(_on_damage_timeout)
+	healTimer.timeout.connect(_on_heal_timeout)
 
 func get_shooter_id() -> int:
 	return player_id
@@ -78,6 +96,7 @@ func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", ti
 			print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 			
 		GameManager.jugador_muerto()
+		GameManager.arma_soltada( arma.tipo_arma )
 		queue_free()
 
 func heal(amount: float) -> void:
@@ -161,18 +180,54 @@ func desactivar_escudo():
 	escudo_sprite.visible = false
 	escudo.monitoring = false
 
-func cambiar_arma():
-	pass
+func cambiar_arma(nuevaArma: String):
+	var path = "res://escenas/%s.tscn" % nuevaArma
+	var packed = load(path) as PackedScene # Cargamos la escena en tiempo de ejecución
+
+	if not packed:
+		push_error("No se puede cargar la escena: %s" % path)
+		return
+	
+	# Si ya tiene el arma no la coge otra vez
+	if nuevaArma == arma.tipo_arma.capitalize():
+		return
+
+	var tipo_arma
+
+	if arma:
+		tipo_arma = arma.tipo_arma
+		GameManager.arma_soltada( tipo_arma.capitalize() )
+		arma.queue_free() # Eliminamos el arma anterior
+	
+	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
+	add_child(arma) # Agregamos el nuevo arma a la escena
+	# GameManager.arma_agarrada(arma.tipo_arma)
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
 		"speed":
-			SPEED *= 1.1
-			await get_tree().create_timer(10.0).timeout
+			SPEED *= 1.25
+			auraSpeed.emitting = true
+			speedTimer.start(10.0)
 			SPEED = SPEED_DEFAULT
+
 		"health":
 			heal(5)
+			auraHeal.emitting = true
+			healTimer.start(0.65)
+
 		"damage":
-			arma.danio += 2
-			await get_tree().create_timer(10.0).timeout
-			arma.danio = danio_default
+			arma.DANIO += 2
+			auraDamage.emitting = true
+			damageTimer.start(10.0)
+			arma.DANIO = danio_default
+
+# Al expirar cada timer, apagamos la correspondiente aura
+func _on_speed_timeout():
+	auraSpeed.emitting = false
+
+func _on_damage_timeout():
+	auraDamage.emitting = false
+
+func _on_heal_timeout():
+	auraHeal.emitting = false

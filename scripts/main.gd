@@ -3,6 +3,8 @@ extends Node2D
 const JugadorEscena = preload("res://escenas/player.tscn")  # Ruta de la escena del jugador
 const EnemigoEscena = preload("res://escenas/enemigo.tscn")
 const SniperEscena = preload("res://escenas/sniper.tscn")
+var PickUpShotgun = preload("res://escenas/PickupShotgun.tscn")
+var PickUpPistol = preload("res://escenas/PickupPistol.tscn")
 var Potenciador = preload("res://escenas/potenciador.tscn")
 
 @onready var punto_respawn = $"Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
@@ -15,6 +17,15 @@ var Potenciador = preload("res://escenas/potenciador.tscn")
 	$"Spawns-PowerUp/Pot3",
 	$"Spawns-PowerUp/Pot4"
 ]
+
+@onready var spawn_pistol = [
+	$"Spawns-pistol/PistolRestock1"
+]
+
+@onready var spawn_shotgun = [
+	$"Spawns-shotgun/ShotgunRestock1"
+]
+
 
 var jugador: CharacterBody2D  # Referencia al jugador
 var sniper: CharacterBody2D
@@ -143,6 +154,25 @@ func liberar_spawn(index):
 	GameManager.spawn_states[index] = 0  # Marcar spawn libre
 	reponer_potenciador(index)
 
+func spawn_pistola():
+	var pistola = PickUpPistol.instantiate()
+	pistola.global_position = spawn_pistol[0].global_position
+	add_child(pistola)
+
+func reponer_pistola():
+	await get_tree().create_timer(10.0).timeout
+	spawn_pistola()
+
+func reponer_escopeta():
+	await get_tree().create_timer(10.0).timeout
+	spawn_escopeta()
+
+
+func spawn_escopeta():
+	var escopeta = PickUpShotgun.instantiate()
+	escopeta.global_position = spawn_shotgun[0].global_position
+	add_child(escopeta)
+
 func _ready():
 	var devices = Input.get_connected_joypads()
 
@@ -159,7 +189,10 @@ func _ready():
 	
 	for i in range(spawn_points.size()):
 		spawnear_potenciador(i)
-	
+
+	spawn_pistola()
+	spawn_escopeta()
+
 func _process(_delta: float) -> void:
 	var devices = Input.get_connected_joypads()
 	
@@ -189,9 +222,4 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("exit"):
 		#Hacer pausa del juego
-		#toggled_on = !toggled_on
-		#get_tree().paused = toggled_on
 		get_tree().quit()
-
-
-	
