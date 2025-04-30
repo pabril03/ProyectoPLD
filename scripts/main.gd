@@ -27,7 +27,7 @@ var Potenciador = preload("res://escenas/potenciador.tscn")
 ]
 
 #Pantalla dividida
-@onready var split_screen = $SplitScreen2D
+#@onready var split_screen = $SplitScreen2D
 
 var jugadores = []
 
@@ -100,7 +100,13 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_just_pressed("exit"):
 		#Hacer pausa del juego
-		get_tree().quit()
+		#if not get_tree().paused:
+			#get_tree().paused = true
+			#$Opciones.visible = true
+		#else:
+			#get_tree().paused = false
+			#$Opciones.visible = false
+		get_tree().change_scene_to_file("res://UI/inicio.tscn")
 
 func get_next_player_id() -> int:
 	next_player_id += 1
@@ -148,8 +154,9 @@ func spawnear_jugador() -> void:
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
 	
-	var pantalla_index = jugador.player_id - 1  # Jugador con id 1 en pantalla 0
-	split_screen.add_player(jugador, pantalla_index)
+	#Para pantalla dividida
+	#var pantalla_index = jugador.player_id - 1  # Jugador con id 1 en pantalla 0
+	#split_screen.add_player(jugador, pantalla_index)
 
 
 func spawnear_sniper() -> void:
@@ -169,7 +176,14 @@ func spawnear_sniper() -> void:
 	sniper.collision_layer = 1 << sniper.player_id
 	sniper.collision_mask  = 1
 
-	sniper.global_position = punto_respawn.global_position + Vector2(100, -10)
+	match randi_range(1,3):
+		1:
+			sniper.global_position = punto_respawn.global_position
+		2:
+			sniper.global_position = punto_respawn2.global_position
+		3:
+			sniper.global_position = punto_respawn3.global_position
+		
 	add_child(sniper)
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el sniper %d!" % [sniper.player_id])

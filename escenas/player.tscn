@@ -86,7 +86,7 @@ frame_progress = 0.381751
 [node name="Gun" parent="." groups=["player"] instance=ExtResource("10_t5tro")]
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["player"]]
-zoom = Vector2(2.5, 2.5)
+zoom = Vector2(2, 2)
 
 [node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_w7fad")]
 position = Vector2(1, -2)

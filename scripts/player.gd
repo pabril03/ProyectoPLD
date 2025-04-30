@@ -153,6 +153,7 @@ func _physics_process(_delta: float) -> void:
 		animaciones.flip_h = velocity.x < 0
 	else:
 		animaciones.play("default")
+		
 
 func activar_escudo():
 	if not puede_activar_escudo:
