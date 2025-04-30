@@ -26,6 +26,10 @@ var Potenciador = preload("res://escenas/potenciador.tscn")
 	$"Spawns-shotgun/ShotgunRestock1"
 ]
 
+#Pantalla dividida
+@onready var split_screen = $SplitScreen2D
+
+var jugadores = []
 
 var jugador: CharacterBody2D  # Referencia al jugador
 var sniper: CharacterBody2D
@@ -42,6 +46,61 @@ var next_enemy_id = ENEMY_ID_START
 var max_players = 4
 
 var toggled_on = false
+
+func _ready():
+	var devices = Input.get_connected_joypads()
+
+	if devices.size() == 0:
+		spawnear_jugador()
+
+	else:
+		spawnear_jugador()
+		spawnear_jugador()
+
+	spawnear_dummy()
+	
+	#Añadir jugadores al splitScreen2D
+	
+	GameManager.initialize_spawns(4)
+	
+	for i in range(spawn_points.size()):
+		spawnear_potenciador(i)
+
+	spawn_pistola()
+	spawn_escopeta()
+	
+	#split_screen.play_area = $Mapa/TileMapLayer
+
+func _process(_delta: float) -> void:
+	var devices = Input.get_connected_joypads()
+	
+	if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
+		player_respawning = true
+		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		spawnear_jugador()
+		player_respawning = false
+		
+	elif devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
+		player_respawning = true
+		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		spawnear_jugador()
+		player_respawning = false
+	
+	#if GameManager.jugadores_vivos <= 1 and not sniper_respawning:
+		#sniper_respawning = true
+		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		#spawnear_sniper()
+		#sniper_respawning = false
+		
+	if not is_instance_valid(enemy) and not enemy_respawning:
+		enemy_respawning = true
+		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		spawnear_dummy()
+		enemy_respawning = false
+
+	if Input.is_action_just_pressed("exit"):
+		#Hacer pausa del juego
+		get_tree().quit()
 
 func get_next_player_id() -> int:
 	next_player_id += 1
@@ -88,6 +147,9 @@ func spawnear_jugador() -> void:
 	add_child(jugador)
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
+	
+	var pantalla_index = jugador.player_id - 1  # Jugador con id 1 en pantalla 0
+	split_screen.add_player(jugador, pantalla_index)
 
 
 func spawnear_sniper() -> void:
@@ -172,54 +234,3 @@ func spawn_escopeta():
 	var escopeta = PickUpShotgun.instantiate()
 	escopeta.global_position = spawn_shotgun[0].global_position
 	add_child(escopeta)
-
-func _ready():
-	var devices = Input.get_connected_joypads()
-
-	if devices.size() == 0:
-		spawnear_jugador()
-
-	else:
-		spawnear_jugador()
-		spawnear_jugador()
-
-	spawnear_dummy()
-	
-	GameManager.initialize_spawns(4)
-	
-	for i in range(spawn_points.size()):
-		spawnear_potenciador(i)
-
-	spawn_pistola()
-	spawn_escopeta()
-
-func _process(_delta: float) -> void:
-	var devices = Input.get_connected_joypads()
-	
-	if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
-		player_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_jugador()
-		player_respawning = false
-		
-	elif devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
-		player_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_jugador()
-		player_respawning = false
-	
-	#if GameManager.jugadores_vivos <= 1 and not sniper_respawning:
-		#sniper_respawning = true
-		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		#spawnear_sniper()
-		#sniper_respawning = false
-		
-	if not is_instance_valid(enemy) and not enemy_respawning:
-		enemy_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_dummy()
-		enemy_respawning = false
-
-	if Input.is_action_just_pressed("exit"):
-		#Hacer pausa del juego
-		get_tree().quit()

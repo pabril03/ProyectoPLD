@@ -25,10 +25,11 @@ func _process(_delta: float) -> void:
 	
 	var input_vector = Vector2.ZERO
 	if dispositivo == null:
+		var jugador = get_parent()
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_pressed("shoot")
 		disparar_alterno = Input.is_action_pressed("Alter-shoot")
-		direccion_disparo = (get_global_mouse_position() - punta.global_position).normalized()
+		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 	
 	else:
 		input_vector.x = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
