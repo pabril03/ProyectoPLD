@@ -16,6 +16,7 @@ var cuerpos_en_contacto: Array = []
 var puedoDisparar: bool = true
 var disparando = false
 var disparos_realizados = 0
+var muriendo = false
 
 func _ready() -> void:
 	collision_layer = 1 << 7
@@ -67,13 +68,15 @@ func generar_frase(autor: int, type: String) -> String:
 	return frases[randi() % frases.size()]
 	
 func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
-	health = clamp(health - amount, 0, max_health)
-	emit_signal("health_changed", health)
-	
-	if health <= 0:
-		var msj = generar_frase(autor, String(tipo_enemigo))
-		print(msj)
-		queue_free()
+	if !muriendo:
+		health = clamp(health - amount, 0, max_health)
+		emit_signal("health_changed", health)
+		
+		if health <= 0:
+			muriendo = true
+			var msj = generar_frase(autor, String(tipo_enemigo))
+			print(msj)
+			queue_free()
 	
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)

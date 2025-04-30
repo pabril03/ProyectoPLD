@@ -13,14 +13,12 @@ var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
 var direccion_disparo = Vector2.ZERO
 
-@export var SPEED := 200
+@export var SPEED := 400
 @export var BOUNCES := 1
-@export var SPREAD_DEGREES := 45.0
-@export var ALT_SPREAD_DEGREES := 22.5
-@export var DANIO := 1.25
-@export var PELLETS := 7
+@export var DANIO := 7
+@export var PELLETS := 1
 
-var tipo_arma: String = "Shotgun"
+var tipo_arma: String = "Sniper"
 
 func _ready() -> void:
 	shoot_timer.wait_time = 1.5
@@ -76,12 +74,9 @@ func disparo():
 
 	puedoDisparar = false
 	shoot_timer.start()
-	
-	var half_spread = deg_to_rad(SPREAD_DEGREES) * 0.5
+
 	for j in range(PELLETS):
-		var angle_offset = randf_range(-half_spread, half_spread)
-		var dir = direccion_disparo.rotated(angle_offset)
-	
+
 		var bullet_i = bala.instantiate()
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
@@ -108,10 +103,10 @@ func disparo():
 		bullet_i.set_dano(DANIO)
 		bullet_i.set_speed(SPEED)
 		bullet_i.set_max_colissions(BOUNCES)
-		bullet_i.set_max_distance(75)
+		bullet_i.set_max_distance(225)
 
-		bullet_i.velocity = dir * bullet_i.SPEED
-		bullet_i.rotation = dir.angle()
+		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
+		bullet_i.rotation = direccion_disparo.angle()
 		get_tree().root.add_child(bullet_i)
 
 func disparo_largo():
@@ -122,11 +117,7 @@ func disparo_largo():
 	puedoDisparar = false
 	alt_timer.start()
 
-	var half_spread = deg_to_rad(ALT_SPREAD_DEGREES) * 0.5
-
 	for j in range(PELLETS):
-		var angle_offset = randf_range(-half_spread, half_spread)
-		var dir = direccion_disparo.rotated(angle_offset)
 
 		var bullet_i = bala.instantiate()
 		bullet_i.shooter_id = player.player_id
@@ -151,13 +142,13 @@ func disparo_largo():
 		bullet_i.collision_mask = mask
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		bullet_i.set_dano(DANIO)
+		bullet_i.set_dano(DANIO*1.5)
 		bullet_i.set_speed(SPEED)
 		bullet_i.set_max_colissions(BOUNCES)
-		bullet_i.set_max_distance(100)
+		bullet_i.set_max_distance(300)
 
-		bullet_i.velocity = dir * bullet_i.SPEED
-		bullet_i.rotation = dir.angle()
+		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
+		bullet_i.rotation = direccion_disparo.angle()
 		get_tree().root.add_child(bullet_i)
 
 func _on_timer_timeout() -> void:

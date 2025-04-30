@@ -13,6 +13,7 @@ var danio_default = 2
 var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
 var death_sentences_executions: Array = [""]
+var muriendo = false
 
 signal health_changed(new_health)
 
@@ -47,6 +48,8 @@ func _ready():
 	damageTimer.timeout.connect(_on_damage_timeout)
 	healTimer.timeout.connect(_on_heal_timeout)
 
+	muriendo = false
+
 func get_shooter_id() -> int:
 	return player_id
 	
@@ -79,25 +82,27 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 	return frases[randi() % frases.size()]
 
 func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
-	health = clamp(health - amount, 0, max_health)
-	emit_signal("health_changed", health)
+	if !muriendo:
+		health = clamp(health - amount, 0, max_health)
+		emit_signal("health_changed", health)
 
-	if health <= 0:
-		# Guardamos el player_id antes de eliminar al jugador
-		var id_guardado = player_id
+		if health <= 0:
+			muriendo = true
+			# Guardamos el player_id antes de eliminar al jugador
+			var id_guardado = player_id
 
-		# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
-		GameManager.guardar_id_jugador(id_guardado)
-		
-		if tipo_enemigo == "Jugador":
-			print(generar_frase_pvp(autor, player_id, tipo_muerte))
-		
-		else:
-			print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
+			# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
+			GameManager.guardar_id_jugador(id_guardado)
 			
-		GameManager.jugador_muerto()
-		GameManager.arma_soltada( arma.tipo_arma )
-		queue_free()
+			if tipo_enemigo == "Jugador":
+				print(generar_frase_pvp(autor, player_id, tipo_muerte))
+			
+			else:
+				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
+				
+			GameManager.jugador_muerto()
+			GameManager.arma_soltada( arma.tipo_arma )
+			queue_free()
 
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)

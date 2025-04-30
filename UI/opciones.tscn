@@ -39,7 +39,7 @@ shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
 shader = ExtResource("4_hvx20")
 shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
 
-[node name="Opciones" type="VBoxContainer"]
+[node name="Menu" type="VBoxContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -67,9 +67,15 @@ patch_margin_bottom = 20
 
 [node name="Label" type="Label" parent="Juego"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -18.0
+offset_right = 69.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_vvywr")
@@ -93,7 +99,7 @@ theme_override_fonts/font = ExtResource("3_vvywr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
-text = "Opcion 1"
+text = "Resume"
 
 [node name="Opcion2" type="Button" parent="VBoxContainer"]
 material = SubResource("ShaderMaterial_yuo6r")
@@ -104,7 +110,7 @@ theme_override_fonts/font = ExtResource("3_vvywr")
 theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
-text = "OPCION 2"
+text = "Options"
 
 [node name="Salir" type="Button" parent="VBoxContainer"]
 material = SubResource("ShaderMaterial_p8c5i")

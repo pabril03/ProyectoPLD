@@ -57,6 +57,12 @@ func get_devices() -> Variant:
 func get_device_for_player(id_jugador: int) -> Variant:
 	return player_devices.get(id_jugador, null)
 
+func get_player_id_for_device(device: int) -> int:
+	for id_jugador in player_devices.keys():
+		if player_devices[id_jugador] == device:
+			return id_jugador
+	return -1
+
 # Método para actualizar el número de jugadores
 func set_num_jugadores(nuevo_num: int):
 	num_jugadores = nuevo_num
@@ -90,7 +96,17 @@ func jugador_vivo() -> void:
 
 func jugador_muerto() -> void:
 	jugadores_vivos -= 1
-	
+
+# Devuelve una Array de nodos CharacterBody2D con player_id en jugadores[]
+func get_vivos_nodes() -> Array:
+	var vivos = []
+	# Recorre todos los nodos hijos de la escena principal
+	for node in get_tree().get_current_scene().get_children():
+		if node is CharacterBody2D and jugadores.has(node.player_id):
+			vivos.append(node)
+
+	return vivos
+
 func initialize_spawns(count):
 	spawn_states = []
 	for i in range(count):
@@ -99,7 +115,7 @@ func initialize_spawns(count):
 func arma_soltada(tipo_arma: String) -> void:
 	if tipo_arma == "Shotgun":
 		shotgun_count -= 1
-	
+
 	elif tipo_arma == "Gun":
 		pistol_count -= 1
 
