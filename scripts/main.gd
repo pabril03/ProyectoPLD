@@ -215,26 +215,28 @@ func _update_camera(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	_update_camera(delta)
-	var devices = Input.get_connected_joypads()
-	
+
+	# LÓGICA DE RESPAWN ANTIGUA, NO ELIMINAR:
+	#var devices = Input.get_connected_joypads()
 	#if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
 		#player_respawning = true
 		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
 		#spawnear_jugador()
 		#player_respawning = false
-		
-	if devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
+	#if devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
+		#player_respawning = true
+		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		#spawnear_jugador()
+		#player_respawning = false
+
+# Respawn de jugadores: siempre que haya menos vivos que max_players
+	if not player_respawning and GameManager.jugadores_vivos < GameManager.jugadores.size():
 		player_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		# Crea un timer de 2s sin node extra
+		await get_tree().create_timer(2.0).timeout
 		spawnear_jugador()
 		player_respawning = false
-	
-	#if GameManager.jugadores_vivos <= 1 and not sniper_respawning:
-		#sniper_respawning = true
-		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		#spawnear_sniper()
-		#sniper_respawning = false
-		
+
 	if not is_instance_valid(enemy) and not enemy_respawning:
 		enemy_respawning = true
 		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
