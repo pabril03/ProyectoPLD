@@ -41,13 +41,8 @@ func _on_body_entered(body: Node) -> void:
 	RespawnTimer.start()
 
 func _on_respawn_timeout() -> void:
-	# Mirar cuántas hay activas en GameManager
-	var count: int
-	count = GameManager.pistol_count
 
-	if count == 0:
-		is_taken = false
-		sprite.visible = true
-		ItemRange.set_deferred("monitoring", true)
-	else:
-		RespawnTimer.start()
+	is_taken = false
+	sprite.visible = true
+	ItemRange.set_deferred("monitoring", true)
+	RespawnTimer.start()
