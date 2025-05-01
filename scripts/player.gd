@@ -223,7 +223,8 @@ func aplicar_potenciador(tipo:String):
 			healTimer.start(0.65)
 
 		"damage":
-			arma.DANIO += 2
+			danio_default = arma.DANIO
+			arma.DANIO *= 1.5
 			auraDamage.emitting = true
 			damageTimer.start(10.0)
 			arma.DANIO = danio_default

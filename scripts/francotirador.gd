@@ -142,7 +142,7 @@ func disparo_largo():
 		bullet_i.collision_mask = mask
 		bullet_i.global_position = punta.global_position
 		bullet_i.set_start_position(punta.global_position)
-		bullet_i.set_dano(DANIO*1.5)
+		bullet_i.set_dano(DANIO*2)
 		bullet_i.set_speed(SPEED)
 		bullet_i.set_max_colissions(BOUNCES)
 		bullet_i.set_max_distance(300)
