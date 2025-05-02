@@ -7,6 +7,7 @@ var PickUpShotgun = preload("res://escenas/PickupShotgun.tscn")
 var PickUpPistol = preload("res://escenas/PickupPistol.tscn")
 var PickUpSniper = preload("res://escenas/PickupSniper.tscn")
 var Potenciador = preload("res://escenas/potenciador.tscn")
+const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
 
 @onready var punto_respawn = $"Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
 @onready var punto_respawn2 = $"Spawns-J-E/PuntoRespawn2"
@@ -29,6 +30,12 @@ var Potenciador = preload("res://escenas/potenciador.tscn")
 
 @onready var spawn_sniper = [
 	$"Spawns-sniper/SniperRestock1"
+]
+
+@onready var trap_points := [
+	$"Spawn-fire-traps/Firetrap1",
+	$"Spawn-fire-traps/Firetrap2",
+	$"Spawn-fire-traps/Firetrap3"
 ]
 
 @onready var menu := $UILayer/Opciones
@@ -89,6 +96,7 @@ func _ready():
 	spawn_pistola()
 	spawn_escopeta()
 	spawn_francotirador()
+	spawn_fire_traps()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -382,3 +390,9 @@ func spawn_francotirador():
 	var francotirador = PickUpSniper.instantiate()
 	francotirador.global_position = spawn_sniper[0].global_position
 	add_child(francotirador)
+
+func spawn_fire_traps() -> void:
+	for index in trap_points.size():
+		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = trap_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

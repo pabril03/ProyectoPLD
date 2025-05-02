@@ -81,7 +81,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 	
 	return frases[randi() % frases.size()]
 
-func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
+func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
 		emit_signal("health_changed", health)
@@ -96,7 +96,10 @@ func take_damage(amount: float, autor: int, tipo_enemigo: String = "Jugador", ti
 			
 			if tipo_enemigo == "Jugador":
 				print(generar_frase_pvp(autor, player_id, tipo_muerte))
-			
+
+			elif tipo_enemigo == "Trap":
+				print("Trampeado xd")
+
 			else:
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 				

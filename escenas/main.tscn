@@ -335,12 +335,23 @@ position = Vector2(432, 159)
 [node name="Spawns-sniper" type="Node" parent="."]
 
 [node name="SniperRestock1" type="Marker2D" parent="Spawns-sniper"]
-position = Vector2(182, 158)
+position = Vector2(188, 156)
 
 [node name="Spawns-pistol" type="Node" parent="."]
 
 [node name="PistolRestock1" type="Marker2D" parent="Spawns-pistol"]
-position = Vector2(392, 118)
+position = Vector2(188, 213)
+
+[node name="Spawn-fire-traps" type="Node" parent="."]
+
+[node name="Firetrap1" type="Marker2D" parent="Spawn-fire-traps"]
+position = Vector2(273, 156)
+
+[node name="Firetrap2" type="Marker2D" parent="Spawn-fire-traps"]
+position = Vector2(96, 158)
+
+[node name="Firetrap3" type="Marker2D" parent="Spawn-fire-traps"]
+position = Vector2(519, 295)
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
