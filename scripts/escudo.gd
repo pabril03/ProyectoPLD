@@ -16,6 +16,7 @@ func _on_body_entered(body: Node2D) -> void:
 #Método para repeler la bala
 func repeler_bala(bala: Node2D) -> void:
 	var direction = (bala.global_position - global_position).normalized()
+	#var direction = (get_global_mouse_position() - bala.global_position).normalized()
 	bala.velocity = direction * bala.SPEED * 1.1
 	bala.rotation = bala.velocity.angle()
 	bala.distance_traveled = 0
