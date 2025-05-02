@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const DeathAnimation: PackedScene = preload("res://escenas/death_animation.tscn")
+
 @export var SPEED:float = 100.0
 var SPEED_DEFAULT = 100.0
 var DEADZONE := 0.2
@@ -105,6 +107,12 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 				
 			GameManager.jugador_muerto()
 			GameManager.arma_soltada( arma.tipo_arma )
+
+			# Mostramos los efectos de muerte
+			var death_FX = DeathAnimation.instantiate()
+			# La situamos donde estaba el jugador al morir
+			death_FX.global_position = global_position
+			get_tree().current_scene.add_child(death_FX)
 			queue_free()
 
 func heal(amount: float) -> void:

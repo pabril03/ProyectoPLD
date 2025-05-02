@@ -48,9 +48,12 @@ func _on_rearm_timeout() -> void:
 func _on_damage_timeout() -> void:
 	var did_damage = false
 	for body in detector.get_overlapping_bodies():         # lista siempre fresca :contentReference[oaicite:7]{index=7}
-		if (body.is_in_group("player") or body.has_method("repeler_balas")) and body.has_method("take_damage") and not body.escudo_activo:
-			body.take_damage(damage_amount)
-			did_damage = true
+		if (body.is_in_group("player") or body.has_method("repeler_balas")):
+			if body.health <= 0:
+				continue
+			if body.has_method("take_damage") and not body.escudo_activo:
+				body.take_damage(damage_amount)
+				did_damage = true
 	if did_damage:
 		anim.play("damage")
 	else:
