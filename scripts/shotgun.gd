@@ -41,8 +41,8 @@ func _process(_delta: float) -> void:
 	if dispositivo == null:
 		var jugador = get_parent()
 		look_at(get_global_mouse_position())
-		disparar = Input.is_action_just_pressed("shoot")
-		disparar_alterno = Input.is_action_just_pressed("Alter-shoot")
+		disparar = Input.is_action_pressed("shoot")
+		disparar_alterno = Input.is_action_pressed("Alter-shoot")
 		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 
 	else:

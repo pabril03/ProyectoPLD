@@ -113,7 +113,15 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			# La situamos donde estaba el jugador al morir
 			death_FX.global_position = global_position
 			get_tree().current_scene.add_child(death_FX)
+			#$CollisionShape2D.disabled = true
+			#$AnimatedSprite2D.visible = false
+			#$Gun.visible = false
 			queue_free()
+		else:
+			#$CollisionShape2D.disabled = false
+			#$AnimatedSprite2D.visible = true
+			#$Gun.visible = true
+			pass
 
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)
