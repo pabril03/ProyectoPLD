@@ -229,6 +229,7 @@ func spawnear_jugador() -> void:
 		# Si existe un ID guardado, lo usamos para el nuevo jugador
 		jugador = JugadorEscena.instantiate()
 		jugador.player_id = id_a_usar
+		#split_screen.rebuild()
 		#$SplitScreen2D.add_child(jugador)
 		#split_screen.add_player(jugador)
 

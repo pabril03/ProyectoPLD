@@ -19,7 +19,6 @@ process_callback = 0
 script = ExtResource("2_dkga6")
 play_area = NodePath("Mapa")
 max_players = 4
-rebuild_when_player_removed = false
 metadata/_custom_type_script = "uid://b77tyuhg6gub1"
 
 [node name="Mapa" parent="SplitScreen2D" instance=ExtResource("3_26pgj")]
