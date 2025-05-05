@@ -112,7 +112,8 @@ func disparo():
 
 		bullet_i.velocity = dir * bullet_i.SPEED
 		bullet_i.rotation = dir.angle()
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 
 func disparo_largo():
 	var player = get_parent()
@@ -158,7 +159,8 @@ func disparo_largo():
 
 		bullet_i.velocity = dir * bullet_i.SPEED
 		bullet_i.rotation = dir.angle()
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 
 func _on_timer_timeout() -> void:
 	puedoDisparar = true

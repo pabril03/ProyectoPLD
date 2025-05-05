@@ -8,13 +8,6 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_dkga6")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(313, 184)
-ignore_rotation = false
-enabled = false
-zoom = Vector2(1.85, 2)
-process_callback = 0
-
 [node name="SplitScreen2D" type="Node2D" parent="." node_paths=PackedStringArray("play_area")]
 script = ExtResource("2_dkga6")
 play_area = NodePath("Mapa")

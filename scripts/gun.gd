@@ -7,9 +7,10 @@ const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
-var direccion_disparo = Vector2.ZERO
+var direccion_disparo = Vector2.RIGHT
 
 @onready var punta: Marker2D = $Marker2D
+
 var puedoDisparar: bool = true
 var en_rafaga = false
 var cooldown_rafaga = true
@@ -100,7 +101,8 @@ func disparo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = rotation
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 		puedoDisparar = false
 		
 
@@ -151,7 +153,8 @@ func disparo_rafaga():
 		bullet_i.set_start_position(posicion_rafaga)
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 		await get_tree().create_timer(0.075).timeout
 
 	en_rafaga = false

@@ -100,6 +100,7 @@ offset_bottom = -7.0
 scale = Vector2(1, 0.35)
 show_percentage = false
 script = ExtResource("12_n2wyw")
+metadata/_edit_use_anchors_ = true
 
 [node name="AuraDamage" type="CPUParticles2D" parent="."]
 emitting = false

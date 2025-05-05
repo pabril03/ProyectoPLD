@@ -37,3 +37,7 @@ func _on_anim_finished() -> void:
 	# Oculta toda la escena de muerte de una vez
 	visible = false
 	set_process(false)
+
+func _exit_tree():
+	if chosen_sprite:
+		chosen_sprite.animation_finished.disconnect(_on_anim_finished)

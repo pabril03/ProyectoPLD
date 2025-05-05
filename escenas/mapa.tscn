@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://byjsyqi4d1xia"]
 
 [ext_resource type="Texture2D" uid="uid://hcmgyxv0eotv" path="res://0x72_DungeonTilesetII_v1.7/atlas_floor-16x16.png" id="1_3fyb7"]
-[ext_resource type="Script" uid="uid://coolklbg14n65" path="res://escenas/mapa.gd" id="1_k7mp8"]
+[ext_resource type="Script" uid="uid://coolklbg14n65" path="res://scripts/mapa.gd" id="1_k7mp8"]
 [ext_resource type="Texture2D" uid="uid://bfyw406e1n3ho" path="res://0x72_DungeonTilesetII_v1.7/atlas_walls_high-16x32.png" id="2_k7mp8"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jumxm"]

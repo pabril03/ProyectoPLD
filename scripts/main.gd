@@ -15,9 +15,6 @@ const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
 
 @onready var menu := $SplitScreen2D/UILayer/Opciones
 
-# Parámetros de la cámara
-@onready var camera: Camera2D = $Camera2D
-@onready var tilemap := $SplitScreen2D/TileMapLayer
 # Parámetros de zoom
 @export var min_zoom: float = 1.0
 @export var max_zoom: float = 3.0
@@ -128,67 +125,7 @@ func _on_Salir_pressed() -> void:
 	tree.paused = false
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
-#func _set_camera_limits():
-	#var used_rect = tilemap.get_used_rect()
-	#var tile_size = tilemap.tile_set.tile_size
-	#var map_min = used_rect.position * tile_size
-	#var map_max = (used_rect.position + used_rect.size) * tile_size
-#
-	#camera.limit_left = int(map_min.x)
-	#camera.limit_top = int(map_min.y)
-	#camera.limit_right = int(map_max.x)
-	#camera.limit_bottom = int(map_max.y)
-#
-## Función para calcular la posición de la cámara
-#func _update_camera(delta: float) -> void:
-	## 1) Obtén la lista de jugadores vivos desde GameManager
-	#var vivos: Array = GameManager.get_vivos_nodes()
-	#if vivos.is_empty():
-		#return
-#
-	## 2) Calcula el centroide (punto medio)
-	#var centro := Vector2.ZERO
-	#for p in vivos:
-		#centro += p.global_position
-		#centro /= vivos.size()
-#
-	## 3) Calcula el “bounding box” que los engloba
-	#var min_x = vivos[0].global_position.x
-	#var max_x = min_x
-	#var min_y = vivos[0].global_position.y
-	#var max_y = min_y
-	#for p in vivos:
-		#var pos = p.global_position
-		#min_x = min(min_x, pos.x)
-		#max_x = max(max_x, pos.x)
-		#min_y = min(min_y, pos.y)
-		#max_y = max(max_y, pos.y)
-	#var bounding_width  = max_x - min_x
-	#var bounding_height = max_y - min_y
-#
-	## 4) Tamaño del viewport
-	#var vp_size: Vector2 = get_viewport().get_visible_rect().size
-#
-	## Añadimos un margen al bouding box:
-	#var margin := 200.0  # píxeles de colchón
-	#bounding_width  += margin * 2
-	#bounding_height += margin * 2
-#
-	## 5) Zoom objetivo: que quepa el bounding box
-	#var zoom_x = vp_size.x / max(bounding_width, 1)    # evita /0
-	#var zoom_y = vp_size.y / max(bounding_height, 1)
-	#var target_zoom = clamp(min(zoom_x, zoom_y), min_zoom, max_zoom)
-#
-	## 6) Interpolación suave hacia el zoom objetivo
-	#var z = lerp(camera.zoom.x, target_zoom, delta * zoom_speed)
-	#camera.zoom = Vector2(z, z)
-#
-	## 7) Centrar la cámara
-	#camera.global_position = centro
-
-func _process(delta: float) -> void:
-	#_update_camera(delta)
-
+func _process(_delta: float) -> void:
 	# LÓGICA DE RESPAWN ANTIGUA, NO ELIMINAR:
 	#var devices = Input.get_connected_joypads()
 	#if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
@@ -229,15 +166,11 @@ func spawnear_jugador() -> void:
 		# Si existe un ID guardado, lo usamos para el nuevo jugador
 		jugador = JugadorEscena.instantiate()
 		jugador.player_id = id_a_usar
-		#split_screen.rebuild()
-		#$SplitScreen2D.add_child(jugador)
-		#split_screen.add_player(jugador)
 
 	else:
 		# Si no hay ID guardado, asignamos un nuevo ID
 		jugador = JugadorEscena.instantiate()
 		jugador.player_id = get_next_player_id()
-		split_screen.add_player(jugador)
 		GameManager.registrar_jugador(jugador.player_id)
 
 	jugador.collision_layer = 1 << jugador.player_id
@@ -253,44 +186,13 @@ func spawnear_jugador() -> void:
 			jugador.global_position = punto_respawn2.global_position
 		3:
 			jugador.global_position = punto_respawn3.global_position
-		
-		
-	#$SplitScreen2D.add_child(jugador)
-	
+
+	var new_cam = split_screen.get_player_camera(jugador)
+	split_screen.make_camera_track_player(new_cam, jugador)
+
+	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+	world.add_child(jugador)
+	split_screen.add_player(jugador)
+
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
-	
-	#Para pantalla dividida
-	#var pantalla_index = jugador.player_id - 1  # Jugador con id 1 en pantalla 0
-	#split_screen.add_player(jugador, pantalla_index)
-
-#
-#func spawnear_sniper() -> void:
-	#var id_a_usar = GameManager.obtener_id_jugador_eliminado()
-#
-	#if id_a_usar != -1:
-		#sniper = SniperEscena.instantiate()
-		#sniper.player_id = id_a_usar
-		#
-	#else:
-		#sniper = SniperEscena.instantiate()
-		#sniper.player_id = get_next_player_id()
-		#
-		#GameManager.registrar_jugador(sniper.player_id)
-		#
-	## Igualamos capas y máscaras si lo necesitas:
-	#sniper.collision_layer = 1 << sniper.player_id
-	#sniper.collision_mask  = 1
-	#jugador.process_mode = Node.PROCESS_MODE_PAUSABLE
-#
-	#match randi_range(1,3):
-		#1:
-			#sniper.global_position = punto_respawn.global_position
-		#2:
-			#sniper.global_position = punto_respawn2.global_position
-		#3:
-			#sniper.global_position = punto_respawn3.global_position
-		#
-	#add_child(sniper)
-	#GameManager.jugador_vivo()
-	#print("¡Ha aparecido el sniper %d!" % [sniper.player_id])

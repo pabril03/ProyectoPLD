@@ -80,7 +80,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 		"Jugador %d cayó ante un %s. Causa: %s." % [player_id, tipo_enemigo, tipo_muerte],
 		"Fin del juego para el jugador %d... cortesía de un %s (%s)." % [player_id, tipo_enemigo, tipo_muerte],
 	]
-	
+
 	return frases[randi() % frases.size()]
 
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
@@ -112,11 +112,16 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			var death_FX = DeathAnimation.instantiate()
 			# La situamos donde estaba el jugador al morir
 			death_FX.global_position = global_position
-			get_tree().current_scene.add_child(death_FX)
+			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+			world.add_child(death_FX)
+
+			var split_screen = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
+			split_screen.remove_player(self, false)
 			#$CollisionShape2D.disabled = true
 			#$AnimatedSprite2D.visible = false
 			#$Gun.visible = false
 			queue_free()
+
 		else:
 			#$CollisionShape2D.disabled = false
 			#$AnimatedSprite2D.visible = true
