@@ -1,7 +1,7 @@
 [gd_scene load_steps=85 format=3 uid="uid://cg1hkr1fc8o14"]
 
 [ext_resource type="Texture2D" uid="uid://cx2pcdnm744d6" path="res://sprites/explosion pack 1/Explosions pack/explosion-1-a/spritesheet.png" id="1_w845a"]
-[ext_resource type="Script" uid="uid://d4cif7esm7kv0" path="res://death_animation.gd" id="1_woiiq"]
+[ext_resource type="Script" uid="uid://d4cif7esm7kv0" path="res://scripts/death_animation.gd" id="1_woiiq"]
 [ext_resource type="Texture2D" uid="uid://b2h66tg6ytalr" path="res://sprites/explosion pack 1/Explosions pack/explosion-1-e/explosion-5.png" id="2_7osjb"]
 [ext_resource type="Texture2D" uid="uid://c33eedymq66tx" path="res://sprites/explosion pack 1/Explosions pack/explosion-1-b/spritesheet2.png" id="4_m56cr"]
 [ext_resource type="Texture2D" uid="uid://rooqemy2n530" path="res://sprites/explosion pack 1/Explosions pack/explosion-1-c/spritesheet3.png" id="5_kqqtv"]

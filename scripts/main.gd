@@ -44,7 +44,7 @@ var toggled_on = false
 func _ready():
 
 	# Configuración de los dispositivos
-	var devices = Input.get_connected_joypads()
+	# var devices = Input.get_connected_joypads()
 	if has_node("SplitScreen2D/Spawns-J-E"):
 		GameManager._init_player_spawns()
 

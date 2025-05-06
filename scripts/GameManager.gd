@@ -20,6 +20,9 @@ var jugadores_vivos := 0
 var max_players := 4
 
 func _ready() -> void:
+	configurar_dispositivos()
+
+func configurar_dispositivos() -> void:
 		# Obtener lista de joypads conectados
 	var joypads = Input.get_connected_joypads()
 	

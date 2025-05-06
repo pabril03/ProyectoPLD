@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cx42uqs822i3i"]
 
-[ext_resource type="Script" uid="uid://bwjgka4y0mirb" path="res://selectorPersonajes.gd" id="1_58l3e"]
+[ext_resource type="Script" uid="uid://bwjgka4y0mirb" path="res://scripts/selectorPersonajes.gd" id="1_58l3e"]
 [ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="2_i2etj"]
 [ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="2_uf3pn"]
 [ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="3_uf3pn"]
