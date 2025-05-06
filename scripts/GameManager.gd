@@ -1,6 +1,8 @@
 # GameManager.gd
 extends Node
 
+var spawn_markers: Array[Marker2D] = []
+
 # Armas:
 var shotgun_count: int = 0
 var pistol_count: int = 0
@@ -15,6 +17,7 @@ var spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
 var device_for_player := []
 var player_devices := {}
 var jugadores_vivos := 0
+var max_players := 4
 
 func _ready() -> void:
 		# Obtener lista de joypads conectados
@@ -36,6 +39,9 @@ func _ready() -> void:
 			device_for_player.append(joypads[1]) # Jugador 2
 
 func registrar_jugador(id_jugador: int) -> void:
+	if jugadores.size() >= max_players:
+		return
+
 	jugadores.append(id_jugador)
 	
 	var player_index := jugadores.size() - 1
@@ -125,3 +131,13 @@ func arma_agarrada(tipo_arma: String) -> void:
 	
 	elif tipo_arma == "Gun":
 		pistol_count += 1
+
+func _init_player_spawns() -> void:
+	var parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
+	for m in parent.get_children():
+		if m is Marker2D:
+			spawn_markers.append(m)
+
+func get_spawn_point() -> Vector2:
+	var idx = randi() % spawn_markers.size()
+	return spawn_markers[idx].global_position

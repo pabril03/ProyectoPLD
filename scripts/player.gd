@@ -16,6 +16,7 @@ var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
 var death_sentences_executions: Array = [""]
 var muriendo = false
+var is_invulnerable: bool = false
 
 signal health_changed(new_health)
 
@@ -23,6 +24,7 @@ signal health_changed(new_health)
 @onready var escudo = $Escudo
 @onready var escudo_sprite = $Escudo/Sprite2D
 @onready var arma = $Gun
+@onready var collision: CollisionShape2D = $CollisionShape2D
 
 # Auras de potenciadores
 @onready var auraDamage = $AuraDamage
@@ -84,15 +86,25 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 	return frases[randi() % frases.size()]
 
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
+	if is_invulnerable:
+		return
+
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
 		emit_signal("health_changed", health)
 
 		if health <= 0:
 			muriendo = true
+			emit_signal("died", player_id)
+
+			# Deshabilitamos colisión y sprite
+			collision.disabled = true
+			animaciones.visible = false
+
+			set_physics_process(false)
+
 			# Guardamos el player_id antes de eliminar al jugador
 			var id_guardado = player_id
-
 			# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
 			GameManager.guardar_id_jugador(id_guardado)
 			
@@ -115,18 +127,16 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(death_FX)
 
-			var split_screen = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
-			split_screen.remove_player(self, false)
-			#$CollisionShape2D.disabled = true
-			#$AnimatedSprite2D.visible = false
-			#$Gun.visible = false
-			queue_free()
+			var rng = RandomNumberGenerator.new()
+			rng.randomize()
+			if rng.randf() < 0.8:  
+				cambiar_arma("Gun")
 
-		else:
-			#$CollisionShape2D.disabled = false
-			#$AnimatedSprite2D.visible = true
-			#$Gun.visible = true
-			pass
+			arma.desaparecer()
+			arma.set_process(false)
+
+			# Reaparecemos en un lugar
+			_respawn_in_place()
 
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)
@@ -161,7 +171,6 @@ func _physics_process(_delta: float) -> void:
 			velocity.y = directionY * SPEED
 		else:
 			velocity.y = 0
-
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
 		usar_escudo = Input.is_action_pressed("shield_pad")
@@ -231,7 +240,6 @@ func cambiar_arma(nuevaArma: String):
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
 	add_child(arma) # Agregamos el nuevo arma a la escena
-	# GameManager.arma_agarrada(arma.tipo_arma)
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
@@ -253,6 +261,25 @@ func aplicar_potenciador(tipo:String):
 			damageTimer.start(10.0)
 			arma.DANIO = danio_default
 
+func _respawn_in_place() -> void:
+
+	await get_tree().create_timer(2.0).timeout
+	# Restauramos estado
+	health = max_health
+	emit_signal("health_changed", health)
+	global_position = GameManager.get_spawn_point()  # obtiene Vector2
+
+	is_invulnerable = true
+	animaciones.visible = true
+	collision.disabled = false
+	arma.aparecer()
+	arma.set_process(true)
+	set_physics_process(true)
+
+	await get_tree().create_timer(2.0).timeout
+	is_invulnerable = false
+	muriendo = false
+
 # Al expirar cada timer, apagamos la correspondiente aura
 func _on_speed_timeout():
 	auraSpeed.emitting = false
@@ -262,3 +289,5 @@ func _on_damage_timeout():
 
 func _on_heal_timeout():
 	auraHeal.emitting = false
+
+signal died(player_id)

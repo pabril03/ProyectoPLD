@@ -44,10 +44,10 @@ enum RebuildReason {
 const DEFAULT_REBUILD_DELAY: float = 0.2
 
 ## Minimum number of player screens supported by this plugin.
-const MIN_PLAYERS: int = 1
+const MIN_PLAYERS: int = 0
 
 ## Maximum number of player screens supported by this plugin.
-const MAX_PLAYERS: int = 8
+const MAX_PLAYERS: int = 4
 
 ## One child node must be designated as the play area. This will be reparented and become a child
 ## node of the primary viewport. Typically, this is a `TileMap` (or an instance of a scene that

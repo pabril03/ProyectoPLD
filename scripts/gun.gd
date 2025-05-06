@@ -10,6 +10,7 @@ var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
 var direccion_disparo = Vector2.RIGHT
 
 @onready var punta: Marker2D = $Marker2D
+@onready var sprite: Sprite2D = $Sprite2D
 
 var puedoDisparar: bool = true
 var en_rafaga = false
@@ -166,3 +167,9 @@ func _on_timer_timeout() -> void:
 	puedoDisparar = true
 	
 func capa(n): return pow(2, n - 1)
+
+func desaparecer() -> void:
+	sprite.visible = false
+
+func aparecer() -> void:
+	sprite.visible = true

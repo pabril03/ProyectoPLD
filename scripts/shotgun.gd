@@ -3,6 +3,7 @@ extends Node2D
 const bala = preload("res://escenas/bala.tscn")
 
 @onready var punta: Marker2D = $Marker2D
+@onready var sprite: Sprite2D = $Sprite2D
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
@@ -167,3 +168,9 @@ func _on_timer_timeout() -> void:
 
 func _on_alt_timer_timeout() -> void:
 	puedoDisparar = true
+
+func desaparecer() -> void:
+	sprite.visible = false
+
+func aparecer() -> void:
+	sprite.visible = true

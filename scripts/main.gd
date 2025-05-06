@@ -23,8 +23,8 @@ const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
 #Pantalla dividida
 @onready var split_screen: SplitScreen2D = $SplitScreen2D
 
+var respawn_queue: Array[int] = []
 var last_pauser_id = -1
-
 var jugador: CharacterBody2D  # Referencia al jugador
 #var sniper: CharacterBody2D
 var enemy: StaticBody2D # Referencia al dummy
@@ -42,12 +42,11 @@ var max_players = 4
 var toggled_on = false
 
 func _ready():
-	# Configuración de la cámara
-	#camera.make_current()
-	#_set_camera_limits()
 
 	# Configuración de los dispositivos
 	var devices = Input.get_connected_joypads()
+	if has_node("SplitScreen2D/Spawns-J-E"):
+		GameManager._init_player_spawns()
 
 	if devices.size() == 0:
 		spawnear_jugador()
@@ -55,9 +54,7 @@ func _ready():
 	else:
 		spawnear_jugador()
 		spawnear_jugador()
-	
-	#Añadir jugadores al splitScreen2D
-	
+
 	GameManager.initialize_spawns(4)
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -77,8 +74,6 @@ func _ready():
 	
 	var btnSalir = menu.get_node("VBoxContainer/Salir") as Button
 	btnSalir.pressed.connect(Callable(self, "_on_Salir_pressed"))
-
-	#split_screen.play_area = $Mapa/TileMapLayer
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_action_pressed("pause"):
@@ -117,7 +112,6 @@ func _on_Opcion1_pressed() -> void:
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:
 	print("Pulso Opcion2: abre opciones avanzadas…")
-	# TODO: implementa tu lógica de ajustes
 
 # Salir al menú principal
 func _on_Salir_pressed() -> void:
@@ -126,26 +120,7 @@ func _on_Salir_pressed() -> void:
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
-	# LÓGICA DE RESPAWN ANTIGUA, NO ELIMINAR:
-	#var devices = Input.get_connected_joypads()
-	#if devices.size() == 0 and GameManager.jugadores_vivos == 0 and not player_respawning:
-		#player_respawning = true
-		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		#spawnear_jugador()
-		#player_respawning = false
-	#if devices.size() >= 1 and GameManager.jugadores_vivos <= 1 and not player_respawning:
-		#player_respawning = true
-		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		#spawnear_jugador()
-		#player_respawning = false
-
-# Respawn de jugadores: siempre que haya menos vivos que max_players
-	if not player_respawning and GameManager.jugadores_vivos < GameManager.jugadores.size():
-		player_respawning = true
-		# Crea un timer de 2s sin node extra
-		await get_tree().create_timer(2.0).timeout
-		spawnear_jugador()
-		player_respawning = false
+	return
 
 func get_next_player_id() -> int:
 	next_player_id += 1
@@ -159,17 +134,21 @@ func get_next_enemy_id() -> int:
 	next_enemy_id += 1
 	return id
 
-func spawnear_jugador() -> void:
+func spawnear_jugador(id_to_use: int = -1) -> void:
 	# Comprobar si hay un ID guardado
 	var id_a_usar = GameManager.obtener_id_jugador_eliminado()
+	if id_to_use != -1:
+		id_a_usar = id_to_use
+
+	jugador = JugadorEscena.instantiate()
+	jugador.connect("died", Callable(self, "_on_jugador_died"))
+
 	if id_a_usar != -1:
 		# Si existe un ID guardado, lo usamos para el nuevo jugador
-		jugador = JugadorEscena.instantiate()
 		jugador.player_id = id_a_usar
 
 	else:
 		# Si no hay ID guardado, asignamos un nuevo ID
-		jugador = JugadorEscena.instantiate()
 		jugador.player_id = get_next_player_id()
 		GameManager.registrar_jugador(jugador.player_id)
 
@@ -187,12 +166,11 @@ func spawnear_jugador() -> void:
 		3:
 			jugador.global_position = punto_respawn3.global_position
 
-	var new_cam = split_screen.get_player_camera(jugador)
-	split_screen.make_camera_track_player(new_cam, jugador)
-
-	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
-	world.add_child(jugador)
 	split_screen.add_player(jugador)
+	await split_screen.split_screen_rebuilt
+
+	var cam = split_screen.get_player_camera(jugador)
+	split_screen.make_camera_track_player(cam, jugador)
 
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [jugador.player_id])
