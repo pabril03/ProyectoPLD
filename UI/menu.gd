@@ -9,7 +9,7 @@ func _ready() -> void:
 	play_btn.grab_focus()
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenas/main.tscn")
+	get_tree().change_scene_to_file("res://UI/selectorPersonajes.tscn")
 
 
 func _on_options_pressed() -> void:

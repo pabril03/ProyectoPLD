@@ -48,12 +48,15 @@ func _ready():
 	if has_node("SplitScreen2D/Spawns-J-E"):
 		GameManager._init_player_spawns()
 
-	if devices.size() == 0:
+	for i in range(GameManager.num_jugadores):
 		spawnear_jugador()
 
-	else:
-		spawnear_jugador()
-		spawnear_jugador()
+	#if devices.size() == 0:
+		#spawnear_jugador()
+#
+	#else:
+		#spawnear_jugador()
+		#spawnear_jugador()
 
 	GameManager.initialize_spawns(4)
 

@@ -141,3 +141,19 @@ func _init_player_spawns() -> void:
 func get_spawn_point() -> Vector2:
 	var idx = randi() % spawn_markers.size()
 	return spawn_markers[idx].global_position
+
+func resetearStats() -> void:
+	# Armas:
+	shotgun_count = 0
+	pistol_count = 0
+
+	# Variable global para el número de jugadores
+	num_jugadores = 1
+	jugadores_eliminados = [] # Guardamos los ID de los jugadores eliminnados en orden
+	jugadores = []
+	spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
+
+	# Índices de player: 0 = jugador1, 1 = jugador2
+	device_for_player = []
+	player_devices = {}
+	jugadores_vivos = 0
