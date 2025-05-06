@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://djag447q837gp"]
+
+[ext_resource type="Script" uid="uid://cwe43dayyhc6b" path="res://UI/editar_personaje.gd" id="1_fufgq"]
+[ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://UI/characterData.gd" id="2_kn8wn"]
+[ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_kn8wn"]
+[ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="5_l3djq"]
+
+[sub_resource type="Resource" id="Resource_jtctd"]
+script = ExtResource("2_kn8wn")
+key = "Fusil"
+img = ExtResource("5_l3djq")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_s6umu"]
+script = ExtResource("2_kn8wn")
+key = "Sniper"
+img = ExtResource("4_kn8wn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fufgq")
+Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_jtctd"), SubResource("Resource_s6umu")])
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.384314, 0.384314, 0.384314, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(574, 320)
+texture = ExtResource("5_l3djq")
+
+[node name="before" type="Button" parent="."]
+layout_mode = 0
+offset_left = 484.0
+offset_top = 296.0
+offset_right = 502.0
+offset_bottom = 327.0
+text = "<"
+
+[node name="next" type="Button" parent="."]
+layout_mode = 0
+offset_left = 639.0
+offset_top = 296.0
+offset_right = 657.0
+offset_bottom = 327.0
+text = ">"
+
+[node name="select" type="Button" parent="."]
+layout_mode = 0
+offset_left = 538.0
+offset_top = 376.0
+offset_right = 607.0
+offset_bottom = 407.0
+text = "Aceptar"
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 507.0
+offset_top = 207.0
+offset_right = 642.0
+offset_bottom = 238.0
+color = Color(0.197937, 0.197937, 0.197937, 1)
+
+[node name="Label" type="Label" parent="ColorRect2"]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 135.0
+offset_bottom = 30.0
+text = "Artillero"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="before" to="." method="_on_before_pressed"]
+[connection signal="pressed" from="next" to="." method="_on_next_pressed"]

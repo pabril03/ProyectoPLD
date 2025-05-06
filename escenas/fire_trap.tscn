@@ -164,6 +164,7 @@ animations = [{
 size = Vector2(38.0313, 55.0781)
 
 [node name="FireTrap" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_v0ptt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

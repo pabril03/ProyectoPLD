@@ -1,16 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://db51ppmrxnvwa"]
 
 [ext_resource type="Script" uid="uid://dh02ij7qaybln" path="res://scripts/francotirador.gd" id="1_gcqo1"]
-[ext_resource type="Texture2D" uid="uid://iam3vlg00het" path="res://sprites/Icon29_29.png" id="2_1w76o"]
+[ext_resource type="Texture2D" uid="uid://2ee7trbsmjva" path="res://sprites/sniper2.png" id="2_gcqo1"]
 
 [node name="Francotirador" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_gcqo1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(11, -1)
-rotation = 0.704626
-scale = Vector2(0.545, 0.45)
-texture = ExtResource("2_1w76o")
+position = Vector2(8, 0)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("2_gcqo1")
 
 [node name="AltTimer" type="Timer" parent="."]
 wait_time = 2.25

@@ -19,6 +19,8 @@ var player_devices := {}
 var jugadores_vivos := 0
 var max_players := 4
 
+var clases: Array = [null,null,null,null]
+
 func _ready() -> void:
 	configurar_dispositivos()
 
@@ -160,3 +162,6 @@ func resetearStats() -> void:
 	device_for_player = []
 	player_devices = {}
 	jugadores_vivos = 0
+	
+func asignarClase(clase: String, player: int) -> void:
+	clases[player] = clase

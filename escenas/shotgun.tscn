@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bgrrtjysmjpry" path="res://scripts/shotgun.gd" id="1_vp5hr"]
 
 [node name="Shotgun" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_vp5hr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
