@@ -13,6 +13,10 @@ var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
 var direccion_disparo = Vector2.ZERO
 
+@export var SPEED := 400
+@export var BOUNCE_COUNT := 0
+@export var SPREAD_DEGREES := 0.0
+@export var DANIO := 5
 
 func _ready() -> void:
 	shoot_timer.wait_time = 0.75
@@ -27,9 +31,11 @@ func _process(_delta: float) -> void:
 	
 	var input_vector = Vector2.ZERO
 	if dispositivo == null:
+		var jugador = get_parent()
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_pressed("shoot")
 		disparar_alterno = Input.is_action_pressed("Alter-shoot")
+		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 	
 	else:
 		input_vector.x = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
@@ -76,9 +82,6 @@ func disparo():
 		bullet_i.set_speed(400)
 		bullet_i.set_max_colissions(3)
 
-		if dispositivo == null:
-			direccion_disparo = (get_global_mouse_position() - punta.global_position).normalized()
-
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = rotation
 		get_tree().root.add_child(bullet_i)
@@ -105,9 +108,6 @@ func disparo_preciso():
 		bullet_i.set_dano(10)
 		bullet_i.set_speed(600)
 		bullet_i.set_max_colissions(2)
-		
-		if dispositivo == null:
-			direccion_disparo = (get_global_mouse_position() - punta.global_position).normalized()
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = rotation

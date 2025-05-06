@@ -20,6 +20,9 @@ func set_dano(dan: float) -> void:
 func set_max_colissions(max_cols: int) -> void:
 	self.max_colissions = max_cols
 
+func set_max_distance(max_dis: float) -> void:
+	self.max_distance = max_dis
+
 func get_dano() -> float:
 	return dano
 

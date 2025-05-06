@@ -1,5 +1,7 @@
 extends StaticBody2D
 
+const DeathAnimation: PackedScene = preload("res://escenas/death_animation.tscn")
+
 signal health_changed(new_health)
 var max_health = 20
 var health = 20
@@ -16,6 +18,7 @@ var cuerpos_en_contacto: Array = []
 var puedoDisparar: bool = true
 var disparando = false
 var disparos_realizados = 0
+var muriendo = false
 
 func _ready() -> void:
 	collision_layer = 1 << 7
@@ -67,13 +70,23 @@ func generar_frase(autor: int, type: String) -> String:
 	return frases[randi() % frases.size()]
 	
 func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
-	health = clamp(health - amount, 0, max_health)
-	emit_signal("health_changed", health)
-	
-	if health <= 0:
-		var msj = generar_frase(autor, String(tipo_enemigo))
-		print(msj)
-		queue_free()
+	if !muriendo:
+		health = clamp(health - amount, 0, max_health)
+		emit_signal("health_changed", health)
+		
+		if health <= 0:
+			muriendo = true
+			var msj = generar_frase(autor, String(tipo_enemigo))
+			print(msj)
+
+			# Mostramos los efectos de muerte
+			var death_FX = DeathAnimation.instantiate()
+			# La situamos donde estaba el jugador al morir
+			death_FX.global_position = global_position
+			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+			world.add_child(death_FX)
+
+			queue_free()
 	
 func heal(amount: float) -> void:
 	health = clamp(health + amount, 0, max_health)
@@ -104,7 +117,8 @@ func disparo():
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		bullet_i.tipo_enemigo = tipo_enemigo
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 		puedoDisparar = false
 		
 func _on_timer_timeout() -> void:
@@ -137,7 +151,8 @@ func disparo_libre():
 		bullet_i.velocity = Vector2.LEFT * bullet_i.SPEED
 		bullet_i.rotation_degrees = 180
 		bullet_i.tipo_enemigo = tipo_enemigo
-		get_tree().root.add_child(bullet_i)
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(bullet_i)
 		# Espera 0.2 segundos antes de disparar la siguiente bala
 		await get_tree().create_timer(0.2).timeout
 

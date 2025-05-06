@@ -16,6 +16,7 @@ func _on_body_entered(body: Node2D) -> void:
 #Método para repeler la bala
 func repeler_bala(bala: Node2D) -> void:
 	var direction = (bala.global_position - global_position).normalized()
+	#var direction = (get_global_mouse_position() - bala.global_position).normalized()
 	bala.velocity = direction * bala.SPEED * 1.1
 	bala.rotation = bala.velocity.angle()
 	bala.distance_traveled = 0
@@ -26,6 +27,17 @@ func repeler_bala(bala: Node2D) -> void:
 	if player.player_id != bala.shooter_id:
 		
 		bala.shooter_id = player.player_id
+		var spriteBala = bala.get_node("Sprite2D")
+		match bala.shooter_id:
+			1:
+				spriteBala.self_modulate = Color(1,0,0)
+			2:
+				spriteBala.self_modulate = Color(0,1,0)
+			3:
+				spriteBala.self_modulate = Color(0,1,0)
+			4:
+				spriteBala.self_modulate = Color(0,1,1)
+				
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bala.collision_layer = 1 << 5  # = 32
 

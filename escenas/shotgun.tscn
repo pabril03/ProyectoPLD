@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://wb15mgj8iu8b"]
+
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="1_bhfmk"]
+[ext_resource type="Script" uid="uid://bgrrtjysmjpry" path="res://scripts/shotgun.gd" id="1_vp5hr"]
+
+[node name="Shotgun" type="Node2D"]
+script = ExtResource("1_vp5hr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(12.375, -1.25)
+scale = Vector2(0.545, 0.45)
+texture = ExtResource("1_bhfmk")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(25, -3)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="AltTimer" type="Timer" parent="."]
+wait_time = 2.25

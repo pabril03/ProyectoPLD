@@ -1,0 +1,250 @@
+[gd_scene load_steps=15 format=3 uid="uid://sfr7dveka0ho"]
+
+[ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="1_51ai4"]
+[ext_resource type="Script" uid="uid://dqy1wh6hffjte" path="res://UI/menu.gd" id="1_i3a36"]
+[ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="1_s3mox"]
+[ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="1_t6o4n"]
+[ext_resource type="Texture2D" uid="uid://b8hhv3ov8ott4" path="res://UI/PNG/pray&panic.png" id="2_38inf"]
+[ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="3_51ai4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3a36"]
+shader = ExtResource("1_51ai4")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_38inf"]
+shader = ExtResource("1_s3mox")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 0.8)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i3a36"]
+texture = ExtResource("1_t6o4n")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+modulate_color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_38inf"]
+texture = ExtResource("1_t6o4n")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+modulate_color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yuo6r"]
+texture = ExtResource("1_t6o4n")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+modulate_color = Color(0.437877, 0.00015166, 0.445514, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yuo6r"]
+shader = ExtResource("1_s3mox")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 0.8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8c5i"]
+shader = ExtResource("1_s3mox")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 0.8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3mox"]
+shader = ExtResource("1_s3mox")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 0.5)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i3a36")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.403922, 0.270588, 0.435294, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.866667)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_38inf")
+expand_mode = 1
+
+[node name="Principal" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.0
+offset_top = -62.0
+offset_right = 172.0
+offset_bottom = 323.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Juego" type="NinePatchRect" parent="Principal"]
+visible = false
+material = SubResource("ShaderMaterial_i3a36")
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("1_t6o4n")
+patch_margin_left = 14
+patch_margin_top = 20
+patch_margin_right = 14
+patch_margin_bottom = 20
+
+[node name="Label" type="Label" parent="Principal/Juego"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_font_sizes/font_size = 24
+text = "Pray & Panic"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Principal"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Play" type="Button" parent="Principal/VBoxContainer"]
+material = SubResource("ShaderMaterial_38inf")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "INICIAR"
+
+[node name="Options" type="Button" parent="Principal/VBoxContainer"]
+material = SubResource("ShaderMaterial_yuo6r")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "OPCIONES"
+
+[node name="Exit" type="Button" parent="Principal/VBoxContainer"]
+material = SubResource("ShaderMaterial_p8c5i")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "SALIR"
+
+[node name="Opciones" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = -175.0
+offset_right = 265.0
+offset_bottom = 279.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Juego" type="NinePatchRect" parent="Opciones"]
+material = SubResource("ShaderMaterial_i3a36")
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("1_t6o4n")
+patch_margin_left = 14
+patch_margin_top = 20
+patch_margin_right = 14
+patch_margin_bottom = 20
+
+[node name="Label" type="Label" parent="Opciones/Juego"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_font_sizes/font_size = 24
+text = "OPCIONES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Opciones"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Opcion1" type="Button" parent="Opciones/VBoxContainer"]
+material = SubResource("ShaderMaterial_38inf")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "Opcion 1"
+
+[node name="Opcion2" type="Button" parent="Opciones/VBoxContainer"]
+material = SubResource("ShaderMaterial_yuo6r")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "OPCION 2"
+
+[node name="Atras" type="Button" parent="Opciones/VBoxContainer"]
+material = SubResource("ShaderMaterial_p8c5i")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_51ai4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
+text = "ATRÁS"
+
+[node name="Botones" type="NinePatchRect" parent="Opciones"]
+visible = false
+material = SubResource("ShaderMaterial_s3mox")
+custom_minimum_size = Vector2(0, 350)
+layout_mode = 2
+texture = ExtResource("1_t6o4n")
+patch_margin_left = 2
+patch_margin_top = 14
+patch_margin_right = 2
+patch_margin_bottom = 14
+
+[connection signal="pressed" from="Principal/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Principal/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Principal/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Opciones/VBoxContainer/Opcion1" to="." method="_on_opcion_1_pressed"]
+[connection signal="pressed" from="Opciones/VBoxContainer/Opcion2" to="." method="_on_opcion_2_pressed"]
+[connection signal="pressed" from="Opciones/VBoxContainer/Atras" to="." method="_on_atras_pressed"]
