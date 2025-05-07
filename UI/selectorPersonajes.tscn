@@ -25,21 +25,21 @@ key = "Asalto"
 img = ExtResource("5_uf3pn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_l3djq"]
+[sub_resource type="Resource" id="Resource_uf3pn"]
 resource_local_to_scene = true
 script = ExtResource("2_i2etj")
 key = "Artillero"
 img = ExtResource("3_uf3pn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_jfcj4"]
+[sub_resource type="Resource" id="Resource_6dy1r"]
 resource_local_to_scene = true
 script = ExtResource("2_i2etj")
 key = "Sniper"
 img = ExtResource("4_k6fdu")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_jtctd"]
+[sub_resource type="Resource" id="Resource_w3ft1"]
 resource_local_to_scene = true
 script = ExtResource("2_i2etj")
 key = "Asalto"
@@ -105,20 +105,24 @@ layout_mode = 2
 theme_override_constants/separation = 250
 
 [node name="Personaje1" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
 
 [node name="Personaje2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
 
 [node name="Personaje3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
 
 [node name="Personaje4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
 
 [node name="Empezar" type="Button" parent="VBoxContainer"]
 layout_mode = 2

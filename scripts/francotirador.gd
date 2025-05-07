@@ -28,6 +28,8 @@ func _ready() -> void:
 	# Conecta señales para reactivar el disparo cuando terminen
 	shoot_timer.timeout.connect(_on_timer_timeout)
 	alt_timer.timeout.connect(_on_alt_timer_timeout)
+	
+	visibility_layer = get_parent().player_id + 1
 
 func _process(_delta: float) -> void:
 	
