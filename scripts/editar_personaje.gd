@@ -1,8 +1,8 @@
 extends Control
 
 @export var Personajes: Array[CharacterData]
-@onready var sprite = $Sprite2D
-@onready var label = $ColorRect2/Label
+@onready var sprite = $MarginContainer/Sprite2D
+@onready var label = $MarginContainer/ColorRect2/Label
 
 var cont:int = 0
 var ID:int = 0

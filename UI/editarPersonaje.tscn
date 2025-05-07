@@ -6,83 +6,78 @@
 [ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="5_jfcj4"]
 [ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="5_l3djq"]
 
-[sub_resource type="Resource" id="Resource_jtctd"]
+[sub_resource type="Resource" id="Resource_l3djq"]
+resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Artillero"
 img = ExtResource("5_l3djq")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_s6umu"]
+[sub_resource type="Resource" id="Resource_jfcj4"]
+resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Sniper"
 img = ExtResource("4_kn8wn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_v53ab"]
+[sub_resource type="Resource" id="Resource_jtctd"]
+resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Asalto"
 img = ExtResource("5_jfcj4")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
 [node name="Control" type="ColorRect"]
-offset_right = 203.0
-offset_bottom = 332.0
-color = Color(0.362829, 0.362829, 0.362829, 1)
+offset_right = 207.0
+offset_bottom = 341.0
+color = Color(0.235294, 0.235294, 0.235294, 1)
 script = ExtResource("1_fufgq")
-Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_jtctd"), SubResource("Resource_s6umu"), SubResource("Resource_v53ab")])
+Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -66.5
-offset_top = -148.0
-offset_right = 68.5
-offset_bottom = -117.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.197937, 0.197937, 0.197937, 1)
-
-[node name="Label" type="Label" parent="ColorRect2"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(207, 341)
 layout_mode = 0
-offset_left = 1.0
-offset_right = 135.0
-offset_bottom = 30.0
+offset_right = 207.0
+offset_bottom = 341.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 16
+
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.233925, 0.233925, 0.233925, 1)
+
+[node name="Label" type="Label" parent="MarginContainer/ColorRect2"]
+layout_mode = 2
+offset_right = 208.0
+offset_bottom = 23.0
+size_flags_vertical = 0
 text = "Artillero"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer"]
 position = Vector2(101, 170)
 texture = ExtResource("5_l3djq")
 
-[node name="before" type="Button" parent="."]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 154.0
-offset_right = 25.0
-offset_bottom = 185.0
+[node name="before" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 text = "<"
 
-[node name="next" type="Button" parent="."]
-layout_mode = 0
-offset_left = 172.0
-offset_top = 155.0
-offset_right = 190.0
-offset_bottom = 186.0
+[node name="next" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 text = ">"
 
-[node name="select" type="Button" parent="."]
-layout_mode = 0
-offset_left = 70.0
-offset_top = 283.0
-offset_right = 139.0
-offset_bottom = 314.0
+[node name="select" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
 text = "Aceptar"
 
-[connection signal="pressed" from="before" to="." method="_on_before_pressed"]
-[connection signal="pressed" from="next" to="." method="_on_next_pressed"]
-[connection signal="pressed" from="select" to="." method="_on_select_pressed"]
+[connection signal="pressed" from="MarginContainer/before" to="." method="_on_before_pressed"]
+[connection signal="pressed" from="MarginContainer/next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="MarginContainer/select" to="." method="_on_select_pressed"]

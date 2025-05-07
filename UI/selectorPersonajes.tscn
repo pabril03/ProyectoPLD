@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ddylj2mvljleq"]
+[gd_scene load_steps=13 format=3 uid="uid://ddylj2mvljleq"]
 
 [ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
 [ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://scripts/selector_personajes.gd" id="1_fjnxs"]
@@ -25,6 +25,27 @@ key = "Asalto"
 img = ExtResource("5_uf3pn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
+[sub_resource type="Resource" id="Resource_l3djq"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_jfcj4"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_jtctd"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -44,60 +65,65 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.384314, 0.384314, 0.384314, 1)
 
-[node name="Empezar" type="Button" parent="."]
-layout_mode = 0
-offset_left = 514.0
-offset_top = 532.0
-offset_right = 639.0
-offset_bottom = 591.0
-text = "Empezar"
-
 [node name="ColorRect2" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 488.0
-offset_top = 89.0
-offset_right = 649.0
-offset_bottom = 122.0
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -82.0
+offset_top = 63.0
+offset_right = 82.0
+offset_bottom = 101.0
+grow_horizontal = 2
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[node name="Label" type="Label" parent="ColorRect2"]
-layout_mode = 0
-offset_right = 161.0
-offset_bottom = 33.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -479.0
+offset_top = -248.5
+offset_right = 479.0
+offset_bottom = 248.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
 text = "Selecciona tu clase"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Personaje1" parent="." instance=ExtResource("1_bcvsl")]
-visible = false
-layout_mode = 0
-offset_left = 52.0
-offset_top = 173.0
-offset_right = 255.0
-offset_bottom = 505.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(958, 343)
+layout_mode = 2
+theme_override_constants/separation = 250
 
-[node name="Personaje2" parent="." instance=ExtResource("1_bcvsl")]
-visible = false
-layout_mode = 0
-offset_left = 325.0
-offset_top = 173.0
-offset_right = 528.0
-offset_bottom = 505.0
+[node name="Personaje1" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
 
-[node name="Personaje3" parent="." instance=ExtResource("1_bcvsl")]
-visible = false
-layout_mode = 0
-offset_left = 601.0
-offset_top = 174.0
-offset_right = 804.0
-offset_bottom = 506.0
+[node name="Personaje2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
 
-[node name="Personaje4" parent="." instance=ExtResource("1_bcvsl")]
-visible = false
-layout_mode = 0
-offset_left = 886.0
-offset_top = 174.0
-offset_right = 1089.0
-offset_bottom = 506.0
+[node name="Personaje3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
 
-[connection signal="pressed" from="Empezar" to="." method="_on_empezar_pressed"]
+[node name="Personaje4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+
+[node name="Empezar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Empezar"
+
+[connection signal="pressed" from="VBoxContainer/Empezar" to="." method="_on_empezar_pressed"]
