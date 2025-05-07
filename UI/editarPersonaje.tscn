@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://djag447q837gp"]
 
-[ext_resource type="Script" uid="uid://cwe43dayyhc6b" path="res://UI/editar_personaje.gd" id="1_fufgq"]
-[ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://UI/characterData.gd" id="2_kn8wn"]
+[ext_resource type="Script" uid="uid://cwe43dayyhc6b" path="res://scripts/editar_personaje.gd" id="1_fufgq"]
+[ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://scripts/characterData.gd" id="2_kn8wn"]
 [ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_kn8wn"]
 [ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="5_l3djq"]
 

@@ -120,6 +120,7 @@ func _on_Opcion2_pressed() -> void:
 func _on_Salir_pressed() -> void:
 	var tree = Engine.get_main_loop() as SceneTree
 	tree.paused = false
+	GameManager.soloplay = false
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:

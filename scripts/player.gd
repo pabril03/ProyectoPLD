@@ -17,6 +17,7 @@ var death_sentences_enemies: Array = [""]
 var death_sentences_executions: Array = [""]
 var muriendo = false
 var is_invulnerable: bool = false
+var original_gun: String = "Vacio"
 
 signal health_changed(new_health)
 
@@ -45,8 +46,10 @@ func _ready():
 	match GameManager.clases[player_id - 1]:
 		"Artillero":
 			cambiar_arma("gun")
+			original_gun = "gun"
 		"Sniper":
 			cambiar_arma("francotirador")
+			original_gun = "francotirador"
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
@@ -124,7 +127,7 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 				
 			GameManager.jugador_muerto()
-			GameManager.arma_soltada( arma.tipo_arma )
+			# GameManager.arma_soltada( arma.tipo_arma )
 
 			# Mostramos los efectos de muerte
 			var death_FX = DeathAnimation.instantiate()
@@ -136,7 +139,7 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			var rng = RandomNumberGenerator.new()
 			rng.randomize()
 			if rng.randf() < 0.8:  
-				cambiar_arma("Gun")
+				cambiar_arma(original_gun)
 
 			arma.desaparecer()
 			arma.set_process(false)
@@ -240,7 +243,7 @@ func cambiar_arma(nuevaArma: String):
 
 	if arma:
 		tipo_arma = arma.tipo_arma
-		GameManager.arma_soltada( tipo_arma.capitalize() )
+		# GameManager.arma_soltada( tipo_arma.capitalize() )
 		arma.queue_free() # Eliminamos el arma anterior
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador

@@ -28,7 +28,7 @@ func _on_body_entered(body: Node) -> void:
 
 	# 2) Notificar al GameManager
 	#    (capitalizamos para que coincida con "Shotgun" o "Pistol")
-	GameManager.arma_agarrada( weapon_name.capitalize() )
+	# GameManager.arma_agarrada( weapon_name.capitalize() )
 
 	# 3) Ocultar y desactivar el pickup
 	sprite.visible       = false

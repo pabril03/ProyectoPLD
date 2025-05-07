@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://sfr7dveka0ho"]
 
 [ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="1_51ai4"]
-[ext_resource type="Script" uid="uid://dqy1wh6hffjte" path="res://UI/menu.gd" id="1_i3a36"]
+[ext_resource type="Script" uid="uid://dqy1wh6hffjte" path="res://scripts/menu.gd" id="1_i3a36"]
 [ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="1_s3mox"]
 [ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="1_t6o4n"]
 [ext_resource type="Texture2D" uid="uid://b8hhv3ov8ott4" path="res://UI/PNG/pray&panic.png" id="2_38inf"]
