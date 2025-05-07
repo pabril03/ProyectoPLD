@@ -162,6 +162,7 @@ func resetearStats() -> void:
 	device_for_player = []
 	player_devices = {}
 	jugadores_vivos = 0
+	clases = [null,null,null,null]
 	
 func asignarClase(clase: String, player: int) -> void:
 	clases[player] = clase
