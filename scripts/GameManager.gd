@@ -67,7 +67,6 @@ func registrar_jugador(id_jugador: int) -> void:
 	print("Jugador %d registrado con dispositivo %s" % [id_jugador, str(player_devices[id_jugador])])
 
 	# El nuevo player coge una pistola
-	# arma_agarrada("Gun")
 
 	return jugadores.size()  # Devuelve un player_id único (1, 2, 3, ...)
 
@@ -131,20 +130,6 @@ func initialize_spawns(count):
 	spawn_states = []
 	for i in range(count):
 		spawn_states.append(0)  # Al inicio todos están libres
-
-#func arma_soltada(tipo_arma: String) -> void:
-	#if tipo_arma == "Shotgun":
-		#shotgun_count -= 1
-#
-	#elif tipo_arma == "Gun":
-		#pistol_count -= 1
-#
-#func arma_agarrada(tipo_arma: String) -> void:
-	#if tipo_arma == "Shotgun":
-		#shotgun_count += 1
-	#
-	#elif tipo_arma == "Gun":
-		#pistol_count += 1
 
 func _init_player_spawns() -> void:
 	var parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")

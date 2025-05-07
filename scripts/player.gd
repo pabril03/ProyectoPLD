@@ -130,7 +130,6 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
 				
 			GameManager.jugador_muerto()
-			# GameManager.arma_soltada( arma.tipo_arma )
 
 			# Mostramos los efectos de muerte
 			var death_FX = DeathAnimation.instantiate()
@@ -246,7 +245,6 @@ func cambiar_arma(nuevaArma: String):
 
 	if arma:
 		tipo_arma = arma.tipo_arma
-		# GameManager.arma_soltada( tipo_arma.capitalize() )
 		arma.queue_free() # Eliminamos el arma anterior
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
