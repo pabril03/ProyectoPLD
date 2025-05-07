@@ -31,7 +31,10 @@ func configurar_dispositivos() -> void:
 		player_devices.clear()
 
 	if soloplay:
-		device_for_player.append(joypads[0])
+		if joypads.size() == 0:
+			device_for_player.append(null)
+		else:
+			device_for_player.append(joypads[0])
 
 	else:
 		match joypads.size():
