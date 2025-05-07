@@ -50,6 +50,9 @@ func _ready():
 		"Sniper":
 			cambiar_arma("francotirador")
 			original_gun = "francotirador"
+		"Asalto":
+			cambiar_arma("shotgun")
+			original_gun = "shotgun"
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false

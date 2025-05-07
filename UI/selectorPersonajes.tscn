@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddylj2mvljleq"]
+[gd_scene load_steps=10 format=3 uid="uid://ddylj2mvljleq"]
 
 [ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
 [ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://scripts/selector_personajes.gd" id="1_fjnxs"]
 [ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://scripts/characterData.gd" id="2_i2etj"]
 [ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="3_uf3pn"]
 [ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_k6fdu"]
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="5_uf3pn"]
 
 [sub_resource type="Resource" id="Resource_dduyb"]
 script = ExtResource("2_i2etj")
@@ -18,6 +19,12 @@ key = "Sniper"
 img = ExtResource("4_k6fdu")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
+[sub_resource type="Resource" id="Resource_k6fdu"]
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -26,7 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fjnxs")
-personajesDisponibles = Array[ExtResource("2_i2etj")]([SubResource("Resource_dduyb"), SubResource("Resource_vxhlt")])
+personajesDisponibles = Array[ExtResource("2_i2etj")]([SubResource("Resource_dduyb"), SubResource("Resource_vxhlt"), SubResource("Resource_k6fdu")])
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
