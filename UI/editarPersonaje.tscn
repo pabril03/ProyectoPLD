@@ -17,59 +17,26 @@ key = "Sniper"
 img = ExtResource("4_kn8wn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Control" type="ColorRect"]
+offset_right = 203.0
+offset_bottom = 332.0
+color = Color(0.362829, 0.362829, 0.362829, 1)
 script = ExtResource("1_fufgq")
 Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_jtctd"), SubResource("Resource_s6umu")])
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.5
+offset_top = -148.0
+offset_right = 68.5
+offset_bottom = -117.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.384314, 0.384314, 0.384314, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(574, 320)
-texture = ExtResource("5_l3djq")
-
-[node name="before" type="Button" parent="."]
-layout_mode = 0
-offset_left = 484.0
-offset_top = 296.0
-offset_right = 502.0
-offset_bottom = 327.0
-text = "<"
-
-[node name="next" type="Button" parent="."]
-layout_mode = 0
-offset_left = 639.0
-offset_top = 296.0
-offset_right = 657.0
-offset_bottom = 327.0
-text = ">"
-
-[node name="select" type="Button" parent="."]
-layout_mode = 0
-offset_left = 538.0
-offset_top = 376.0
-offset_right = 607.0
-offset_bottom = 407.0
-text = "Aceptar"
-
-[node name="ColorRect2" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 507.0
-offset_top = 207.0
-offset_right = 642.0
-offset_bottom = 238.0
 color = Color(0.197937, 0.197937, 0.197937, 1)
 
 [node name="Label" type="Label" parent="ColorRect2"]
@@ -81,5 +48,34 @@ text = "Artillero"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(101, 170)
+texture = ExtResource("5_l3djq")
+
+[node name="before" type="Button" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 154.0
+offset_right = 25.0
+offset_bottom = 185.0
+text = "<"
+
+[node name="next" type="Button" parent="."]
+layout_mode = 0
+offset_left = 172.0
+offset_top = 155.0
+offset_right = 190.0
+offset_bottom = 186.0
+text = ">"
+
+[node name="select" type="Button" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 283.0
+offset_right = 139.0
+offset_bottom = 314.0
+text = "Aceptar"
+
 [connection signal="pressed" from="before" to="." method="_on_before_pressed"]
 [connection signal="pressed" from="next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="select" to="." method="_on_select_pressed"]

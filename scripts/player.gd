@@ -42,6 +42,12 @@ func _ready():
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 	
+	match GameManager.clases[player_id - 1]:
+		"Artillero":
+			cambiar_arma("gun")
+		"Sniper":
+			cambiar_arma("francotirador")
+	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
 	
@@ -222,7 +228,6 @@ func desactivar_escudo():
 func cambiar_arma(nuevaArma: String):
 	var path = "res://escenas/%s.tscn" % nuevaArma
 	var packed = load(path) as PackedScene # Cargamos la escena en tiempo de ejecución
-
 	if not packed:
 		push_error("No se puede cargar la escena: %s" % path)
 		return

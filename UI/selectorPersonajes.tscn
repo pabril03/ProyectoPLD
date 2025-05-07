@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddylj2mvljleq"]
+
+[ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
+[ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://UI/selector_personajes.gd" id="1_fjnxs"]
+[ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://UI/characterData.gd" id="2_i2etj"]
+[ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="3_uf3pn"]
+[ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_k6fdu"]
+
+[sub_resource type="Resource" id="Resource_dduyb"]
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_vxhlt"]
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fjnxs")
+personajesDisponibles = Array[ExtResource("2_i2etj")]([SubResource("Resource_dduyb"), SubResource("Resource_vxhlt")])
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.384314, 0.384314, 0.384314, 1)
+
+[node name="Empezar" type="Button" parent="."]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 532.0
+offset_right = 639.0
+offset_bottom = 591.0
+text = "Empezar"
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 89.0
+offset_right = 649.0
+offset_bottom = 122.0
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="Label" type="Label" parent="ColorRect2"]
+layout_mode = 0
+offset_right = 161.0
+offset_bottom = 33.0
+text = "Selecciona tu clase"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Personaje1" parent="." instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 0
+offset_left = 52.0
+offset_top = 173.0
+offset_right = 255.0
+offset_bottom = 505.0
+
+[node name="Personaje2" parent="." instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 0
+offset_left = 325.0
+offset_top = 173.0
+offset_right = 528.0
+offset_bottom = 505.0
+
+[node name="Personaje3" parent="." instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 0
+offset_left = 601.0
+offset_top = 174.0
+offset_right = 804.0
+offset_bottom = 506.0
+
+[node name="Personaje4" parent="." instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 0
+offset_left = 886.0
+offset_top = 174.0
+offset_right = 1089.0
+offset_bottom = 506.0
+
+[connection signal="pressed" from="Empezar" to="." method="_on_empezar_pressed"]

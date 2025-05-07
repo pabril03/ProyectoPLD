@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_n2wyw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
-radius = 7.07107
+radius = 13.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5vuvg"]
 animations = [{
@@ -72,6 +72,7 @@ colors = PackedColorArray(0, 0.361296, 0.129855, 1, 0.114389, 0.605875, 0.391132
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_priority = 2.0
 script = ExtResource("1_0s3u6")
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(1, -2)
@@ -80,6 +81,7 @@ shape = SubResource("CircleShape2D_qm0ti")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["player"]]
 texture_filter = 1
 position = Vector2(0, -4)
+scale = Vector2(1.3, 1.3)
 sprite_frames = SubResource("SpriteFrames_5vuvg")
 animation = &"run"
 frame_progress = 0.381751

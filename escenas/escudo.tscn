@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://xiw5bedht0x7" path="res://scripts/escudo.gd" id="1_uq7k6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n2wyw"]
-radius = 18.0
+radius = 18.4
 
 [node name="Escudo" type="Area2D"]
 collision_priority = 2.0
@@ -16,7 +16,7 @@ shape = SubResource("CircleShape2D_n2wyw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
-scale = Vector2(0.55, 0.509625)
+scale = Vector2(0.6, 0.556)
 texture = ExtResource("1_jm0py")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

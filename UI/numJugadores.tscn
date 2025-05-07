@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cx42uqs822i3i"]
 
-[ext_resource type="Script" uid="uid://bwjgka4y0mirb" path="res://scripts/selectorPersonajes.gd" id="1_55bae"]
+[ext_resource type="Script" uid="uid://bwjgka4y0mirb" path="res://scripts/numJugadores.gd" id="1_55bae"]
 [ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="2_jp6an"]
 [ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="3_n70lp"]
 [ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="4_uxjvj"]

@@ -381,7 +381,7 @@ func _build_viewport(size: Vector2 = screen_size) -> SubViewportContainer:
 	var camera := Camera2D.new()
 	
 	#AÑADIDO NUEVO POR PEDRO
-	camera.set_zoom(Vector2(2.0,2.0))
+	camera.set_zoom(Vector2(1.5,1.5))
 	# Add the camera to the viewport.
 	container.add_child(viewport)
 

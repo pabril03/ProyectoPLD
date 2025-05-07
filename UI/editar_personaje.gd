@@ -4,8 +4,12 @@ extends Control
 @onready var sprite = $Sprite2D
 @onready var label = $ColorRect2/Label
 var cont:int = 0
+var ID:int = 0
 
 func _ready() -> void:
+	#$next.pressed.connect(_on_next_pressed)
+	#$before.pressed.connect(_on_before_pressed)
+	#$select.pressed.connect(_on_select_pressed)
 	sprite.texture = Personajes[0].img
 	label.text = Personajes[0].key
 
@@ -32,4 +36,6 @@ func _on_next_pressed() -> void:
 
 
 func _on_select_pressed() -> void:
-	GameManager.asignarClase(label.text, 0)
+	GameManager.asignarClase(label.text, ID)
+	#print(ID, "tiene clase", label.text)
+	#get_tree().change_scene_to_file("res://escenas/main.tscn")

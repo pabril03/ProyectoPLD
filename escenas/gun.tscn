@@ -8,7 +8,7 @@ script = ExtResource("1_yemot")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 3)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_yemot")
 
 [node name="Marker2D" type="Marker2D" parent="."]
