@@ -1,14 +1,14 @@
 extends CharacterBody2D
 
-const DeathAnimation: PackedScene = preload("res://escenas/death_animation.tscn")
+const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
 
-@export var SPEED:float = 100.0
-var SPEED_DEFAULT = 100.0
+@export var SPEED:float = 120.0
+var SPEED_DEFAULT = 120.0
 var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
-var max_health = 20
-var health = 20
+var max_health = 15
+var health = 15
 var player_id: int
 var danio_default = 2
 
@@ -42,18 +42,10 @@ func _ready():
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
-	
-	match GameManager.clases[player_id - 1]:
-		"Artillero":
-			cambiar_arma("gun")
-			original_gun = "gun"
-		"Sniper":
-			cambiar_arma("francotirador")
-			original_gun = "francotirador"
-		"Asalto":
-			cambiar_arma("shotgun")
-			original_gun = "shotgun"
-	
+
+	cambiar_arma("sniper")
+	original_gun = "sniper"
+
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
 	
@@ -214,14 +206,14 @@ func activar_escudo():
 	escudo.monitoring = true
 	
 	# El escudo se activa un lapso de tiempo
-	await get_tree().create_timer(0.75).timeout
+	await get_tree().create_timer(0.5).timeout
 	desactivar_escudo()
 	
 	# Evitamos el spam incluyendo un timer
 	puede_activar_escudo = false
 	
 	# Esperamos 1.25s para recargar el escudo
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(1.25).timeout
 	puede_activar_escudo = true
 
 func desactivar_escudo():
@@ -231,7 +223,7 @@ func desactivar_escudo():
 	escudo.monitoring = false
 
 func cambiar_arma(nuevaArma: String):
-	var path = "res://escenas/%s.tscn" % nuevaArma
+	var path = "res://escenas/Armas/%s.tscn" % nuevaArma
 	var packed = load(path) as PackedScene # Cargamos la escena en tiempo de ejecución
 	if not packed:
 		push_error("No se puede cargar la escena: %s" % path)
@@ -249,6 +241,7 @@ func cambiar_arma(nuevaArma: String):
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
 	add_child(arma) # Agregamos el nuevo arma a la escena
+	arma.conectar()
 
 func aplicar_potenciador(tipo:String):
 	match tipo:

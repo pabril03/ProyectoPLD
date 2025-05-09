@@ -1,6 +1,6 @@
 extends Node2D
 
-const bala = preload("res://escenas/bala.tscn")
+const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 @export var DANIO = 2
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado

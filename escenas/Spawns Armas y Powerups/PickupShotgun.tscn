@@ -1,16 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://ci2va7t5skhnp"]
 
-[ext_resource type="Script" uid="uid://bnars4i1nmwf3" path="res://scripts/pickup_shotgun.gd" id="1_ff43n"]
-[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="2_ox36q"]
+[ext_resource type="Script" uid="uid://bnars4i1nmwf3" path="res://scripts/pickup_shotgun.gd" id="1_70gqm"]
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="2_rltpg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ronbi"]
 radius = 21.2132
 
 [node name="PickupShotgun" type="Node2D"]
-script = ExtResource("1_ff43n")
+script = ExtResource("1_70gqm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_ox36q")
+texture = ExtResource("2_rltpg")
 
 [node name="ItemRange" type="Area2D" parent="."]
 collision_layer = 2

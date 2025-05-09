@@ -1,17 +1,17 @@
 [gd_scene load_steps=19 format=3 uid="uid://bghg4cc4p4p7q"]
 
-[ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/player.gd" id="1_0s3u6"]
-[ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_gd0y7"]
-[ext_resource type="Texture2D" uid="uid://djcuuupgrvhvc" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f1.png" id="3_w7fad"]
-[ext_resource type="Texture2D" uid="uid://bl3wg16dgmwjy" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f2.png" id="4_n2wyw"]
-[ext_resource type="Texture2D" uid="uid://cftnvi56d4yfq" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f3.png" id="5_rbrud"]
-[ext_resource type="Texture2D" uid="uid://dba1urktcbw3v" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f0.png" id="6_8b7ct"]
-[ext_resource type="Texture2D" uid="uid://c1o56baymahcr" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f1.png" id="7_63xfq"]
-[ext_resource type="Texture2D" uid="uid://jxf46jnqkojx" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f2.png" id="8_3w4lm"]
-[ext_resource type="Texture2D" uid="uid://juh3ux2o2t1h" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f3.png" id="9_8mtn0"]
-[ext_resource type="PackedScene" uid="uid://pyqdanv2cm78" path="res://escenas/gun.tscn" id="10_t5tro"]
-[ext_resource type="PackedScene" uid="uid://dbklotbaagktf" path="res://escenas/escudo.tscn" id="11_w7fad"]
-[ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_n2wyw"]
+[ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/Clase artillero (player).gd" id="1_k2ov8"]
+[ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_3ikes"]
+[ext_resource type="Texture2D" uid="uid://djcuuupgrvhvc" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f1.png" id="3_3s22c"]
+[ext_resource type="Texture2D" uid="uid://bl3wg16dgmwjy" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f2.png" id="4_riq8v"]
+[ext_resource type="Texture2D" uid="uid://cftnvi56d4yfq" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f3.png" id="5_l7yje"]
+[ext_resource type="Texture2D" uid="uid://dba1urktcbw3v" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f0.png" id="6_1ifcr"]
+[ext_resource type="Texture2D" uid="uid://c1o56baymahcr" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f1.png" id="7_ghh1f"]
+[ext_resource type="Texture2D" uid="uid://jxf46jnqkojx" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f2.png" id="8_x60dj"]
+[ext_resource type="Texture2D" uid="uid://juh3ux2o2t1h" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_run_anim_f3.png" id="9_j32pw"]
+[ext_resource type="PackedScene" uid="uid://pyqdanv2cm78" path="res://escenas/Armas/gun.tscn" id="10_wdk6x"]
+[ext_resource type="PackedScene" uid="uid://dbklotbaagktf" path="res://escenas/Modelos base (mapas y player)/escudo.tscn" id="11_5ur3q"]
+[ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_ixor2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
 radius = 13.0
@@ -20,16 +20,16 @@ radius = 13.0
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_gd0y7")
+"texture": ExtResource("2_3ikes")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_w7fad")
+"texture": ExtResource("3_3s22c")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_n2wyw")
+"texture": ExtResource("4_riq8v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_rbrud")
+"texture": ExtResource("5_l7yje")
 }],
 "loop": true,
 "name": &"default",
@@ -37,16 +37,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 0.5,
-"texture": ExtResource("6_8b7ct")
+"texture": ExtResource("6_1ifcr")
 }, {
 "duration": 0.5,
-"texture": ExtResource("7_63xfq")
+"texture": ExtResource("7_ghh1f")
 }, {
 "duration": 0.5,
-"texture": ExtResource("8_3w4lm")
+"texture": ExtResource("8_x60dj")
 }, {
 "duration": 0.5,
-"texture": ExtResource("9_8mtn0")
+"texture": ExtResource("9_j32pw")
 }],
 "loop": true,
 "name": &"run",
@@ -71,7 +71,7 @@ colors = PackedColorArray(0, 0.361296, 0.129855, 1, 0.114389, 0.605875, 0.391132
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_priority = 2.0
-script = ExtResource("1_0s3u6")
+script = ExtResource("1_k2ov8")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
@@ -86,13 +86,13 @@ sprite_frames = SubResource("SpriteFrames_5vuvg")
 animation = &"run"
 frame_progress = 0.381751
 
-[node name="Gun" parent="." groups=["player"] instance=ExtResource("10_t5tro")]
+[node name="Gun" parent="." groups=["player"] instance=ExtResource("10_wdk6x")]
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["player"]]
 enabled = false
 zoom = Vector2(2, 2)
 
-[node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_w7fad")]
+[node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_5ur3q")]
 position = Vector2(1, -2)
 
 [node name="ProgressBar" type="ProgressBar" parent="." groups=["player"]]
@@ -102,7 +102,7 @@ offset_right = 13.0
 offset_bottom = -7.0
 scale = Vector2(1, 0.35)
 show_percentage = false
-script = ExtResource("12_n2wyw")
+script = ExtResource("12_ixor2")
 metadata/_edit_use_anchors_ = true
 
 [node name="AuraDamage" type="CPUParticles2D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ddylj2mvljleq"]
+[gd_scene load_steps=22 format=3 uid="uid://ddylj2mvljleq"]
 
 [ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
 [ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://scripts/selector_personajes.gd" id="1_fjnxs"]
@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
 [sub_resource type="Resource" id="Resource_vxhlt"]
 script = ExtResource("2_i2etj")
-key = "Sniper"
+key = "Francotirador"
 img = ExtResource("4_k6fdu")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
@@ -40,6 +40,69 @@ img = ExtResource("4_k6fdu")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
 [sub_resource type="Resource" id="Resource_w3ft1"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_8khsw"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_0oqqe"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_m8yo0"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_7khji"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_k7gms"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_vmqmp"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_puaky"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_ojipl"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_3bqco"]
 resource_local_to_scene = true
 script = ExtResource("2_i2etj")
 key = "Asalto"
@@ -112,17 +175,17 @@ Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubRe
 [node name="Personaje2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_8khsw"), SubResource("Resource_0oqqe"), SubResource("Resource_m8yo0")])
 
 [node name="Personaje3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_7khji"), SubResource("Resource_k7gms"), SubResource("Resource_vmqmp")])
 
 [node name="Personaje4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
-Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_uf3pn"), SubResource("Resource_6dy1r"), SubResource("Resource_w3ft1")])
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_puaky"), SubResource("Resource_ojipl"), SubResource("Resource_3bqco")])
 
 [node name="Empezar" type="Button" parent="VBoxContainer"]
 layout_mode = 2

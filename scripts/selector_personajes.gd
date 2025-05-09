@@ -22,4 +22,4 @@ func _ready() -> void:
 	play_btn.grab_focus()
 
 func _on_empezar_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenas/main.tscn")
+	get_tree().change_scene_to_file("res://escenas/Modelos base (mapas y player)/main.tscn")

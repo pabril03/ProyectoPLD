@@ -1,17 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://dltam0b87ybxb"]
 
-[ext_resource type="Script" uid="uid://4whkvwkuqoac" path="res://scripts/pickup_sniper.gd" id="1_p4wv2"]
-[ext_resource type="Texture2D" uid="uid://2ee7trbsmjva" path="res://sprites/sniper2.png" id="2_p4wv2"]
+[ext_resource type="Script" uid="uid://4whkvwkuqoac" path="res://scripts/pickup_sniper.gd" id="1_s5omo"]
+[ext_resource type="Texture2D" uid="uid://2ee7trbsmjva" path="res://sprites/sniper2.png" id="2_nycxv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p4wv2"]
 radius = 21.2132
 
 [node name="PickupSniper" type="Node2D"]
-script = ExtResource("1_p4wv2")
+script = ExtResource("1_s5omo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_p4wv2")
+texture = ExtResource("2_nycxv")
 
 [node name="ItemRange" type="Area2D" parent="."]
 collision_layer = 2

@@ -1,11 +1,11 @@
 extends StaticBody2D
 
-const DeathAnimation: PackedScene = preload("res://escenas/death_animation.tscn")
+const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
 
 signal health_changed(new_health)
 var max_health = 20
 var health = 20
-const bala = preload("res://escenas/bala.tscn")
+const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 var enemy_id: int
 var tipo_enemigo
 var damage_on_touch = 2

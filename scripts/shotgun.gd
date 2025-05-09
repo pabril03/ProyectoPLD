@@ -1,6 +1,6 @@
 extends Node2D
 
-const bala = preload("res://escenas/bala.tscn")
+const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 
 @onready var punta: Marker2D = $Marker2D
 @onready var sprite: Sprite2D = $Sprite2D
@@ -27,9 +27,7 @@ func _ready() -> void:
 	shoot_timer.wait_time = 1.5
 	alt_timer.wait_time = 2.25
 
-	# Conecta señales para reactivar el disparo cuando terminen
-	shoot_timer.timeout.connect(_on_timer_timeout)
-	alt_timer.timeout.connect(_on_alt_timer_timeout)
+	visibility_layer = get_parent().player_id + 1
 
 func _process(_delta: float) -> void:
 	
@@ -174,3 +172,8 @@ func desaparecer() -> void:
 
 func aparecer() -> void:
 	sprite.visible = true
+
+func conectar() -> void:
+# Conecta señales para reactivar el disparo cuando terminen
+	shoot_timer.timeout.connect(_on_timer_timeout)
+	alt_timer.timeout.connect(_on_alt_timer_timeout)

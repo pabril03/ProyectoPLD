@@ -158,3 +158,4 @@ func resetearStats() -> void:
 	
 func asignarClase(clase: String, player: int) -> void:
 	clases[player] = clase
+	print(clases)

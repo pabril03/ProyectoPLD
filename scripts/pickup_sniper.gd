@@ -1,7 +1,7 @@
 # pickup_arma.gd
 extends Node2D
 
-@export var weapon_name: String = "francotirador"    # "shotgun" o "pistol"
+@export var weapon_name: String = "sniper"    # "shotgun" o "pistol"
 @onready var ItemRange     = $ItemRange       # Área que detecta al jugador
 @onready var sprite        = $Sprite2D        # Sprite del pickup
 @onready var RespawnTimer  = $RespawnTimer    # Timer de 10s para respawn

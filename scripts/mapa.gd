@@ -1,12 +1,12 @@
 extends Node2D
 
-const EnemigoEscena = preload("res://escenas/enemigo.tscn")
-const SniperEscena = preload("res://escenas/sniper_class.tscn")
-var PickUpShotgun = preload("res://escenas/PickupShotgun.tscn")
-var PickUpPistol = preload("res://escenas/PickupPistol.tscn")
-var PickUpSniper = preload("res://escenas/PickupSniper.tscn")
-var Potenciador = preload("res://escenas/potenciador.tscn")
-const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
+const JugadorEscena = preload("res://escenas/Modelos base (mapas y player)/player.tscn")  # Ruta de la escena del jugador
+const EnemigoEscena = preload("res://escenas/Modelos base (mapas y player)/enemigo.tscn")
+var PickUpShotgun = preload("res://escenas/Spawns Armas y Powerups/PickupShotgun.tscn")
+var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.tscn")
+var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
+var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
+const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 
 @onready var split_screen: SplitScreen2D
 @onready var punto_respawn_enemigo = $PuntoRespawnEnemigo

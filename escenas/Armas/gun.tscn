@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://pyqdanv2cm78"]
 
-[ext_resource type="Script" uid="uid://dkop16ogm1qe1" path="res://scripts/gun.gd" id="1_yemot"]
-[ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="2_yemot"]
+[ext_resource type="Script" uid="uid://dkop16ogm1qe1" path="res://scripts/gun.gd" id="1_hekp7"]
+[ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="2_78iq0"]
 
 [node name="Gun" type="Node2D"]
-script = ExtResource("1_yemot")
+script = ExtResource("1_hekp7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 3)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_yemot")
+texture = ExtResource("2_78iq0")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(20, -2)

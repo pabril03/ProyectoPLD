@@ -30,4 +30,3 @@ func _on_next_pressed() -> void:
 
 func _on_select_pressed() -> void:
 	GameManager.asignarClase(Personajes[cont].key, ID)
-	#get_tree().change_scene_to_file("res://escenas/main.tscn")

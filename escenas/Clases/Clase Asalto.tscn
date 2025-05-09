@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://chx5kbqntwnip"]
+
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_bplib"]
+[ext_resource type="Script" uid="uid://438dluyne678" path="res://scripts/Clase asalto.gd" id="2_jrruh"]
+[ext_resource type="Script" uid="uid://bgrrtjysmjpry" path="res://scripts/shotgun.gd" id="3_khw2o"]
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="4_3rkfg"]
+
+[node name="Player" instance=ExtResource("1_bplib")]
+script = ExtResource("2_jrruh")
+SPEED = 75.0
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+frame_progress = 0.971455
+
+[node name="Gun" parent="." index="2"]
+position = Vector2(0, 2.5)
+script = ExtResource("3_khw2o")
+SPEED = 200
+BOUNCES = 1
+SPREAD_DEGREES = 45.0
+ALT_SPREAD_DEGREES = 22.5
+DANIO = 1.25
+PELLETS = 7
+
+[node name="Sprite2D" parent="Gun" index="0"]
+position = Vector2(8.5, -1.75)
+scale = Vector2(0.62, 0.483333)
+texture = ExtResource("4_3rkfg")
+
+[node name="Marker2D" parent="Gun" index="1"]
+position = Vector2(20, -3)
+
+[node name="AltTimer" type="Timer" parent="Gun" index="2"]
+wait_time = 2.25
+
+[node name="Timer" parent="Gun" index="3"]
+wait_time = 1.5
+
+[node name="ProgressBar" parent="." index="5"]
+offset_top = -17.0
+offset_bottom = -4.0
+
+[connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_alt_timer_timeout"]
+
+[editable path="Gun"]

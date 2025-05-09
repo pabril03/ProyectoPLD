@@ -1,13 +1,17 @@
 extends Node2D
 
-const JugadorEscena = preload("res://escenas/player.tscn")  # Ruta de la escena del jugador
-const EnemigoEscena = preload("res://escenas/enemigo.tscn")
-const SniperEscena = preload("res://escenas/sniper_class.tscn")
-var PickUpShotgun = preload("res://escenas/PickupShotgun.tscn")
-var PickUpPistol = preload("res://escenas/PickupPistol.tscn")
-var PickUpSniper = preload("res://escenas/PickupSniper.tscn")
-var Potenciador = preload("res://escenas/potenciador.tscn")
-const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
+const JugadorEscena = preload("res://escenas/Modelos base (mapas y player)/player.tscn")  # Ruta de la escena del jugador
+const EnemigoEscena = preload("res://escenas/Modelos base (mapas y player)/enemigo.tscn")
+var PickUpShotgun = preload("res://escenas/Spawns Armas y Powerups/PickupShotgun.tscn")
+var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.tscn")
+var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
+var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
+const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
+
+# Escenas de clases
+const AsaltoEscena = preload("res://escenas/Clases/Clase Asalto.tscn") 
+const ArtilleroEscena = preload("res://escenas/Clases/Clase Artillero.tscn") 
+const FrancotiradorEscena = preload("res://escenas/Clases/Clase Francotirador.tscn") 
 
 @onready var punto_respawn = $"SplitScreen2D/Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
 @onready var punto_respawn2 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn2"
@@ -50,13 +54,6 @@ func _ready():
 
 	for i in range(GameManager.num_jugadores):
 		spawnear_jugador()
-
-	#if devices.size() == 0:
-		#spawnear_jugador()
-#
-	#else:
-		#spawnear_jugador()
-		#spawnear_jugador()
 
 	GameManager.initialize_spawns(4)
 
@@ -138,24 +135,22 @@ func get_next_enemy_id() -> int:
 	next_enemy_id += 1
 	return id
 
-func spawnear_jugador(id_to_use: int = -1) -> void:
-	# Comprobar si hay un ID guardado
-	var id_a_usar = GameManager.obtener_id_jugador_eliminado()
-	if id_to_use != -1:
-		id_a_usar = id_to_use
+func spawnear_jugador() -> void:
+	var id_a_usar = get_next_player_id()
 
-	jugador = JugadorEscena.instantiate()
+	match GameManager.clases[id_a_usar-1]:
+			"Asalto":
+				jugador = AsaltoEscena.instantiate()
+			"Artillero":
+				jugador = ArtilleroEscena.instantiate()
+			"Francotirador":
+				jugador = FrancotiradorEscena.instantiate()
+			_:
+				jugador = ArtilleroEscena.instantiate()
+
+	jugador.player_id = id_a_usar
+	GameManager.registrar_jugador(jugador.player_id)
 	jugador.connect("died", Callable(self, "_on_jugador_died"))
-
-	if id_a_usar != -1:
-		# Si existe un ID guardado, lo usamos para el nuevo jugador
-		jugador.player_id = id_a_usar
-
-	else:
-		# Si no hay ID guardado, asignamos un nuevo ID
-		jugador.player_id = get_next_player_id()
-		GameManager.registrar_jugador(jugador.player_id)
-
 	jugador.collision_layer = 1 << jugador.player_id
 	jugador.collision_mask = 1
 	jugador.process_mode = Node.PROCESS_MODE_PAUSABLE
