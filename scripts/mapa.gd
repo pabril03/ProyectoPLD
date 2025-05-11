@@ -11,6 +11,14 @@ const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn
 @onready var split_screen: SplitScreen2D
 @onready var punto_respawn_enemigo = $PuntoRespawnEnemigo
 
+@onready var respawns_enemigos = [
+	$"PuntoRespawnEnemigo",
+	$"PuntoRespawnEnemigo2",
+	$"PuntoRespawnEnemigo3",
+	$"PuntoRespawnEnemigo4",
+	$"PuntoRespawnEnemigo5"
+]
+
 @onready var spawn_points = [
 	$"Spawns-PowerUp/Pot1",
 	$"Spawns-PowerUp/Pot2",
@@ -19,21 +27,31 @@ const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn
 ]
 
 @onready var spawn_pistol = [
-	$"Spawns-pistol/PistolRestock1"
+	$"Spawns-pistol/PistolRestock1",
+	$"Spawns-pistol/PistolRestock2"
 ]
 
 @onready var spawn_shotgun = [
-	$"Spawns-shotgun/ShotgunRestock1"
+	$"Spawns-shotgun/ShotgunRestock1",
+	$"Spawns-shotgun/ShotgunRestock2"
 ]
 
 @onready var spawn_sniper = [
-	$"Spawns-sniper/SniperRestock1"
+	$"Spawns-sniper/SniperRestock1",
+	$"Spawns-sniper/SniperRestock2"
 ]
 
 @onready var trap_points := [
 	$"Spawn-fire-traps/Firetrap1",
 	$"Spawn-fire-traps/Firetrap2",
-	$"Spawn-fire-traps/Firetrap3"
+	$"Spawn-fire-traps/Firetrap3",
+	$"Spawn-fire-traps/Firetrap4",
+	$"Spawn-fire-traps/Firetrap5",
+	$"Spawn-fire-traps/Firetrap6",
+	$"Spawn-fire-traps/Firetrap7",
+	$"Spawn-fire-traps/Firetrap8",
+	$"Spawn-fire-traps/Firetrap9",
+	$"Spawn-fire-traps/Firetrap10",
 ]
 
 var last_pauser_id = -1
@@ -81,12 +99,12 @@ func _on_Salir_pressed() -> void:
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
-
-	if not is_instance_valid(enemy) and not enemy_respawning:
-		enemy_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_dummy()
-		enemy_respawning = false
+	pass
+	#if not is_instance_valid(enemy) and not enemy_respawning:
+		#enemy_respawning = true
+		#await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
+		#spawnear_dummy()
+		#enemy_respawning = false
 
 func get_next_enemy_id() -> int:
 	var id = next_enemy_id
@@ -94,15 +112,14 @@ func get_next_enemy_id() -> int:
 	return id
 
 func spawnear_dummy():
-	enemy = EnemigoEscena.instantiate()
-	enemy.enemy_id = get_next_enemy_id()
-
-	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
-	enemy.global_position = punto_respawn_enemigo.global_position + Vector2(0, -10)
-	enemy.tipo_enemigo = "Dummy"
-	enemy.set_damage_on_touch(5)
-	enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
-	add_child(enemy)
+	for index in respawns_enemigos.size():
+		var enemigo = EnemigoEscena.instantiate()
+		enemigo.enemy_id = get_next_enemy_id()
+		enemigo.global_position = respawns_enemigos[index].global_position + Vector2(0, -10) 
+		enemigo.tipo_enemigo = "Dummy"
+		enemigo.set_damage_on_touch(5)
+		enemigo.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemigo)
 
 #Spawnear potenciadores en el spawn que haya hueco
 func spawnear_potenciador(index):
@@ -136,19 +153,22 @@ func liberar_spawn(index):
 	reponer_potenciador(index)
 
 func spawn_pistola():
-	var pistola = PickUpPistol.instantiate()
-	pistola.global_position = spawn_pistol[0].global_position
-	add_child(pistola)
+	for i in spawn_pistol.size():
+		var pistola = PickUpPistol.instantiate()
+		pistola.global_position = spawn_pistol[i].global_position
+		add_child(pistola)
 
 func spawn_escopeta():
-	var escopeta = PickUpShotgun.instantiate()
-	escopeta.global_position = spawn_shotgun[0].global_position
-	add_child(escopeta)
+	for i in spawn_shotgun.size():
+		var escopeta = PickUpShotgun.instantiate()
+		escopeta.global_position = spawn_shotgun[i].global_position
+		add_child(escopeta)
 
 func spawn_francotirador():
-	var francotirador = PickUpSniper.instantiate()
-	francotirador.global_position = spawn_sniper[0].global_position
-	add_child(francotirador)
+	for i in spawn_sniper.size():
+		var francotirador = PickUpSniper.instantiate()
+		francotirador.global_position = spawn_sniper[i].global_position
+		add_child(francotirador)
 
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():

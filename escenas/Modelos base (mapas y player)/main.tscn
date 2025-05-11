@@ -33,10 +33,10 @@ script = null
 [node name="Spawns-J-E" type="Node" parent="SplitScreen2D"]
 
 [node name="PuntoRespawn1" type="Marker2D" parent="SplitScreen2D/Spawns-J-E"]
-position = Vector2(201, 283)
+position = Vector2(390, 374)
 
 [node name="PuntoRespawn2" type="Marker2D" parent="SplitScreen2D/Spawns-J-E"]
-position = Vector2(522, 88)
+position = Vector2(824, 53)
 
 [node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-E"]
-position = Vector2(45, 117)
+position = Vector2(160, 56)

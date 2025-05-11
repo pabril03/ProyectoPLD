@@ -240,7 +240,6 @@ func cambiar_arma(nuevaArma: String):
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
 	add_child(arma) # Agregamos el nuevo arma a la escena
-	arma.conectar()
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
