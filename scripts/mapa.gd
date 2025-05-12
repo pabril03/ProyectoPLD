@@ -102,7 +102,7 @@ func spawnear_dummy():
 	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
 	enemy.global_position = punto_respawn_enemigo.global_position + Vector2(0, -10)
 	enemy.tipo_enemigo = "Dummy"
-	enemy.set_damage_on_touch(5)
+	enemy.set_damage_on_touch(3)
 	enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(enemy)
 
