@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://pjcj5yn2o5dv"]
+
+[ext_resource type="PackedScene" uid="uid://byjsyqi4d1xia" path="res://escenas/Modelos base (mapas y player)/mapa.tscn" id="1_3fjdr"]
+[ext_resource type="PackedScene" uid="uid://bd6qd3vvxalng" path="res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn" id="2_jyx1e"]
+[ext_resource type="PackedScene" uid="uid://48l6uqn41stq" path="res://escenas/PRUEBAS/personajePrueba.tscn" id="3_3fjdr"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Mapa" parent="." instance=ExtResource("1_3fjdr")]
+script = null
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_jyx1e")]
+position = Vector2(433, 197)
+
+[node name="Player1" parent="." instance=ExtResource("3_3fjdr")]
+position = Vector2(380, 232)
+
+[node name="Player2" parent="." instance=ExtResource("3_3fjdr")]
+visible = false
+position = Vector2(269, 71)

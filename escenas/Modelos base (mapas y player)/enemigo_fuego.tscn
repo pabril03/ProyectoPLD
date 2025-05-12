@@ -1,0 +1,104 @@
+[gd_scene load_steps=16 format=3 uid="uid://bd6qd3vvxalng"]
+
+[ext_resource type="Script" uid="uid://dbdr0kypiqb4y" path="res://scripts/IA/enemigo_fuego.gd" id="1_0fh2o"]
+[ext_resource type="Texture2D" uid="uid://dj4gulqpv11si" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f0.png" id="1_7ip33"]
+[ext_resource type="Texture2D" uid="uid://dnq505hhtmgvf" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f1.png" id="2_nxb7c"]
+[ext_resource type="Texture2D" uid="uid://sbwyp5lwb62t" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f2.png" id="3_0fh2o"]
+[ext_resource type="Texture2D" uid="uid://c0eml6eey1ptv" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f3.png" id="4_e7kkc"]
+[ext_resource type="Texture2D" uid="uid://d00mpi3ochuce" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f0.png" id="5_ya07s"]
+[ext_resource type="Texture2D" uid="uid://cel20mvwy8778" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f1.png" id="6_lmhje"]
+[ext_resource type="Texture2D" uid="uid://cd2fjikwjf7np" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f2.png" id="7_kwscy"]
+[ext_resource type="Texture2D" uid="uid://ckl5d2tj61f2p" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f3.png" id="8_0fopw"]
+[ext_resource type="Script" uid="uid://csji0ese7t130" path="res://scripts/IA/StateMachine.gd" id="10_e7kkc"]
+[ext_resource type="Script" uid="uid://bnj02hs5d50e" path="res://scripts/IA/enemyIdle.gd" id="11_e7kkc"]
+[ext_resource type="Script" uid="uid://d2dloh50f34bj" path="res://scripts/IA/enemyFollow.gd" id="12_ya07s"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_slki2"]
+radius = 16.0
+height = 56.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnc2o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7ip33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nxb7c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0fh2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_e7kkc")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ya07s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_lmhje")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_kwscy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0fopw")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7ip33"]
+radius = 81.0062
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_0fh2o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_slki2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_qnc2o")
+animation = &"idle"
+frame_progress = 0.53779
+
+[node name="Detector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("CircleShape2D_7ip33")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("10_e7kkc")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("11_e7kkc")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://bnj02hs5d50e"
+
+[node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("12_ya07s")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://d2dloh50f34bj"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -30.0
+offset_top = -36.0
+offset_right = 31.0
+offset_bottom = -27.0
+show_percentage = false
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 1.5
+
+[connection signal="body_entered" from="Detector" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Detector" to="." method="_on_area_2d_body_exited"]
