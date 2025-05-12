@@ -164,6 +164,7 @@ animations = [{
 size = Vector2(38.0313, 55.0781)
 
 [node name="FireTrap" type="Node2D"]
+z_index = -1
 texture_filter = 1
 script = ExtResource("1_evwl5")
 
