@@ -261,6 +261,13 @@ func aplicar_potenciador(tipo:String):
 			damageTimer.start(10.0)
 			arma.DANIO = danio_default
 
+#Funciones para cuando entramos en el area del enemigo de fuego
+func aplicar_quemadura() -> void:
+	auraDamage.emitting = true
+
+func quitar_quemadura() -> void:
+	auraDamage.emitting = false
+
 func _respawn_in_place() -> void:
 
 	await get_tree().create_timer(2.0).timeout

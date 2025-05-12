@@ -20,7 +20,7 @@ var player_game : CharacterBody2D
 @onready var damage_timer: Timer = $DamageTimer
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	
 	if velocity.length() > 0:

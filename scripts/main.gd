@@ -30,7 +30,6 @@ const FrancotiradorEscena = preload("res://escenas/Clases/Clase Francotirador.ts
 var respawn_queue: Array[int] = []
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
-#var sniper: CharacterBody2D
 var enemy: StaticBody2D # Referencia al dummy
 
 var player_respawning = false # Flag para evitar múltiples respawns
