@@ -7,6 +7,7 @@ var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.t
 var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
+const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn")
 
 @onready var split_screen: SplitScreen2D
 @onready var punto_respawn_enemigo = $PuntoRespawnEnemigo
@@ -38,8 +39,8 @@ const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn
 
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
-var enemy: StaticBody2D # Referencia al dummy
-
+#var enemy: StaticBody2D # Referencia al dummy
+var enemy: CharacterBody2D
 var player_respawning = false # Flag para evitar múltiples respawns
 var sniper_respawning = false
 var enemy_respawning = false
@@ -94,7 +95,8 @@ func get_next_enemy_id() -> int:
 	return id
 
 func spawnear_dummy():
-	enemy = EnemigoEscena.instantiate()
+	#enemy = EnemigoEscena.instantiate()
+	enemy = EnemigoFuego.instantiate()
 	enemy.enemy_id = get_next_enemy_id()
 
 	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
