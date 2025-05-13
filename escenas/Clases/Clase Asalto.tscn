@@ -1,16 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://chx5kbqntwnip"]
+[gd_scene load_steps=14 format=3 uid="uid://chx5kbqntwnip"]
 
 [ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_bplib"]
 [ext_resource type="Script" uid="uid://438dluyne678" path="res://scripts/Clase asalto.gd" id="2_jrruh"]
+[ext_resource type="Texture2D" uid="uid://8cuplb3q5nnh" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f0.png" id="3_ec1dd"]
 [ext_resource type="Script" uid="uid://bgrrtjysmjpry" path="res://scripts/shotgun.gd" id="3_khw2o"]
+[ext_resource type="Texture2D" uid="uid://ce8yyadbdgdnc" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f0.png" id="3_shdsd"]
 [ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="4_3rkfg"]
+[ext_resource type="Texture2D" uid="uid://dmtw16whxmsw4" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f1.png" id="4_he1so"]
+[ext_resource type="Texture2D" uid="uid://gx6n3hdaqcqb" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f1.png" id="4_hosi3"]
+[ext_resource type="Texture2D" uid="uid://bden5nxdeibgg" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f2.png" id="5_i2lay"]
+[ext_resource type="Texture2D" uid="uid://brvnwqdia0335" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f2.png" id="5_n7dsg"]
+[ext_resource type="Texture2D" uid="uid://p7yrxcjnfbe8" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f3.png" id="6_62qhv"]
+[ext_resource type="Texture2D" uid="uid://rslw8sqkjsdc" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f3.png" id="6_v36jn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_shdsd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_shdsd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_he1so")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_n7dsg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_v36jn")
+}],
+"loop": true,
+"name": &"asalto_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("3_ec1dd")
+}, {
+"duration": 0.5,
+"texture": ExtResource("4_hosi3")
+}, {
+"duration": 0.5,
+"texture": ExtResource("5_i2lay")
+}, {
+"duration": 0.5,
+"texture": ExtResource("6_62qhv")
+}],
+"loop": true,
+"name": &"asalto_run",
+"speed": 5.0
+}]
 
 [node name="Player" instance=ExtResource("1_bplib")]
 script = ExtResource("2_jrruh")
 SPEED = 75.0
 
 [node name="AnimatedSprite2D" parent="." index="1"]
-frame_progress = 0.971455
+sprite_frames = SubResource("SpriteFrames_shdsd")
+animation = &"asalto_idle"
 
 [node name="Gun" parent="." index="2"]
 position = Vector2(0, 2.5)

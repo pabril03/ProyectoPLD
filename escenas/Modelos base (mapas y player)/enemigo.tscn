@@ -33,7 +33,7 @@ func _on_entity_health_changed(new_health):
 		hide()   # Se oculta si la salud es completa
 "
 
-[node name="Enemigo" type="StaticBody2D" groups=["enemigo"]]
+[node name="Enemigo" type="StaticBody2D" groups=["enemy"]]
 script = ExtResource("1_ra38p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

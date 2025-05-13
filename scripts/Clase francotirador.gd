@@ -190,10 +190,10 @@ func _physics_process(_delta: float) -> void:
 
 	# Animaciones (opcional)
 	if velocity.length() > 0:
-		animaciones.play("run")
+		animaciones.play("francotirador_run")
 		animaciones.flip_h = velocity.x < 0
 	else:
-		animaciones.play("default")
+		animaciones.play("francotirador_idle")
 		
 
 func activar_escudo():

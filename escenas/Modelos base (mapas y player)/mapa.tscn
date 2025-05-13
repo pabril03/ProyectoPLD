@@ -517,17 +517,85 @@ position = Vector2(252, 304)
 [node name="Firetrap3" type="Marker2D" parent="Spawn-fire-traps"]
 position = Vector2(486, 581)
 
-[node name="PuntoRespawnEnemigo5" type="Marker2D" parent="."]
+[node name="Spawn-poison-traps" type="Node2D" parent="."]
+
+[node name="Poisontrap9" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(1005, 468)
+
+[node name="Poisontrap" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(1003, 553)
+
+[node name="Poisontrap2" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(919, 553)
+
+[node name="Poisontrap3" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(918, 468)
+
+[node name="Poisontrap4" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(562, 87)
+
+[node name="Poisontrap5" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(466, 83)
+
+[node name="Poisontrap6" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(539, 529)
+
+[node name="Poisontrap7" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(277, 240)
+
+[node name="Poisontrap8" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(69, 90)
+
+[node name="Poisontrap13" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(722, 249)
+
+[node name="Poisontrap17" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(805, 314)
+
+[node name="Poisontrap16" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(722, 311)
+
+[node name="Poisontrap15" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(800, 253)
+
+[node name="Poisontrap14" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(1086, 77)
+
+[node name="Poisontrap12" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(1014, 77)
+
+[node name="Poisontrap11" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(926, 75)
+
+[node name="Poisontrap10" type="Marker2D" parent="Spawn-poison-traps"]
+position = Vector2(611, 533)
+
+[node name="PuntoRespawnEnemigoFuego5" type="Marker2D" parent="."]
 position = Vector2(73, 54)
 
-[node name="PuntoRespawnEnemigo4" type="Marker2D" parent="."]
+[node name="PuntoRespawnEnemigoFuego4" type="Marker2D" parent="."]
 position = Vector2(824, 312)
 
-[node name="PuntoRespawnEnemigo3" type="Marker2D" parent="."]
+[node name="PuntoRespawnEnemigoFuego3" type="Marker2D" parent="."]
 position = Vector2(200, 348)
 
-[node name="PuntoRespawnEnemigo2" type="Marker2D" parent="."]
+[node name="PuntoRespawnEnemigoFuego2" type="Marker2D" parent="."]
 position = Vector2(605, 119)
 
-[node name="PuntoRespawnEnemigo" type="Marker2D" parent="."]
+[node name="PuntoRespawnEnemigoDagas5" type="Marker2D" parent="."]
+position = Vector2(999, 66)
+
+[node name="PuntoRespawnEnemigoDagas4" type="Marker2D" parent="."]
+position = Vector2(833, 529)
+
+[node name="PuntoRespawnEnemigoDagas3" type="Marker2D" parent="."]
+position = Vector2(891, 59)
+
+[node name="PuntoRespawnEnemigoDagas2" type="Marker2D" parent="."]
+position = Vector2(516, 500)
+
+[node name="PuntoRespawnEnemigoDagas" type="Marker2D" parent="."]
+position = Vector2(282, 494)
+
+[node name="PuntoRespawnEnemigoFuego" type="Marker2D" parent="."]
 position = Vector2(632, 584)

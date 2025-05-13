@@ -7,15 +7,25 @@ var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.t
 var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
+const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
 const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn")
+const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagas.tscn")
 
 @onready var split_screen: SplitScreen2D
-@onready var puntos_respawn_enemigo = [
-	$PuntoRespawnEnemigo,
-	$PuntoRespawnEnemigo2,
-	$PuntoRespawnEnemigo3,
-	$PuntoRespawnEnemigo4,
-	$PuntoRespawnEnemigo5
+@onready var puntos_respawn_enemigo_fuego = [
+	$PuntoRespawnEnemigoFuego,
+	$PuntoRespawnEnemigoFuego2,
+	$PuntoRespawnEnemigoFuego3,
+	$PuntoRespawnEnemigoFuego4,
+	$PuntoRespawnEnemigoFuego5
+]
+
+@onready var puntos_respawn_enemigo_dagas = [
+	$PuntoRespawnEnemigoDagas,
+	$PuntoRespawnEnemigoDagas2,
+	$PuntoRespawnEnemigoDagas3,
+	$PuntoRespawnEnemigoDagas4,
+	$PuntoRespawnEnemigoDagas5
 ]
 
 @onready var spawn_points = [
@@ -53,6 +63,26 @@ const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemig
 	$"Spawn-fire-traps/Firetrap10"
 ]
 
+@onready var gas_points := [
+	$"Spawn-poison-traps/Poisontrap",
+	$"Spawn-poison-traps/Poisontrap2",
+	$"Spawn-poison-traps/Poisontrap3",
+	$"Spawn-poison-traps/Poisontrap4",
+	$"Spawn-poison-traps/Poisontrap5",
+	$"Spawn-poison-traps/Poisontrap6",
+	$"Spawn-poison-traps/Poisontrap7",
+	$"Spawn-poison-traps/Poisontrap8",
+	$"Spawn-poison-traps/Poisontrap9",
+	$"Spawn-poison-traps/Poisontrap10",
+	$"Spawn-poison-traps/Poisontrap11",
+	$"Spawn-poison-traps/Poisontrap12",
+	$"Spawn-poison-traps/Poisontrap13",
+	$"Spawn-poison-traps/Poisontrap14",
+	$"Spawn-poison-traps/Poisontrap15",
+	$"Spawn-poison-traps/Poisontrap16",
+	$"Spawn-poison-traps/Poisontrap17"
+]
+
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
 var player_respawning = false # Flag para evitar múltiples respawns
@@ -81,6 +111,7 @@ func _ready():
 	spawn_escopeta()
 	spawn_francotirador()
 	spawn_fire_traps()
+	spawn_gas_traps()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -105,11 +136,21 @@ func get_next_enemy_id() -> int:
 
 func spawnear_dummy():
 	
-	for index in puntos_respawn_enemigo.size():
+	for index in puntos_respawn_enemigo_fuego.size():
 		var enemy = EnemigoFuego.instantiate()   
-		enemy.global_position = puntos_respawn_enemigo[index].global_position + Vector2(0, -10)
+		enemy.global_position = puntos_respawn_enemigo_fuego[index].global_position + Vector2(0, -10)
 		enemy.tipo_enemigo = "Fueboca"
 		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
+
+	for index in puntos_respawn_enemigo_dagas.size():
+		var enemy = EnemigoFuego.instantiate()   
+		enemy.global_position = puntos_respawn_enemigo_dagas[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "FuebocaPacifico"
+		enemy.set_damage_on_touch(0)
+		enemy.add_to_group("enemy")
 		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
 		add_child(enemy)
 
@@ -166,4 +207,10 @@ func spawn_fire_traps() -> void:
 	for index in trap_points.size():
 		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
 		trap.global_position = trap_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+func spawn_gas_traps() -> void:
+	for index in gas_points.size():
+		var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

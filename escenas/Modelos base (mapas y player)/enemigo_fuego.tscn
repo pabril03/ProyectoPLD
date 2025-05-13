@@ -1,10 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://bd6qd3vvxalng"]
+[gd_scene load_steps=17 format=3 uid="uid://bd6qd3vvxalng"]
 
 [ext_resource type="Script" uid="uid://dbdr0kypiqb4y" path="res://scripts/IA/enemigo_fuego.gd" id="1_0fh2o"]
-[ext_resource type="Texture2D" uid="uid://dhuy6qn44lwl7" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f0.png" id="2_7ip33"]
-[ext_resource type="Texture2D" uid="uid://qi2utu7q43oe" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f1.png" id="3_nxb7c"]
-[ext_resource type="Texture2D" uid="uid://bcmwcv8in1326" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f2.png" id="4_0fh2o"]
-[ext_resource type="Texture2D" uid="uid://cu4y4wnl15k3p" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f3.png" id="5_e7kkc"]
+[ext_resource type="Texture2D" uid="uid://iydw7wbgug4p" path="res://sprites/big_demon_idle_anim_f0.png" id="2_ya07s"]
+[ext_resource type="Texture2D" uid="uid://dd3bxda7nwogr" path="res://sprites/big_demon_idle_anim_f1.png" id="3_lmhje"]
+[ext_resource type="Texture2D" uid="uid://cqhxdhfjk6f8w" path="res://sprites/big_demon_idle_anim_f2.png" id="4_kwscy"]
+[ext_resource type="Texture2D" uid="uid://bthrtpp5lagt7" path="res://sprites/big_demon_idle_anim_f3.png" id="5_0fopw"]
+[ext_resource type="Texture2D" uid="uid://mp5q5oouqf1f" path="res://sprites/big_demon_run_anim_f0.png" id="6_slki2"]
+[ext_resource type="Texture2D" uid="uid://bgebv04n471r1" path="res://sprites/big_demon_run_anim_f1.png" id="7_qnc2o"]
+[ext_resource type="Texture2D" uid="uid://cpfd1if5lr12h" path="res://sprites/big_demon_run_anim_f2.png" id="8_chge0"]
+[ext_resource type="Texture2D" uid="uid://bnflmj4yk8qxo" path="res://sprites/big_demon_run_anim_f3.png" id="9_jhkbs"]
 [ext_resource type="Script" uid="uid://csji0ese7t130" path="res://scripts/IA/StateMachine.gd" id="10_e7kkc"]
 [ext_resource type="Script" uid="uid://bnj02hs5d50e" path="res://scripts/IA/enemyIdle.gd" id="11_e7kkc"]
 [ext_resource type="Script" uid="uid://d2dloh50f34bj" path="res://scripts/IA/enemyFollow.gd" id="12_ya07s"]
@@ -13,28 +17,49 @@
 radius = 16.0
 height = 34.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qnc2o"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7cmm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_7ip33")
+"texture": ExtResource("2_ya07s")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_nxb7c")
+"texture": ExtResource("3_lmhje")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_0fh2o")
+"texture": ExtResource("4_kwscy")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_e7kkc")
+"texture": ExtResource("5_0fopw")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"fire_demon_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_slki2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qnc2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_chge0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jhkbs")
+}],
+"loop": true,
+"name": &"fire_demon_run",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ip33"]
 radius = 81.0062
+
+[sub_resource type="Gradient" id="Gradient_ya07s"]
+offsets = PackedFloat32Array(0, 0.14, 0.266667, 0.44, 0.64, 0.72, 1)
+colors = PackedColorArray(0.780694, 1.9493e-06, 3.85046e-07, 1, 1, 0.399287, 0.157003, 1, 0.948786, 0.530265, 0.311415, 1, 0.972899, 0.690883, 0.574001, 1, 0.983978, 0.71014, 0.328002, 1, 1, 0.84277, 0.205724, 1, 1, 1, 1, 0.552941)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_0fh2o")
@@ -45,9 +70,8 @@ shape = SubResource("CapsuleShape2D_slki2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(1.25, 1.25)
-sprite_frames = SubResource("SpriteFrames_qnc2o")
-animation = &"idle"
-frame_progress = 0.53779
+sprite_frames = SubResource("SpriteFrames_j7cmm")
+animation = &"fire_demon_run"
 
 [node name="Detector" type="Area2D" parent="."]
 
@@ -78,6 +102,21 @@ show_percentage = false
 
 [node name="DamageTimer" type="Timer" parent="."]
 wait_time = 1.5
+
+[node name="BurnParticles" type="CPUParticles2D" parent="." groups=["enemy"]]
+emitting = false
+amount = 24
+lifetime = 0.5
+direction = Vector2(-1, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+radial_accel_min = 150.0
+radial_accel_max = 150.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_ya07s")
 
 [connection signal="body_entered" from="Detector" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Detector" to="." method="_on_area_2d_body_exited"]
