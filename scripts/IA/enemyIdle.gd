@@ -28,6 +28,7 @@ func Update(delta: float):
 
 # Es como el physics process normal, pero para maquinas finitas
 #Lo que hace esto es simplemente seguir al jugador si hay un body en el area2D del enemigo
+# Esta puesto para que si el enemigo esta cerca del jugador, se quede en modo idle
 func Physics_Update(_delta: float):
 	player = padre.player_game
 	
@@ -35,5 +36,9 @@ func Physics_Update(_delta: float):
 		enemy.velocity = move_direction * move_speed
 		
 	if padre.cuerpo_dentro and player:
+		var direction = player.global_position - enemy.global_position
+		if direction.length() > 50:
 		# var direction = player.global_position - enemy.global_position
-		Transitioned.emit(self, "Follow")
+			Transitioned.emit(self, "Follow")
+		else:
+			return

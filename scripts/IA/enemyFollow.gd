@@ -13,6 +13,7 @@ func Enter():
 # Es como el physics process normal, pero para maquinas finitas
 #Lo que hace esto es simplemente seguir al jugador si hay un body en el area2D del enemigo
 # hasta que sale del area2D y pasa a modo idle
+# Esta puesto para que si el enemigo esta cerca del jugador, se quede en modo idle
 func Physics_Update(_delta: float):
 	player = padre.player_game
 	
@@ -25,3 +26,7 @@ func Physics_Update(_delta: float):
 		
 	if !padre.cuerpo_dentro:
 		Transitioned.emit(self, "idle")
+	if player:
+		var direction = player.global_position - enemy.global_position
+		if direction.length() < 50:
+			Transitioned.emit(self,"idle")

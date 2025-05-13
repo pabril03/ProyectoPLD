@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bttrry3x2p1q4"]
+
+[ext_resource type="Texture2D" uid="uid://cie4rig1wwhjn" path="res://sprites/icon.svg" id="1_u7b1x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8spsc"]
+radius = 5.09902
+
+[node name="Daga" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_u7b1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8spsc")
