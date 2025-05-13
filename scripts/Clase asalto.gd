@@ -19,6 +19,8 @@ var muriendo = false
 var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
+var afecta_daga := true
+
 signal health_changed(new_health)
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D

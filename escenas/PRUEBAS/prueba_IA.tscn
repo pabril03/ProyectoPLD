@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://pjcj5yn2o5dv"]
 
 [ext_resource type="PackedScene" uid="uid://byjsyqi4d1xia" path="res://escenas/Modelos base (mapas y player)/mapa.tscn" id="1_3fjdr"]
-[ext_resource type="PackedScene" uid="uid://bd6qd3vvxalng" path="res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn" id="2_jyx1e"]
+[ext_resource type="PackedScene" uid="uid://bqyc08ycvscj7" path="res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn" id="2_jyx1e"]
 [ext_resource type="PackedScene" uid="uid://48l6uqn41stq" path="res://escenas/PRUEBAS/personajePrueba.tscn" id="3_3fjdr"]
 
 [node name="Node2D" type="Node2D"]

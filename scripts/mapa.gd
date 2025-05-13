@@ -7,7 +7,8 @@ var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.t
 var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
-const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn")
+const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuegoV2.tscn")
+const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagasV2.tscn")
 
 @onready var split_screen: SplitScreen2D
 @onready var puntos_respawn_enemigo = [
@@ -106,7 +107,9 @@ func get_next_enemy_id() -> int:
 func spawnear_dummy():
 	
 	for index in puntos_respawn_enemigo.size():
-		var enemy = EnemigoFuego.instantiate()   
+		#var enemy = EnemigoFuego.instantiate()
+		var enemy = EnemigoDagas.instantiate()   
+		
 		enemy.global_position = puntos_respawn_enemigo[index].global_position + Vector2(0, -10)
 		enemy.tipo_enemigo = "Fueboca"
 		enemy.set_damage_on_touch(3)

@@ -12,6 +12,8 @@ var health = 15
 var player_id: int
 var danio_default = 2
 
+var afecta_daga := true
+
 var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
 var death_sentences_executions: Array = [""]

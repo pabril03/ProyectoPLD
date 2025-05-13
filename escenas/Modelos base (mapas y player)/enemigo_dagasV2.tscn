@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7ht1khy13ckl"]
+
+[ext_resource type="PackedScene" uid="uid://boyr0j5gyfm8j" path="res://escenas/Modelos base (mapas y player)/enemigo_generico.tscn" id="1_qsrv6"]
+[ext_resource type="Script" uid="uid://bhxj0hpprium5" path="res://scripts/IA/enemigo_dagas.gd" id="2_bvf3t"]
+
+[node name="EnemigoDagas" instance=ExtResource("1_qsrv6")]
+script = ExtResource("2_bvf3t")
+
+[node name="DamageTimer" type="Timer" parent="." index="4"]
+wait_time = 2.0
+
+[node name="Proyectiles" type="Node2D" parent="." index="5"]
+
+[node name="Daga1" type="Marker2D" parent="Proyectiles" index="0"]
+position = Vector2(-25, -23)
+
+[node name="Daga2" type="Marker2D" parent="Proyectiles" index="1"]
+position = Vector2(-13, -28)
+
+[node name="Daga3" type="Marker2D" parent="Proyectiles" index="2"]
+position = Vector2(0, -31)
+
+[node name="Daga4" type="Marker2D" parent="Proyectiles" index="3"]
+position = Vector2(13, -28)
+
+[node name="Daga5" type="Marker2D" parent="Proyectiles" index="4"]
+position = Vector2(25, -23)

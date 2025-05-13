@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bttrry3x2p1q4"]
+[gd_scene load_steps=4 format=3 uid="uid://bttrry3x2p1q4"]
 
+[ext_resource type="Script" uid="uid://bb1suc61v4861" path="res://escenas/Armas/daga.gd" id="1_8spsc"]
 [ext_resource type="Texture2D" uid="uid://cie4rig1wwhjn" path="res://sprites/icon.svg" id="1_u7b1x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8spsc"]
-radius = 5.09902
+radius = 5.0
 
 [node name="Daga" type="Area2D"]
+script = ExtResource("1_8spsc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.05, 0.05)
@@ -13,3 +15,6 @@ texture = ExtResource("1_u7b1x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8spsc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
