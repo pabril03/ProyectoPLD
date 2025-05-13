@@ -1,7 +1,56 @@
-[gd_scene load_steps=2 format=3 uid="uid://dru65xtsab1g1"]
+[gd_scene load_steps=11 format=3 uid="uid://dru65xtsab1g1"]
 
 [ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_bgcoj"]
+[ext_resource type="Texture2D" uid="uid://c16y7rgjw4rau" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f0.png" id="2_iyj17"]
+[ext_resource type="Texture2D" uid="uid://pa5c4mg2vf7n" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f0.png" id="2_qagxd"]
+[ext_resource type="Texture2D" uid="uid://cs6xyxuxt5mxq" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f1.png" id="3_6se2l"]
+[ext_resource type="Texture2D" uid="uid://r140ndon7k8g" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f1.png" id="3_mjomh"]
+[ext_resource type="Texture2D" uid="uid://d36ifa4pjcyie" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f2.png" id="4_mkof5"]
+[ext_resource type="Texture2D" uid="uid://obsgoi4j0j74" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f2.png" id="4_xh3vo"]
+[ext_resource type="Texture2D" uid="uid://dckgn1vsm5swx" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f3.png" id="5_d2wbp"]
+[ext_resource type="Texture2D" uid="uid://cbpw5wutrbygr" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f3.png" id="5_jxhpg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qagxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qagxd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mjomh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xh3vo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_d2wbp")
+}],
+"loop": true,
+"name": &"artillero_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("2_iyj17")
+}, {
+"duration": 0.5,
+"texture": ExtResource("3_6se2l")
+}, {
+"duration": 0.5,
+"texture": ExtResource("4_mkof5")
+}, {
+"duration": 0.5,
+"texture": ExtResource("5_jxhpg")
+}],
+"loop": true,
+"name": &"artillero_run",
+"speed": 5.0
+}]
 
 [node name="Player" instance=ExtResource("1_bgcoj")]
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_qagxd")
+animation = &"artillero_run"
 
 [editable path="Gun"]

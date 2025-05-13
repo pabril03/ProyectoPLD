@@ -32,7 +32,7 @@ animations = [{
 "texture": ExtResource("5_l7yje")
 }],
 "loop": true,
-"name": &"default",
+"name": &"francotirador_idle",
 "speed": 5.0
 }, {
 "frames": [{
@@ -49,7 +49,7 @@ animations = [{
 "texture": ExtResource("9_j32pw")
 }],
 "loop": true,
-"name": &"run",
+"name": &"francotirador_run",
 "speed": 8.0
 }]
 

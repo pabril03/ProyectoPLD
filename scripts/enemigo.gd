@@ -27,6 +27,7 @@ func _ready() -> void:
 	connect("health_changed", Callable(self, "_on_health_changed"))
 	# Inicializar la barra de vida con el valor máximo de salud
 	emit_signal("health_changed", health)
+	add_to_group("enemy")
 	
 	# Hacemos que el detector solo "vea" jugadores
 	detector.collision_layer = 1 << 7
@@ -76,6 +77,7 @@ func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: Str
 		
 		if health <= 0:
 			muriendo = true
+			emit_signal("died")
 			var msj = generar_frase(autor, String(tipo_enemigo))
 			print(msj)
 
@@ -182,3 +184,5 @@ func _on_damage_timer_timeout() -> void:
 			if body.is_in_group("player") and body.has_method("take_damage"):
 				if not body.get_escudo_activo():
 					body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "mordisco")
+
+signal died()

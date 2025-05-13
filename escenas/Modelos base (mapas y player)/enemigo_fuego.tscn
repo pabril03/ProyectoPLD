@@ -172,7 +172,7 @@ func _on_damage_timer_timeout() -> void:
 radius = 16.0
 height = 34.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qnc2o"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7cmm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -188,7 +188,24 @@ animations = [{
 "texture": ExtResource("5_0fopw")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"fire_demon_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_slki2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qnc2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_chge0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_jhkbs")
+}],
+"loop": true,
+"name": &"fire_demon_run",
 "speed": 5.0
 }, {
 "frames": [{
@@ -211,6 +228,10 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7ip33"]
 radius = 81.0062
+
+[sub_resource type="Gradient" id="Gradient_ya07s"]
+offsets = PackedFloat32Array(0, 0.14, 0.266667, 0.44, 0.64, 0.72, 1)
+colors = PackedColorArray(0.780694, 1.9493e-06, 3.85046e-07, 1, 1, 0.399287, 0.157003, 1, 0.948786, 0.530265, 0.311415, 1, 0.972899, 0.690883, 0.574001, 1, 0.983978, 0.71014, 0.328002, 1, 1, 0.84277, 0.205724, 1, 1, 1, 1, 0.552941)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = SubResource("GDScript_e7kkc")
@@ -253,6 +274,21 @@ show_percentage = false
 
 [node name="DamageTimer" type="Timer" parent="."]
 wait_time = 1.5
+
+[node name="BurnParticles" type="CPUParticles2D" parent="." groups=["enemy"]]
+emitting = false
+amount = 24
+lifetime = 0.5
+direction = Vector2(-1, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+radial_accel_min = 150.0
+radial_accel_max = 150.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_ya07s")
 
 [connection signal="body_entered" from="Detector" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Detector" to="." method="_on_area_2d_body_exited"]
