@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://pooqv0nlcs6n"]
+
+[ext_resource type="Script" uid="uid://bhxj0hpprium5" path="res://scripts/IA/enemigo_dagas.gd" id="1_ad7mh"]
+[ext_resource type="Texture2D" uid="uid://dhuy6qn44lwl7" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f0.png" id="2_wraa4"]
+[ext_resource type="Texture2D" uid="uid://qi2utu7q43oe" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f1.png" id="3_waegs"]
+[ext_resource type="Texture2D" uid="uid://bcmwcv8in1326" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f2.png" id="4_su0lq"]
+[ext_resource type="Texture2D" uid="uid://cu4y4wnl15k3p" path="res://0x72_DungeonTilesetII_v1.7/frames/necromancer_anim_f3.png" id="5_3twn1"]
+[ext_resource type="PackedScene" uid="uid://bttrry3x2p1q4" path="res://escenas/Armas/daga.tscn" id="7_5lk3e"]
+[ext_resource type="Script" uid="uid://csji0ese7t130" path="res://scripts/IA/StateMachine.gd" id="10_3c5k6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_slki2"]
+radius = 16.0
+height = 34.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnc2o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wraa4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_waegs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_su0lq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3twn1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="EnemigoDagas" type="CharacterBody2D"]
+script = ExtResource("1_ad7mh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_slki2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["enemy"]]
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_qnc2o")
+animation = &"idle"
+frame_progress = 0.984995
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -30.0
+offset_top = -36.0
+offset_right = 31.0
+offset_bottom = -27.0
+show_percentage = false
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("10_3c5k6")
+
+[node name="Proyectiles" type="Node" parent="."]
+
+[node name="Daga" parent="Proyectiles" instance=ExtResource("7_5lk3e")]
+position = Vector2(-25, -23)
+
+[node name="Daga2" parent="Proyectiles" instance=ExtResource("7_5lk3e")]
+position = Vector2(-13, -28)
+
+[node name="Daga3" parent="Proyectiles" instance=ExtResource("7_5lk3e")]
+position = Vector2(0, -31)
+
+[node name="Daga4" parent="Proyectiles" instance=ExtResource("7_5lk3e")]
+position = Vector2(13, -28)
+
+[node name="Daga5" parent="Proyectiles" instance=ExtResource("7_5lk3e")]
+position = Vector2(25, -23)

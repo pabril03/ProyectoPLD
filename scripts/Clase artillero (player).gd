@@ -94,7 +94,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 	if is_invulnerable:
 		return
-
+	#print(amount)
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
 		emit_signal("health_changed", health)

@@ -151,7 +151,7 @@ func spawnear_dummy():
 		var enemy = EnemigoDagas.instantiate()   
 		enemy.global_position = puntos_respawn_enemigo_dagas[index].global_position + Vector2(0, -10)
 		enemy.tipo_enemigo = "FuebocaPacifico"
-		enemy.set_damage_on_touch(0)
+		enemy.set_damage_on_touch(3)
 		enemy.add_to_group("enemy")
 		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
 		add_child(enemy)
