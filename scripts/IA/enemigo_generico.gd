@@ -16,7 +16,7 @@ var cuerpos_en_contacto: Array = []
 
 var player_game : CharacterBody2D
 
-@onready var detector: Area2D = $Detector
+@onready var detector: Area2D = $Area2D
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
@@ -113,13 +113,6 @@ func heal(amount: float) -> void:
 	emit_signal("health_changed", health)
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	pass
-
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	pass
-
 func _on_entity_health_changed(new_health):
 	barra_vida.value = new_health
 	
@@ -127,3 +120,11 @@ func _on_entity_health_changed(new_health):
 		barra_vida.show()   # Se muestra si se ha perdido salud
 	else:
 		barra_vida.hide()   # Se oculta si la salud es completa
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.

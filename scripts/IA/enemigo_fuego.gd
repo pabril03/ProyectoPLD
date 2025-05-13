@@ -5,7 +5,7 @@ var burn_delay_on: float = 1.0
 var burn_delay_off: float = 1.0
 
 @onready var damage_timer: Timer = $DamageTimer
-@onready var burn_particles:    CPUParticles2D = $BurnParticles
+@onready var burn_particles: CPUParticles2D = $BurnParticles
 
 func _ready() -> void:
 	super._ready()

@@ -8,8 +8,8 @@ var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.t
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
-const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuego.tscn")
-const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagas.tscn")
+const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuegoV2.tscn")
+const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagasV2.tscn")
 
 @onready var split_screen: SplitScreen2D
 @onready var puntos_respawn_enemigo_fuego = [
@@ -136,19 +136,19 @@ func get_next_enemy_id() -> int:
 
 func spawnear_dummy():
 	
-	for index in puntos_respawn_enemigo.size():
+	#for index in puntos_respawn_enemigo_fuego.size():
 		#var enemy = EnemigoFuego.instantiate()
-		var enemy = EnemigoDagas.instantiate()   
-		
-		enemy.global_position = puntos_respawn_enemigo[index].global_position + Vector2(0, -10)
-		enemy.tipo_enemigo = "Fueboca"
-		enemy.set_damage_on_touch(3)
-		enemy.add_to_group("enemy")
-		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
-		add_child(enemy)
+		##var enemy = EnemigoDagas.instantiate()   
+		#
+		#enemy.global_position = puntos_respawn_enemigo_fuego[index].global_position + Vector2(0, -10)
+		#enemy.tipo_enemigo = "Fueboca"
+		#enemy.set_damage_on_touch(3)
+		#enemy.add_to_group("enemy")
+		#enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		#add_child(enemy)
 
 	for index in puntos_respawn_enemigo_dagas.size():
-		var enemy = EnemigoFuego.instantiate()   
+		var enemy = EnemigoDagas.instantiate()   
 		enemy.global_position = puntos_respawn_enemigo_dagas[index].global_position + Vector2(0, -10)
 		enemy.tipo_enemigo = "FuebocaPacifico"
 		enemy.set_damage_on_touch(0)

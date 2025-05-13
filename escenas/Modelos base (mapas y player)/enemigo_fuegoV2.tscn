@@ -51,7 +51,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="EnemigoFuegoV2" instance=ExtResource("1_arwif")]
+[node name="EnemigoFuegoV2" groups=["enemy"] instance=ExtResource("1_arwif")]
 script = ExtResource("2_i5cqi")
 
 [node name="AnimatedSprite2D" parent="." index="1"]
