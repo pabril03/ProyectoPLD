@@ -41,3 +41,17 @@ func _on_anim_finished() -> void:
 func _exit_tree():
 	if chosen_sprite:
 		chosen_sprite.animation_finished.disconnect(_on_anim_finished)
+
+func _play_vfx(index: int) -> void:
+	# Oculta todas primero
+	for s in death_sprites:
+		s.visible = false
+		s.stop()
+
+	# Si el índice es válido, selecciona y reproduce
+	if index >= 0 and index < death_sprites.size():
+		chosen_sprite = death_sprites[index]
+		chosen_sprite.visible = true
+		chosen_sprite.sprite_frames.set_animation_loop(chosen_sprite.animation, false)
+		chosen_sprite.animation_finished.connect(_on_anim_finished)
+		chosen_sprite.play(chosen_sprite.animation)

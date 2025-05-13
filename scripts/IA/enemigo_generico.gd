@@ -49,8 +49,8 @@ func _ready() -> void:
 		detector.collision_mask |= 1 << layer
 	
 	# Conectamos el detector de colisiones
-	detector.connect("body_entered", Callable(self, "_on_body_entered"))
-	detector.connect("body_exited", Callable(self, "_on_body_exited"))
+	detector.connect("body_entered", Callable(self, "_on_area2d_body_entered"))
+	detector.connect("body_exited", Callable(self, "_on_area2d_body_entered"))
 	
 	#Barra de vida
 	
@@ -60,7 +60,6 @@ func _ready() -> void:
 	barra_vida.value = health
 	
 	connect("health_changed", Callable(self, "_on_entity_health_changed"))
-	
 
 func get_shooter_id() -> int:
 	return enemy_id
@@ -122,9 +121,9 @@ func _on_entity_health_changed(new_health):
 		barra_vida.hide()   # Se oculta si la salud es completa
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_area_2d_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.
 
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_area_2d_body_exited(_body: Node2D) -> void:
 	pass # Replace with function body.

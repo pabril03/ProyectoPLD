@@ -52,11 +52,11 @@ func lanzar_dagas_a(body: Node2D) -> void:
 	if not is_instance_valid(body):
 		return
 	
-	for daga in dagas_instanciadas:
-		var direction = (body.global_position - daga.global_position).normalized()
-		daga.target_position = daga.global_position + direction * 150.0
-		daga.active = true
-		daga.returning = false
+	for proyectil in dagas_instanciadas:
+		var direction = (body.global_position - proyectil.global_position).normalized()
+		proyectil.target_position = proyectil.global_position + direction * 150.0
+		proyectil.active = true
+		proyectil.returning = false
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if cuerpos_en_contacto.has(body):

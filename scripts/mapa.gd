@@ -136,16 +136,15 @@ func get_next_enemy_id() -> int:
 
 func spawnear_dummy():
 	
-	#for index in puntos_respawn_enemigo_fuego.size():
-		#var enemy = EnemigoFuego.instantiate()
-		##var enemy = EnemigoDagas.instantiate()   
-		#
-		#enemy.global_position = puntos_respawn_enemigo_fuego[index].global_position + Vector2(0, -10)
-		#enemy.tipo_enemigo = "Fueboca"
-		#enemy.set_damage_on_touch(3)
-		#enemy.add_to_group("enemy")
-		#enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
-		#add_child(enemy)
+	for index in puntos_respawn_enemigo_fuego.size():
+		var enemy = EnemigoFuego.instantiate()
+		
+		enemy.global_position = puntos_respawn_enemigo_fuego[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "Fueboca"
+		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
 
 	for index in puntos_respawn_enemigo_dagas.size():
 		var enemy = EnemigoDagas.instantiate()   
