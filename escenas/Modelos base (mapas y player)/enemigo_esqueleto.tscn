@@ -1,0 +1,70 @@
+[gd_scene load_steps=13 format=3 uid="uid://cbunu20u3lu6o"]
+
+[ext_resource type="PackedScene" uid="uid://boyr0j5gyfm8j" path="res://escenas/Modelos base (mapas y player)/enemigo_generico.tscn" id="1_ilfmi"]
+[ext_resource type="Script" uid="uid://cjcv6msy3kg18" path="res://scripts/IA/enemigo_esqueleto.gd" id="2_l548e"]
+[ext_resource type="Texture2D" uid="uid://2t73skyou4e5" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_idle_anim_f0.png" id="3_pp4sx"]
+[ext_resource type="Texture2D" uid="uid://chaa0vxul3a1n" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_idle_anim_f1.png" id="4_n74sy"]
+[ext_resource type="Texture2D" uid="uid://c6chrf4x3ekhb" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_idle_anim_f2.png" id="5_ogh5m"]
+[ext_resource type="Texture2D" uid="uid://5edgrqh8to2h" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_idle_anim_f3.png" id="6_8e8d0"]
+[ext_resource type="Texture2D" uid="uid://d2x2hssbckeov" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_run_anim_f0.png" id="7_hyaae"]
+[ext_resource type="Texture2D" uid="uid://d4hnunw2a0jj6" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_run_anim_f1.png" id="8_2ngdg"]
+[ext_resource type="Texture2D" uid="uid://ddujmpqh1b5gr" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_run_anim_f2.png" id="9_ekfbx"]
+[ext_resource type="Texture2D" uid="uid://cmb5jt3by5gti" path="res://0x72_DungeonTilesetII_v1.7/frames/skelet_run_anim_f3.png" id="10_86ufg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ihmjh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pp4sx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_n74sy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ogh5m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8e8d0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("7_hyaae")
+}, {
+"duration": 0.5,
+"texture": ExtResource("8_2ngdg")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_ekfbx")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_86ufg")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ilfmi"]
+radius = 21.0238
+
+[node name="EnemigoEsqueleto" instance=ExtResource("1_ilfmi")]
+script = ExtResource("2_l548e")
+speed = 60.0
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_ihmjh")
+animation = &"run"
+frame_progress = 0.669463
+
+[node name="DetectorPlayer" type="Area2D" parent="." index="4"]
+collision_layer = 128
+collision_mask = 30
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorPlayer" index="0"]
+shape = SubResource("CircleShape2D_ilfmi")
+
+[node name="DamageTimer" type="Timer" parent="." index="5"]

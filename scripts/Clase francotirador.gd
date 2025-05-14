@@ -104,7 +104,8 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			emit_signal("died", player_id)
 
 			# Deshabilitamos colisión y sprite
-			collision.disabled = true
+			# collision.disabled = true
+			collision.call_deferred("set_disabled", true)
 			animaciones.visible = false
 
 			set_physics_process(false)

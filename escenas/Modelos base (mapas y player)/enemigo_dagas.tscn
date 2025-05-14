@@ -30,6 +30,11 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"run",
+"speed": 5.0
 }]
 
 [node name="EnemigoDagas" type="CharacterBody2D"]
@@ -43,8 +48,7 @@ shape = SubResource("CapsuleShape2D_slki2")
 texture_filter = 1
 scale = Vector2(1.25, 1.25)
 sprite_frames = SubResource("SpriteFrames_qnc2o")
-animation = &"idle"
-frame_progress = 0.984995
+animation = &"run"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 visible = false

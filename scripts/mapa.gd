@@ -10,6 +10,7 @@ const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn
 const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
 const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuegoV2.tscn")
 const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagasV2.tscn")
+const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/enemigo_esqueleto.tscn")
 
 @onready var split_screen: SplitScreen2D
 @onready var puntos_respawn_enemigo_fuego = [
@@ -26,6 +27,19 @@ const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemig
 	$PuntoRespawnEnemigoDagas3,
 	$PuntoRespawnEnemigoDagas4,
 	$PuntoRespawnEnemigoDagas5
+]
+
+@onready var puntos_respawn_enemigo_esqueleto = [
+	$PuntoRespawnEnemigoEsqueleto,
+	$PuntoRespawnEnemigoEsqueleto2,
+	$PuntoRespawnEnemigoEsqueleto3,
+	$PuntoRespawnEnemigoEsqueleto4,
+	$PuntoRespawnEnemigoEsqueleto5,
+	$PuntoRespawnEnemigoEsqueleto6,
+	$PuntoRespawnEnemigoEsqueleto7,
+	$PuntoRespawnEnemigoEsqueleto8,
+	$PuntoRespawnEnemigoEsqueleto9,
+	$PuntoRespawnEnemigoEsqueleto10
 ]
 
 @onready var spawn_points = [
@@ -149,7 +163,16 @@ func spawnear_dummy():
 	for index in puntos_respawn_enemigo_dagas.size():
 		var enemy = EnemigoDagas.instantiate()   
 		enemy.global_position = puntos_respawn_enemigo_dagas[index].global_position + Vector2(0, -10)
-		enemy.tipo_enemigo = "FuebocaPacifico"
+		enemy.tipo_enemigo = "Dagomante"
+		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
+
+	for index in puntos_respawn_enemigo_esqueleto.size():
+		var enemy = EnemigoEsqueleto.instantiate()   
+		enemy.global_position = puntos_respawn_enemigo_esqueleto[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "Esqueletrico"
 		enemy.set_damage_on_touch(3)
 		enemy.add_to_group("enemy")
 		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE

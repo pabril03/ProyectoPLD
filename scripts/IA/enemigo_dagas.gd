@@ -21,9 +21,13 @@ func _ready() -> void:
 	super._ready()
 	
 	damage_timer.connect("timeout", Callable(self, "_on_damage_timer_timeout"))
-	
+	velocity = super.get_velocity()
 	_instanciar_dagas()
-	
+
+func _physics_process(_delta: float) -> void:
+
+	move_and_slide()
+	animaciones.play("idle")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	
