@@ -47,8 +47,10 @@ func _process(_delta: float) -> void:
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
 		scale.y = -1
+		get_parent().get_node("AnimatedSprite2D").flip_h = true
 	else:
 		scale.y = 1
+		get_parent().get_node("AnimatedSprite2D").flip_h = false
 	
 	if disparar:
 		disparo()

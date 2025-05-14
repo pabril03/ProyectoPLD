@@ -194,7 +194,7 @@ func _physics_process(_delta: float) -> void:
 		animaciones.play("asalto_run")
 		animaciones.flip_h = velocity.x < 0
 	else:
-		animaciones.play("artillero_idle")
+		animaciones.play("asalto_idle")
 		
 
 func activar_escudo():
