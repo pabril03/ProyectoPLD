@@ -21,6 +21,8 @@ var muriendo = false
 var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
+var cooldown_escudo: float = 1.25
+
 signal health_changed(new_health)
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
@@ -215,8 +217,13 @@ func activar_escudo():
 	# Evitamos el spam incluyendo un timer
 	puede_activar_escudo = false
 	
+	# Cooldown visual del escudo
+	$Panel/HBoxContainer/AbilityButton/Timer.wait_time = cooldown_escudo
+	$Panel/HBoxContainer/AbilityButton.abilityUsed()
+	
 	# Esperamos 1.25s para recargar el escudo
-	await get_tree().create_timer(1.25).timeout
+	await get_tree().create_timer(cooldown_escudo).timeout
+	
 	puede_activar_escudo = true
 
 func desactivar_escudo():

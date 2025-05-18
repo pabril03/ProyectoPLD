@@ -54,3 +54,4 @@ sprite_frames = SubResource("SpriteFrames_qagxd")
 animation = &"artillero_run"
 
 [editable path="Gun"]
+[editable path="Panel/HBoxContainer/AbilityButton"]

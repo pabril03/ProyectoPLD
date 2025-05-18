@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bghg4cc4p4p7q"]
+[gd_scene load_steps=20 format=3 uid="uid://bghg4cc4p4p7q"]
 
 [ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/Clase artillero (player).gd" id="1_k2ov8"]
 [ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_3ikes"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://pyqdanv2cm78" path="res://escenas/Armas/gun.tscn" id="10_wdk6x"]
 [ext_resource type="PackedScene" uid="uid://dbklotbaagktf" path="res://escenas/Modelos base (mapas y player)/escudo.tscn" id="11_5ur3q"]
 [ext_resource type="Script" uid="uid://bqudqrfyhgh5x" path="res://scripts/barra_vida_entidad.gd" id="12_ixor2"]
+[ext_resource type="PackedScene" uid="uid://bhpnqfwmwecy4" path="res://UI/ability_button.tscn" id="13_3ikes"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qm0ti"]
 radius = 13.0
@@ -87,10 +88,6 @@ animation = &"francotirador_idle"
 
 [node name="Gun" parent="." groups=["player"] instance=ExtResource("10_wdk6x")]
 
-[node name="Camera2D" type="Camera2D" parent="." groups=["player"]]
-enabled = false
-zoom = Vector2(2, 2)
-
 [node name="Escudo" parent="." groups=["player"] instance=ExtResource("11_5ur3q")]
 position = Vector2(1, -2)
 
@@ -151,3 +148,31 @@ color_ramp = SubResource("Gradient_8b7ct")
 [node name="HealTimer" type="Timer" parent="."]
 
 [node name="SpeedTimer" type="Timer" parent="."]
+
+[node name="Panel" type="ColorRect" parent="."]
+offset_left = -463.0
+offset_top = -263.0
+offset_right = 461.0
+offset_bottom = 260.0
+color = Color(1, 1, 1, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(100, 35)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AbilityButton" parent="Panel/HBoxContainer" instance=ExtResource("13_3ikes")]
+layout_mode = 2
+
+[node name="TextureRect" parent="Panel/HBoxContainer/AbilityButton" index="0"]
+scale = Vector2(0.3, 0.3)
+
+[editable path="Panel/HBoxContainer/AbilityButton"]

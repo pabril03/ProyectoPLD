@@ -33,13 +33,14 @@ wait_time = 2.25
 [node name="Timer" parent="Gun" index="3"]
 wait_time = 1.5
 
-[node name="Escudo" parent="." index="4"]
+[node name="Escudo" parent="." index="3"]
 scale = Vector2(0.6, 0.6)
 
-[node name="ProgressBar" parent="." index="5"]
+[node name="ProgressBar" parent="." index="4"]
 offset_top = -17.0
 offset_bottom = -4.0
 
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_alt_timer_timeout"]
 
 [editable path="Gun"]
+[editable path="Panel/HBoxContainer/AbilityButton"]

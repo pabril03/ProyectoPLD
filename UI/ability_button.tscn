@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhpnqfwmwecy4"]
+
+[ext_resource type="Texture2D" uid="uid://c1pj80ascjlyc" path="res://sprites/shield_resized.png" id="1_yyex4"]
+[ext_resource type="Script" uid="uid://dudn6t1rdaxai" path="res://scripts/UI/ability_button.gd" id="2_uj5d4"]
+
+[node name="AbilityButton" type="ColorRect"]
+offset_right = 100.0
+offset_bottom = 100.0
+color = Color(1, 1, 1, 0)
+script = ExtResource("2_uj5d4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 100.0
+offset_bottom = 100.0
+texture = ExtResource("1_yyex4")
+
+[node name="Sweep" type="TextureProgressBar" parent="TextureRect"]
+process_mode = 4
+modulate = Color(0.145098, 0.145098, 0.145098, 0.87451)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 5
+
+[node name="Counter" type="MarginContainer" parent="TextureRect"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="Value" type="Label" parent="TextureRect/Counter"]
+visible = false
+layout_mode = 2
+theme_override_constants/outline_size = 1
+text = "0.0"
+horizontal_alignment = 2
+clip_text = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
