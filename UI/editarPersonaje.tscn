@@ -1,30 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://djag447q837gp"]
+[gd_scene load_steps=11 format=3 uid="uid://djag447q837gp"]
 
 [ext_resource type="Script" uid="uid://cwe43dayyhc6b" path="res://scripts/editar_personaje.gd" id="1_fufgq"]
 [ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://scripts/characterData.gd" id="2_kn8wn"]
 [ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_kn8wn"]
 [ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="5_jfcj4"]
 [ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="5_l3djq"]
+[ext_resource type="Texture2D" uid="uid://dkfbfuuev7hnx" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_anime_sword.png" id="6_jfcj4"]
 
-[sub_resource type="Resource" id="Resource_l3djq"]
+[sub_resource type="Resource" id="Resource_jfcj4"]
 resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Artillero"
 img = ExtResource("5_l3djq")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_jfcj4"]
+[sub_resource type="Resource" id="Resource_jtctd"]
 resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Francotirador"
 img = ExtResource("4_kn8wn")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
-[sub_resource type="Resource" id="Resource_jtctd"]
+[sub_resource type="Resource" id="Resource_v53ab"]
 resource_local_to_scene = true
 script = ExtResource("2_kn8wn")
 key = "Asalto"
 img = ExtResource("5_jfcj4")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_s6umu"]
+script = ExtResource("2_kn8wn")
+key = "Rogue"
+img = ExtResource("6_jfcj4")
 metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
 
 [node name="Control" type="ColorRect"]
@@ -32,7 +39,7 @@ offset_right = 207.0
 offset_bottom = 341.0
 color = Color(0.235294, 0.235294, 0.235294, 1)
 script = ExtResource("1_fufgq")
-Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_l3djq"), SubResource("Resource_jfcj4"), SubResource("Resource_jtctd")])
+Personajes = Array[ExtResource("2_kn8wn")]([SubResource("Resource_jfcj4"), SubResource("Resource_jtctd"), SubResource("Resource_v53ab"), SubResource("Resource_s6umu")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(207, 341)

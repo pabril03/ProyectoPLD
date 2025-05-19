@@ -1,0 +1,133 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5ftkk1ocvw8t"]
+
+[ext_resource type="Texture2D" uid="uid://dkfbfuuev7hnx" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_anime_sword.png" id="1_5qsrs"]
+[ext_resource type="Script" uid="uid://cx30xphta1wkw" path="res://scripts/knife.gd" id="2_hjntn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gbtrm"]
+radius = 2.19067
+height = 16.4901
+
+[sub_resource type="Animation" id="Animation_5qsrs"]
+resource_name = "arc_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(5, -5), Vector2(7.5, -20), Vector2(15, -5), Vector2(7.5, 20), Vector2(5, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.261799, -0.785398, 0.785398, 2.35619, 0.261799]
+}
+
+[sub_resource type="Animation" id="Animation_hjntn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.261799]
+}
+
+[sub_resource type="Animation" id="Animation_gbtrm"]
+resource_name = "thrust_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(10, -5), Vector2(15, -5), Vector2(30, -5), Vector2(15, -5), Vector2(10, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.261799, 0.785398, 1.5708, 0.785398, 0.261799]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ijira"]
+_data = {
+&"RESET": SubResource("Animation_hjntn"),
+&"arc_hit": SubResource("Animation_5qsrs"),
+&"thrust_hit": SubResource("Animation_gbtrm")
+}
+
+[node name="Knife" type="Node2D"]
+script = ExtResource("2_hjntn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(5, -5)
+rotation = 0.261799
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_5qsrs")
+
+[node name="Knife" type="Area2D" parent="Sprite2D"]
+position = Vector2(-1.90735e-06, 0)
+scale = Vector2(2, 2)
+collision_layer = 30
+collision_mask = 254
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Knife"]
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_gbtrm")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="AltTimer" type="Timer" parent="."]
+wait_time = 0.7
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ijira")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_arc_timeout"]
+[connection signal="timeout" from="AltTimer" to="." method="_on_thrust_timeout"]

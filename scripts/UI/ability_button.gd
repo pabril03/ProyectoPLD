@@ -13,7 +13,7 @@ func _ready():
 	#$Timer.wait_time = cooldown
 	set_process(false)
 	
-func _process(delta):
+func _process(_delta):
 	time_label.text = "%3.1f" % $Timer.time_left
 	$TextureRect/Sweep.value = int(($Timer.time_left / $Timer.wait_time) * 100)
 
@@ -23,7 +23,6 @@ func abilityUsed():
 	time_label.show()
 
 func _on_timer_timeout() -> void:
-	print("ability ready")
 	$TextureRect/Sweep.value = 0
 	time_label.hide()
 	set_process(false)

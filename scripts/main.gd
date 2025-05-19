@@ -12,6 +12,7 @@ const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn
 const AsaltoEscena = preload("res://escenas/Clases/ClaseAsalto.tscn") 
 const ArtilleroEscena = preload("res://escenas/Clases/ClaseArtillero.tscn") 
 const FrancotiradorEscena = preload("res://escenas/Clases/ClaseFrancotirador.tscn") 
+const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 
 @onready var punto_respawn = $"SplitScreen2D/Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
 @onready var punto_respawn2 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn2"
@@ -144,6 +145,8 @@ func spawnear_jugador() -> void:
 				jugador = ArtilleroEscena.instantiate()
 			"Francotirador":
 				jugador = FrancotiradorEscena.instantiate()
+			"Rogue":
+				jugador = RogueEscena.instantiate()
 			_:
 				jugador = ArtilleroEscena.instantiate()
 
