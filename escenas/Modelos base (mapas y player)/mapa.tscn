@@ -485,6 +485,14 @@ position = Vector2(631, 508)
 [node name="PistolRestock1" type="Marker2D" parent="Spawns-pistol"]
 position = Vector2(51, 502)
 
+[node name="Spawn-polimorf" type="Node2D" parent="."]
+
+[node name="PolimorfRestock1" type="Marker2D" parent="Spawn-polimorf"]
+position = Vector2(540, 238)
+
+[node name="PolimorfRestock2" type="Marker2D" parent="Spawn-polimorf"]
+position = Vector2(268, 84)
+
 [node name="Spawn-fire-traps" type="Node2D" parent="."]
 
 [node name="Firetrap10" type="Marker2D" parent="Spawn-fire-traps"]

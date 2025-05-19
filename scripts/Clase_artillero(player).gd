@@ -24,6 +24,10 @@ var cooldown_escudo: float = 1.0
 var afecta_daga = true
 var original_frames: SpriteFrames
 
+var polimorf: bool = false
+var en_polimorf: bool = false
+@export var textura: SpriteFrames
+
 signal health_changed(new_health)
 
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
@@ -190,19 +194,31 @@ func _physics_process(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 
-	# Escudo
-	if usar_escudo:
-		activar_escudo()
+	if polimorf:
+		if not en_polimorf:
+			cambiar_apariencia(textura)
+			$Polimorf.start()
+		else:
+			if velocity.length() > 0:
+				animaciones.play("run")
+				animaciones.flip_h = velocity.x > 0
+			else:
+				animaciones.play("idle")
 	else:
-		desactivar_escudo()
-
-	# Animaciones (opcional)
-	if velocity.length() > 0:
-		animaciones.play("artillero_run")
-		animaciones.flip_h = velocity.x < 0
-	else:
-		animaciones.play("artillero_idle")
-		
+		# Escudo
+		if usar_escudo:
+			activar_escudo()
+		else:
+			desactivar_escudo()
+			
+		# Animaciones (opcional)
+		if velocity.length() > 0:
+			animaciones.play("artillero_run")
+			animaciones.flip_h = velocity.x < 0
+		else:
+			animaciones.play("artillero_idle")
+	
+	
 
 func activar_escudo():
 	if not puede_activar_escudo:
@@ -284,10 +300,17 @@ func quitar_quemadura() -> void:
 
 # Funcion para el arma de polimorf
 func cambiar_apariencia(textura: SpriteFrames) -> void:
-	animaciones.sprite_frames = textura
+	if not en_polimorf:
+		animaciones.sprite_frames = textura
+		animaciones.play("idle")
+		en_polimorf = true
+		SPEED = 50
 	
 func revertir_apariencia() -> void:
 	animaciones.sprite_frames = original_frames
+	polimorf = false
+	en_polimorf = false
+	SPEED = SPEED_DEFAULT
 
 func _respawn_in_place() -> void:
 
@@ -318,4 +341,7 @@ func _on_damage_timeout():
 func _on_heal_timeout():
 	auraHeal.emitting = false
 
+func _on_polimorf_timeout() -> void:
+	revertir_apariencia()
+	
 signal died(player_id)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://bghg4cc4p4p7q"]
+[gd_scene load_steps=21 format=3 uid="uid://bghg4cc4p4p7q"]
 
 [ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/Clase_artillero(player).gd" id="1_k2ov8"]
 [ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_3ikes"]
+[ext_resource type="SpriteFrames" uid="uid://dxh5pfin1m673" path="res://sprites/duck.tres" id="2_3s22c"]
 [ext_resource type="Texture2D" uid="uid://djcuuupgrvhvc" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f1.png" id="3_3s22c"]
 [ext_resource type="Texture2D" uid="uid://bl3wg16dgmwjy" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f2.png" id="4_riq8v"]
 [ext_resource type="Texture2D" uid="uid://cftnvi56d4yfq" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f3.png" id="5_l7yje"]
@@ -73,6 +74,7 @@ colors = PackedColorArray(0, 0.361296, 0.129855, 1, 0.114389, 0.605875, 0.391132
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_priority = 2.0
 script = ExtResource("1_k2ov8")
+textura = ExtResource("2_3s22c")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
@@ -149,6 +151,9 @@ color_ramp = SubResource("Gradient_8b7ct")
 
 [node name="SpeedTimer" type="Timer" parent="."]
 
+[node name="Polimorf" type="Timer" parent="."]
+wait_time = 8.0
+
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -181,5 +186,7 @@ layout_mode = 2
 
 [node name="TextureRect" parent="Panel/HBoxContainer/AbilityButton" index="0"]
 scale = Vector2(0.3, 0.3)
+
+[connection signal="timeout" from="Polimorf" to="." method="_on_polimorf_timeout"]
 
 [editable path="Panel/HBoxContainer/AbilityButton"]

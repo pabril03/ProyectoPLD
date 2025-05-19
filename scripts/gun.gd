@@ -52,12 +52,14 @@ func _process(_delta: float) -> void:
 		scale.y = 1
 		get_parent().get_node("AnimatedSprite2D").flip_h = false
 	
-	if disparar:
-		disparo()
-		
-	if disparar_alterno:
-		disparo_rafaga()
-	
+	if get_parent().polimorf:
+		$Sprite2D.visible = false
+	else:
+		$Sprite2D.visible = true
+		if disparar:
+			disparo()
+		if disparar_alterno:
+			disparo_rafaga()
 
 func disparo():
 	var player = get_parent()

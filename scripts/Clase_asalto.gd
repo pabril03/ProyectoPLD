@@ -77,6 +77,16 @@ func _physics_process(_delta: float) -> void:
 		animaciones.flip_h = velocity.x < 0
 	else:
 		animaciones.play("asalto_idle")
+		
+	if polimorf:
+		cambiar_apariencia(textura)
+		if velocity.length() > 0:
+			animaciones.play("run")
+			animaciones.flip_h = velocity.x < 0
+		else:
+			animaciones.play("idle")
+		await get_tree().create_timer(8.0).timeout
+		revertir_apariencia()
 
 func activar_escudo():
 	if not puede_activar_escudo:

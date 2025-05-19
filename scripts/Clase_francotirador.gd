@@ -73,11 +73,24 @@ func _physics_process(_delta: float) -> void:
 		desactivar_escudo()
 
 	# Animaciones (opcional)
-	if velocity.length() > 0:
-		animaciones.play("francotirador_run")
-		animaciones.flip_h = velocity.x < 0
+	
+	if polimorf:
+		cambiar_apariencia(textura)
+		if velocity.length() > 0:
+			animaciones.play("run")
+			animaciones.flip_h = velocity.x < 0
+		else:
+			animaciones.play("idle")
+		await get_tree().create_timer(8.0).timeout
+		revertir_apariencia()
 	else:
-		animaciones.play("francotirador_idle")
+		if velocity.length() > 0:
+			animaciones.play("francotirador_run")
+			animaciones.flip_h = velocity.x < 0
+		else:
+			animaciones.play("francotirador_idle")
+		
+	
 
 func activar_escudo():
 	if not puede_activar_escudo:

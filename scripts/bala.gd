@@ -11,6 +11,8 @@ var last_position: Vector2
 var shooter_id = -1
 var tipo_enemigo = null
 
+var polimorf: bool = false
+
 func set_speed(speed: float) -> void:
 	SPEED = speed
 
@@ -74,7 +76,10 @@ func _physics_process(delta: float) -> void:
 			if tipo_enemigo != null:
 				collider.take_damage(dano, shooter_id, tipo_enemigo, "disparo")
 			else:
-				collider.take_damage(dano, shooter_id)
+				if polimorf and collider.has_method("cambiar_apariencia"):
+					collider.polimorf = true
+				else:
+					collider.take_damage(dano, shooter_id)
 			queue_free()
 
 		# Aumentamos la velocidad tras cada rebote

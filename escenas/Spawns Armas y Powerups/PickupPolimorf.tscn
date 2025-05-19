@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0gvolmyi05h0"]
+
+[ext_resource type="PackedScene" uid="uid://dltam0b87ybxb" path="res://escenas/Spawns Armas y Powerups/PickupSniper.tscn" id="1_1jqhj"]
+[ext_resource type="Texture2D" uid="uid://iam3vlg00het" path="res://sprites/Icon29_29.png" id="2_iu382"]
+
+[node name="PickupSniper" instance=ExtResource("1_1jqhj")]
+weapon_name = "arma_polimorf"
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(1, 1)
+texture = ExtResource("2_iu382")

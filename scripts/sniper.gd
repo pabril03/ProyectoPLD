@@ -59,11 +59,14 @@ func _process(_delta: float) -> void:
 	else:
 		scale.y = 1
 	
-	if disparar:
-		disparo()
-		
-	if disparar_alterno:
-		disparo_largo()
+	if get_parent().polimorf:
+		$Sprite2D.visible = false
+	else:
+		$Sprite2D.visible = true
+		if disparar:
+			disparo()
+		if disparar_alterno:
+			disparo_largo()
 
 func disparo():
 	var player = get_parent()
