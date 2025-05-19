@@ -9,9 +9,9 @@ var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tsc
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 
 # Escenas de clases
-const AsaltoEscena = preload("res://escenas/Clases/Clase Asalto.tscn") 
-const ArtilleroEscena = preload("res://escenas/Clases/Clase Artillero.tscn") 
-const FrancotiradorEscena = preload("res://escenas/Clases/Clase Francotirador.tscn") 
+const AsaltoEscena = preload("res://escenas/Clases/ClaseAsalto.tscn") 
+const ArtilleroEscena = preload("res://escenas/Clases/ClaseArtillero.tscn") 
+const FrancotiradorEscena = preload("res://escenas/Clases/ClaseFrancotirador.tscn") 
 
 @onready var punto_respawn = $"SplitScreen2D/Spawns-J-E/PuntoRespawn1"  # Un marcador para el punto de respawn
 @onready var punto_respawn2 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn2"

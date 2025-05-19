@@ -1,20 +1,19 @@
 [gd_scene load_steps=5 format=3 uid="uid://d0jdgx6p7oksp"]
 
-[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_hxk04"]
-[ext_resource type="Script" uid="uid://d3iu1qd4kaa1c" path="res://scripts/Clase francotirador.gd" id="2_nqsum"]
-[ext_resource type="Script" uid="uid://dh02ij7qaybln" path="res://scripts/sniper.gd" id="3_hlbm7"]
-[ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="3_nqsum"]
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_rqb46"]
+[ext_resource type="Script" uid="uid://g5nvnw4moxfy" path="res://scripts/Clase_francotirador.gd" id="2_rqb46"]
+[ext_resource type="Script" uid="uid://dh02ij7qaybln" path="res://scripts/sniper.gd" id="3_k6pde"]
+[ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_d7bnk"]
 
-[node name="Player" instance=ExtResource("1_hxk04")]
-script = ExtResource("2_nqsum")
-SPEED = 120.0
+[node name="Player" instance=ExtResource("1_rqb46")]
+script = ExtResource("2_rqb46")
 
 [node name="CollisionShape2D" parent="." index="0"]
 scale = Vector2(0.75, 0.75)
 
 [node name="Gun" parent="." index="2"]
 position = Vector2(12, 0)
-script = ExtResource("3_hlbm7")
+script = ExtResource("3_k6pde")
 SPEED = 400
 BOUNCES = 1
 DANIO = 7
@@ -22,7 +21,7 @@ PELLETS = 1
 
 [node name="Sprite2D" parent="Gun" index="0"]
 position = Vector2(3, 1)
-texture = ExtResource("3_nqsum")
+texture = ExtResource("4_d7bnk")
 
 [node name="Marker2D" parent="Gun" index="1"]
 position = Vector2(20, 0)

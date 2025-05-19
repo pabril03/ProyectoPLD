@@ -2,17 +2,15 @@ extends CharacterBody2D
 
 const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
 
-@export var SPEED:float = 120.0
-var SPEED_DEFAULT = 120.0
+@export var SPEED:float = 100.0
+var SPEED_DEFAULT = 100.0
 var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
-var max_health = 15
-var health = 15
+var max_health = 20
+var health = 20
 var player_id: int
 var danio_default = 2
-
-var afecta_daga := true
 
 var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
@@ -21,7 +19,10 @@ var muriendo = false
 var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
-var cooldown_escudo: float = 1.25
+var cooldown_escudo: float = 1.0
+
+var afecta_daga = true
+var original_frames: SpriteFrames
 
 signal health_changed(new_health)
 
@@ -47,8 +48,8 @@ func _ready():
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 
-	cambiar_arma("sniper")
-	original_gun = "sniper"
+	cambiar_arma("gun")
+	original_gun = "gun"
 
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
@@ -61,6 +62,8 @@ func _ready():
 	healTimer.timeout.connect(_on_heal_timeout)
 
 	muriendo = false
+	
+	original_frames = animaciones.sprite_frames
 
 func get_shooter_id() -> int:
 	return player_id
@@ -96,7 +99,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 	if is_invulnerable:
 		return
-
+	#print(amount)
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
 		emit_signal("health_changed", health)
@@ -195,10 +198,10 @@ func _physics_process(_delta: float) -> void:
 
 	# Animaciones (opcional)
 	if velocity.length() > 0:
-		animaciones.play("francotirador_run")
+		animaciones.play("artillero_run")
 		animaciones.flip_h = velocity.x < 0
 	else:
-		animaciones.play("francotirador_idle")
+		animaciones.play("artillero_idle")
 		
 
 func activar_escudo():
@@ -211,7 +214,7 @@ func activar_escudo():
 	escudo.monitoring = true
 	
 	# El escudo se activa un lapso de tiempo
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.75).timeout
 	desactivar_escudo()
 	
 	# Evitamos el spam incluyendo un timer
@@ -278,6 +281,13 @@ func aplicar_quemadura() -> void:
 
 func quitar_quemadura() -> void:
 	auraDamage.emitting = false
+
+# Funcion para el arma de polimorf
+func cambiar_apariencia(textura: SpriteFrames) -> void:
+	animaciones.sprite_frames = textura
+	
+func revertir_apariencia() -> void:
+	animaciones.sprite_frames = original_frames
 
 func _respawn_in_place() -> void:
 

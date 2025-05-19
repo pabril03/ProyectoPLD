@@ -16,6 +16,7 @@ scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_plpv4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_rd2t7")
 
