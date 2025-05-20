@@ -142,11 +142,6 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(death_FX)
 
-			var rng = RandomNumberGenerator.new()
-			rng.randomize()
-			if rng.randf() < 0.8:  
-				cambiar_arma(original_gun)
-
 			arma.desaparecer()
 			arma.set_process(false)
 
@@ -269,7 +264,7 @@ func cambiar_arma(nuevaArma: String):
 		arma.queue_free() # Eliminamos el arma anterior
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
-	add_child(arma) # Agregamos el nuevo arma a la escena
+	call_deferred("add_child", arma)
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
@@ -326,6 +321,11 @@ func _respawn_in_place() -> void:
 	arma.aparecer()
 	arma.set_process(true)
 	set_physics_process(true)
+	
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	if rng.randf() < 0.8:  
+		cambiar_arma(original_gun)
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false

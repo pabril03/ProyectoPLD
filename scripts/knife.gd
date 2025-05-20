@@ -1,8 +1,8 @@
 extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var attack_area: Area2D = $Sprite2D/Knife
-@onready var col_shape: CollisionShape2D = $Sprite2D/Knife/CollisionShape2D
+@onready var col_shape: CollisionShape2D = $Sprite2D/Espada/CollisionShape2D
+@onready var attack_area: Area2D = $Sprite2D/Espada
 @onready var timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
@@ -17,6 +17,8 @@ const JOY_ID := 0 # primer mando
 @export var THRUST_COLLISION: Shape2D
 
 var tipo_arma: String = "Knife"
+var listo: bool = true
+var listo_alt: bool = true
 
 func _ready() -> void:
 	
@@ -24,13 +26,15 @@ func _ready() -> void:
 	alt_timer.one_shot  = true
 	
 	# Configurar timers
-	timer.wait_time = 0.5  # duración del golpe en arco
+	timer.wait_time = 0.75  # duración del golpe en arco
 	alt_timer.wait_time = 0.75  # duracion del ataque hacia delante o estocada
 
 	# Desactivar área inicialmente
-	attack_area.monitoring = false
-	attack_area.visible = false
 	attack_area.connect("body_entered", Callable(self, "_on_attack_area_body_entered"))
+
+	var player = get_parent()
+	attack_area.collision_layer = player.collision_layer
+	attack_area.collision_mask = player.collision_mask
 
 func _process(_delta: float) -> void:
 	# Rotación hacia cursor o joystick derecho
@@ -71,40 +75,42 @@ func _process(_delta: float) -> void:
 		attack_thrust()
 
 func attack_arc() -> void:
-	
-	 # Configurar colisión y posición del área
-	col_shape.shape = ARC_COLLISION
+
+	if not listo:
+		return
+	listo = false
+
 	# Activar área y reproducir animación de corte en arco
-	attack_area.visible = true
-	attack_area.monitoring = true
 	anim_player.play("arc_hit")
 	timer.start()
 
 func attack_thrust() -> void:
-	# Configurar colisión y posición del área
-	col_shape.shape = THRUST_COLLISION
+	
+	if not listo_alt:
+		return
+	listo_alt = false
+
 	# Activar área y reproducir animación de estocada
-	attack_area.visible = true
-	attack_area.monitoring = true
 	anim_player.play("thrust_hit")
 	alt_timer.start()
 
 func _on_arc_timeout() -> void:
+	listo = true
 	# Desactivar área de arco
-	attack_area.monitoring = false
-	attack_area.visible = false
 
 func _on_thrust_timeout() -> void:
+	listo_alt = true
 	# Desactivar área de estocada y restaurar posición
-	attack_area.monitoring = false
-	attack_area.visible = false
 
-func _on_attack_area_body_entered(body: Node) -> void:
-	if body.is_in_group("balas"):
-		body.queue_free()
-	elif body.has_method("take_damage"):
-		var player = get_parent()
-		body.take_damage(DANIO, player.player_id, "Jugador", "cuchillazo")
+func _on_attack_area_body_entered(_body: Node) -> void:
+	
+	for body in attack_area.get_overlapping_bodies():
+		if body.is_in_group("balas"):
+			body.queue_free()
+
+		if body.has_method("take_damage"):
+			var player = get_parent()
+			body.take_damage(DANIO, player.player_id, "Jugador", "cuchillazo")
 
 func desaparecer() -> void:
 	sprite.visible = false
