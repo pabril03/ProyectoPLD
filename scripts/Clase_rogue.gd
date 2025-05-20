@@ -12,8 +12,9 @@ func _ready() -> void:
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
-	
-	original_gun = "knife"
+
+	cambiar_arma("sword")
+	original_gun = "sword"
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
@@ -26,7 +27,7 @@ func _ready() -> void:
 	healTimer.timeout.connect(_on_heal_timeout)
 
 	muriendo = false
-	cambiar_arma("knife")
+	original_frames = animaciones.sprite_frames
 
 func _physics_process(_delta: float) -> void:
 
@@ -65,18 +66,29 @@ func _physics_process(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 
-	# Escudo
-	if usar_escudo:
-		activar_escudo()
+	if polimorf:
+		if not en_polimorf:
+			cambiar_apariencia(textura)
+			$Polimorf.start()
+		else:
+			if velocity.length() > 0:
+				animaciones.play("run")
+				animaciones.flip_h = velocity.x > 0
+			else:
+				animaciones.play("idle")
 	else:
-		desactivar_escudo()
-
-	# Animaciones (opcional)
-	if velocity.length() > 0:
-		animaciones.play("rogue_run")
-		animaciones.flip_h = velocity.x < 0
-	else:
-		animaciones.play("rogue_idle")
+		# Escudo
+		if usar_escudo:
+			activar_escudo()
+		else:
+			desactivar_escudo()
+			
+		# Animaciones (opcional)
+		if velocity.length() > 0:
+			animaciones.play("rogue_run")
+			animaciones.flip_h = velocity.x < 0
+		else:
+			animaciones.play("rogue_idle")
 
 func activar_escudo():
 	if not puede_activar_escudo:

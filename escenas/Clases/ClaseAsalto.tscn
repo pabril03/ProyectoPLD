@@ -51,6 +51,8 @@ animations = [{
 }]
 
 [node name="Player" instance=ExtResource("1_wrntr")]
+collision_layer = 0
+collision_mask = 255
 script = ExtResource("2_qk0wo")
 
 [node name="AnimatedSprite2D" parent="." index="1"]

@@ -66,7 +66,6 @@ func _ready():
 	healTimer.timeout.connect(_on_heal_timeout)
 
 	muriendo = false
-	
 	original_frames = animaciones.sprite_frames
 
 func get_shooter_id() -> int:
@@ -294,7 +293,7 @@ func quitar_quemadura() -> void:
 	auraDamage.emitting = false
 
 # Funcion para el arma de polimorf
-func cambiar_apariencia(textura: SpriteFrames) -> void:
+func cambiar_apariencia(_textura: SpriteFrames) -> void:
 	if not en_polimorf:
 		animaciones.sprite_frames = textura
 		animaciones.play("idle")

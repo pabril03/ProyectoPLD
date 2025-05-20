@@ -8,6 +8,8 @@ radius = 1.99986
 height = 13.999
 
 [node name="Bullet" type="CharacterBody2D" groups=["balas"]]
+collision_layer = 64
+collision_mask = 0
 script = ExtResource("1_66u8n")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

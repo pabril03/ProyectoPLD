@@ -1,8 +1,8 @@
 extends Node2D
 
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var col_shape: CollisionShape2D = $Sprite2D/Espada/CollisionShape2D
-@onready var attack_area: Area2D = $Sprite2D/Espada
+@onready var col_shape: CollisionShape2D = $Espada/CollisionShape2D
+@onready var attack_area: Area2D = $Espada
 @onready var timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
@@ -12,11 +12,10 @@ const DEADZONE := 0.2
 const JOY_ID := 0 # primer mando
 
 @export var SPEED := 200
-@export var DANIO := 10
-@export var ARC_COLLISION: Shape2D
-@export var THRUST_COLLISION: Shape2D
+@export var DANIO := 7.5
 
-var tipo_arma: String = "Knife"
+var hit_targets: Array = []
+var tipo_arma: String = "sword"
 var listo: bool = true
 var listo_alt: bool = true
 
@@ -28,13 +27,18 @@ func _ready() -> void:
 	# Configurar timers
 	timer.wait_time = 0.75  # duración del golpe en arco
 	alt_timer.wait_time = 0.75  # duracion del ataque hacia delante o estocada
-
-	# Desactivar área inicialmente
-	attack_area.connect("body_entered", Callable(self, "_on_attack_area_body_entered"))
-
+	
 	var player = get_parent()
-	attack_area.collision_layer = player.collision_layer
-	attack_area.collision_mask = player.collision_mask
+	var mask = 1  # siempre incluir el entorno (bit 0)
+		#print(player.player_id)
+	for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
+		if i != player.player_id:
+			mask |= 1 << i  # activar ese bit
+	
+	mask |= 1 << 5
+	mask |= 1 << 6  # Añadir la capa 7 (bit 6)
+	mask |= 1 << 7  # Añadimos la capa 8, la de los enemigos
+	attack_area.collision_mask = mask
 
 func _process(_delta: float) -> void:
 	# Rotación hacia cursor o joystick derecho
@@ -67,18 +71,22 @@ func _process(_delta: float) -> void:
 		scale.y = 1
 		get_parent().get_node("AnimatedSprite2D").flip_h = false
 
-	# Controles de ataque
-	if disparar:
-		attack_arc()
-		
-	if disparar_alterno:
-		attack_thrust()
+	if get_parent().polimorf:
+		$Sprite2D.visible = false
+	else:
+		$Sprite2D.visible = true
+		if disparar:
+			attack_arc()
+		if disparar_alterno:
+			attack_thrust()
 
 func attack_arc() -> void:
 
 	if not listo:
 		return
 	listo = false
+
+	hit_targets.clear()
 
 	# Activar área y reproducir animación de corte en arco
 	anim_player.play("arc_hit")
@@ -89,6 +97,8 @@ func attack_thrust() -> void:
 	if not listo_alt:
 		return
 	listo_alt = false
+
+	hit_targets.clear()
 
 	# Activar área y reproducir animación de estocada
 	anim_player.play("thrust_hit")
@@ -106,11 +116,14 @@ func _on_attack_area_body_entered(_body: Node) -> void:
 	
 	for body in attack_area.get_overlapping_bodies():
 		if body.is_in_group("balas"):
+			print("Hello")
 			body.queue_free()
-
-		if body.has_method("take_damage"):
-			var player = get_parent()
-			body.take_damage(DANIO, player.player_id, "Jugador", "cuchillazo")
+		
+		if not hit_targets.has(body):
+			if body.has_method("take_damage"):
+				hit_targets.append(body)
+				var player = get_parent()
+				body.take_damage(DANIO, player.player_id, "Jugador", "cuchillazo")
 
 func desaparecer() -> void:
 	sprite.visible = false

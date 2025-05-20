@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://48l6uqn41stq"]
 
-[ext_resource type="Script" uid="uid://duw7jt4dpkthj" path="res://escenas/PRUEBAS/personaje_prueba.gd" id="1_8xc11"]
+[ext_resource type="Script" uid="uid://duw7jt4dpkthj" path="res://scripts/personaje_prueba.gd" id="1_8xc11"]
 [ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="1_sy0l6"]
 [ext_resource type="Texture2D" uid="uid://djcuuupgrvhvc" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f1.png" id="2_8xc11"]
 [ext_resource type="Texture2D" uid="uid://bl3wg16dgmwjy" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f2.png" id="3_6yt1b"]

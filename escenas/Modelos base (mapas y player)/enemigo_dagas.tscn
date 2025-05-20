@@ -38,6 +38,8 @@ animations = [{
 }]
 
 [node name="EnemigoDagas" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 128
+collision_mask = 223
 script = ExtResource("1_ad7mh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

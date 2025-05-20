@@ -19,7 +19,7 @@ var direccion_disparo = Vector2.ZERO
 @export var DANIO := 7
 @export var PELLETS := 1
 
-var tipo_arma: String = "Polimorf"
+var tipo_arma: String = "polimorf"
 
 func _ready() -> void:
 	shoot_timer.wait_time = 3.0

@@ -118,6 +118,17 @@ pause={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="mapa"
+2d_physics/layer_2="jugador 1"
+2d_physics/layer_3="jugador 2"
+2d_physics/layer_4="jugador 3"
+2d_physics/layer_5="jugador 4"
+2d_physics/layer_6="balas"
+2d_physics/layer_7="escudo"
+2d_physics/layer_8="enemigos"
+
 [physics]
 
 2d/default_gravity=0.0

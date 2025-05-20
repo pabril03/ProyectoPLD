@@ -48,6 +48,8 @@ animations = [{
 }]
 
 [node name="Player" instance=ExtResource("1_fce64")]
+collision_layer = 0
+collision_mask = 255
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_qagxd")

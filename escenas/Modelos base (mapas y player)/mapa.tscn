@@ -461,18 +461,26 @@ position = Vector2(691, 236)
 [node name="Pot4" type="Marker2D" parent="Spawns-PowerUp"]
 position = Vector2(1006, 437)
 
+[node name="Spawns-sword" type="Node2D" parent="."]
+
+[node name="SwordRestock1" type="Marker2D" parent="Spawns-sword"]
+position = Vector2(734, 49)
+
+[node name="SwordRestock2" type="Marker2D" parent="Spawns-sword"]
+position = Vector2(810, 406)
+
 [node name="Spawns-shotgun" type="Node2D" parent="."]
 
 [node name="ShotgunRestock2" type="Marker2D" parent="Spawns-shotgun"]
-position = Vector2(966, 78)
+position = Vector2(980, 106)
 
 [node name="ShotgunRestock1" type="Marker2D" parent="Spawns-shotgun"]
-position = Vector2(40, 439)
+position = Vector2(40, 425)
 
 [node name="Spawns-sniper" type="Node2D" parent="."]
 
 [node name="SniperRestock2" type="Marker2D" parent="Spawns-sniper"]
-position = Vector2(540, 358)
+position = Vector2(540, 363)
 
 [node name="SniperRestock1" type="Marker2D" parent="Spawns-sniper"]
 position = Vector2(428, 56)

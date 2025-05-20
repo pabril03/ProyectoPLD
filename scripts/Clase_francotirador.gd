@@ -27,7 +27,7 @@ func _ready() -> void:
 	healTimer.timeout.connect(_on_heal_timeout)
 
 	muriendo = false
-	
+	original_frames = animaciones.sprite_frames
 
 func _physics_process(_delta: float) -> void:
 
@@ -66,24 +66,24 @@ func _physics_process(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 
-	# Escudo
-	if usar_escudo:
-		activar_escudo()
-	else:
-		desactivar_escudo()
-
-	# Animaciones (opcional)
-	
 	if polimorf:
-		cambiar_apariencia(textura)
-		if velocity.length() > 0:
-			animaciones.play("run")
-			animaciones.flip_h = velocity.x < 0
+		if not en_polimorf:
+			cambiar_apariencia(textura)
+			$Polimorf.start()
 		else:
-			animaciones.play("idle")
-		await get_tree().create_timer(8.0).timeout
-		revertir_apariencia()
+			if velocity.length() > 0:
+				animaciones.play("run")
+				animaciones.flip_h = velocity.x > 0
+			else:
+				animaciones.play("idle")
 	else:
+		# Escudo
+		if usar_escudo:
+			activar_escudo()
+		else:
+			desactivar_escudo()
+			
+		# Animaciones (opcional)
 		if velocity.length() > 0:
 			animaciones.play("francotirador_run")
 			animaciones.flip_h = velocity.x < 0

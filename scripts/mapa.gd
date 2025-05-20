@@ -6,6 +6,7 @@ var PickUpShotgun = preload("res://escenas/Spawns Armas y Powerups/PickupShotgun
 var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.tscn")
 var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
 var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimorf.tscn")
+var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
@@ -62,13 +63,19 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 
 @onready var spawn_sniper = [
 	$"Spawns-sniper/SniperRestock1",
-	$"Spawns-shotgun/ShotgunRestock2"
+	$"Spawns-sniper/SniperRestock2"
 ]
 
 @onready var spawn_polimorf = [
 	$"Spawn-polimorf/PolimorfRestock1",
 	$"Spawn-polimorf/PolimorfRestock2"
 ]
+
+@onready var spawn_sword = [
+	$"Spawns-sword/SwordRestock1",
+	$"Spawns-sword/SwordRestock2"
+]
+
 @onready var trap_points := [
 	$"Spawn-fire-traps/Firetrap1",
 	$"Spawn-fire-traps/Firetrap2",
@@ -132,6 +139,7 @@ func _ready():
 	spawn_fire_traps()
 	spawn_gas_traps()
 	spawn_arma_polimorf()
+	spawn_espada()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -223,7 +231,7 @@ func spawn_pistola():
 
 func spawn_escopeta():
 	for index in spawn_shotgun.size():
-		var escopeta = PickUpSniper.instantiate()   
+		var escopeta = PickUpShotgun.instantiate()   
 		escopeta.global_position = spawn_shotgun[index].global_position
 		add_child(escopeta)
 
@@ -238,6 +246,12 @@ func spawn_arma_polimorf():
 		var polimorf = PickUpPolimorf.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
 		polimorf.global_position = spawn_polimorf[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(polimorf)
+
+func spawn_espada():
+	for index in spawn_sword.size():
+		var espada = PickUpSword.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		espada.global_position = spawn_sword[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(espada)
 
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():
