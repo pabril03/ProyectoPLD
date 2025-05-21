@@ -261,8 +261,6 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gun/Espada" index="0"]
 position = Vector2(0, 20)
-rotation = 0.767945
-scale = Vector2(0.5, 0.7)
 skew = 0.261799
 shape = SubResource("RectangleShape2D_5qsrs")
 disabled = true
