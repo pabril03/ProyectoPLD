@@ -1,13 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7ht1khy13ckl"]
+[gd_scene load_steps=4 format=3 uid="uid://b7ht1khy13ckl"]
 
 [ext_resource type="PackedScene" uid="uid://boyr0j5gyfm8j" path="res://escenas/Modelos base (mapas y player)/enemigo_generico.tscn" id="1_qsrv6"]
 [ext_resource type="Script" uid="uid://bhxj0hpprium5" path="res://scripts/IA/enemigo_dagas.gd" id="2_bvf3t"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_bvf3t"]
+radius = 93.0215
+
 [node name="EnemigoDagas" instance=ExtResource("1_qsrv6")]
 script = ExtResource("2_bvf3t")
 
-[node name="Area2D" parent="." index="2"]
-collision_mask = 223
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource("CircleShape2D_bvf3t")
 
 [node name="DamageTimer" type="Timer" parent="." index="4"]
 wait_time = 2.0

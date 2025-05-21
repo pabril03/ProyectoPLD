@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dk4ikbcmkue5a"]
+[gd_scene load_steps=18 format=3 uid="uid://dk4ikbcmkue5a"]
 
 [ext_resource type="PackedScene" uid="uid://boyr0j5gyfm8j" path="res://escenas/Modelos base (mapas y player)/enemigo_generico.tscn" id="1_arwif"]
 [ext_resource type="Script" uid="uid://csji0ese7t130" path="res://scripts/IA/StateMachine.gd" id="2_csw7q"]
@@ -51,6 +51,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_kyw2t"]
+radius = 140.057
+
 [sub_resource type="Gradient" id="Gradient_i5cqi"]
 offsets = PackedFloat32Array(0, 0.18, 0.266667, 0.44, 0.56, 0.653333, 1)
 colors = PackedColorArray(0.870387, 1.44392e-06, 1.2514e-06, 1, 0.761218, 0.399829, 0.0353291, 1, 0.95547, 0.489383, 0.0740151, 1, 0.942666, 0.640432, 0.20218, 1, 0.867722, 0.649535, 0.179169, 1, 0.923844, 0.929645, 0.289667, 1, 1, 1, 1, 0.529412)
@@ -69,8 +72,8 @@ sprite_frames = SubResource("SpriteFrames_kppc3")
 animation = &"run"
 frame_progress = 0.0
 
-[node name="Area2D" parent="." index="2"]
-collision_mask = 223
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource("CircleShape2D_kyw2t")
 
 [node name="StateMachine" type="Node" parent="." index="4" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_csw7q")
