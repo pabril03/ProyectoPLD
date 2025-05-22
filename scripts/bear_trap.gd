@@ -25,10 +25,14 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	# Si hay un objetivo a seguir
-	if target_to_follow and follow_timer.time_left > 0 and not target_to_follow.muriendo:
+	if target_to_follow and follow_timer.time_left > 0:
 		var offset_target = target_to_follow.global_position + Vector2(0, 10)
 		player_speed = target_to_follow.SPEED
 		global_position = global_position.move_toward(offset_target, player_speed)
+	
+	# Si el objetivo a seguir está muerto no lo sigue
+	if target_to_follow and target_to_follow.muriendo:
+		target_to_follow = null
 
 	if trap_used:
 		return  # no hacer nada si la trampa ya fue usada
