@@ -316,6 +316,7 @@ func _respawn_in_place() -> void:
 	emit_signal("health_changed", health)
 	global_position = GameManager.get_spawn_point()  # obtiene Vector2
 
+	SPEED = SPEED_DEFAULT
 	is_invulnerable = true
 	animaciones.visible = true
 	collision.disabled = false
