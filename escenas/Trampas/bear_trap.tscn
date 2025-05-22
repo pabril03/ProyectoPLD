@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://dw4a1qwt5svnk"]
+
+[ext_resource type="Script" uid="uid://cetmw047h8cpn" path="res://scripts/bear_trap.gd" id="1_mpdu3"]
+[ext_resource type="Texture2D" uid="uid://dab14i3tsdfrd" path="res://sprites/traps/Bear_Trap.png" id="2_twatc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkayr"]
+atlas = ExtResource("2_twatc")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v50jo"]
+atlas = ExtResource("2_twatc")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxbgy"]
+atlas = ExtResource("2_twatc")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wts2"]
+atlas = ExtResource("2_twatc")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eko7i"]
+animations = [{
+"frames": [{
+"duration": 3.5,
+"texture": SubResource("AtlasTexture_bkayr")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_v50jo")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_fxbgy")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_5wts2")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkayr")
+}],
+"loop": true,
+"name": &"defuse",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wts2")
+}],
+"loop": true,
+"name": &"following",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_twatc"]
+size = Vector2(26, 26)
+
+[node name="BearTrap" type="Node2D"]
+script = ExtResource("1_mpdu3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+position = Vector2(-4.76837e-07, -0.5)
+scale = Vector2(1.125, 1.34375)
+sprite_frames = SubResource("SpriteFrames_eko7i")
+animation = &"damage"
+frame_progress = 0.152909
+
+[node name="Rearmado" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Detector" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 94
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_twatc")

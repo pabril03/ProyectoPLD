@@ -9,6 +9,8 @@ var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimo
 var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
+const BearTrapScene: PackedScene = preload("res://escenas/Trampas/bear_trap.tscn")
+const SpikeTrapScene: PackedScene = preload("res://escenas/Trampas/spike_trap.tscn")
 const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
 const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuegoV2.tscn")
 const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagasV2.tscn")
@@ -89,6 +91,22 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawn-fire-traps/Firetrap10"
 ]
 
+@onready var bear_points := [
+	$"Spawn-bear-traps/Beartrap1",
+	$"Spawn-bear-traps/Beartrap2",
+	$"Spawn-bear-traps/Beartrap3",
+	$"Spawn-bear-traps/Beartrap4",
+]
+
+@onready var spike_points := [
+	$"Spawn-spike-traps/Spiketrap1",
+	$"Spawn-spike-traps/Spiketrap2",
+	$"Spawn-spike-traps/Spiketrap3",
+	$"Spawn-spike-traps/Spiketrap4",
+	$"Spawn-spike-traps/Spiketrap5",
+	$"Spawn-spike-traps/Spiketrap6",
+]
+
 @onready var gas_points := [
 	$"Spawn-poison-traps/Poisontrap",
 	$"Spawn-poison-traps/Poisontrap2",
@@ -137,6 +155,8 @@ func _ready():
 	spawn_escopeta()
 	spawn_francotirador()
 	spawn_fire_traps()
+	spawn_bear_traps()
+	spawn_spike_traps()
 	spawn_gas_traps()
 	spawn_arma_polimorf()
 	spawn_espada()
@@ -257,6 +277,19 @@ func spawn_fire_traps() -> void:
 	for index in trap_points.size():
 		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
 		trap.global_position = trap_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+func spawn_bear_traps() -> void:
+	for index in bear_points.size():
+		var trap = BearTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = bear_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+
+func spawn_spike_traps() -> void:
+	for index in spike_points.size():
+		var trap = SpikeTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = spike_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
 
 func spawn_gas_traps() -> void:

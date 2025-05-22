@@ -504,10 +504,10 @@ position = Vector2(268, 84)
 [node name="Spawn-fire-traps" type="Node2D" parent="."]
 
 [node name="Firetrap10" type="Marker2D" parent="Spawn-fire-traps"]
-position = Vector2(310, 605)
+position = Vector2(461, 465)
 
 [node name="Firetrap7" type="Marker2D" parent="Spawn-fire-traps"]
-position = Vector2(310, 624)
+position = Vector2(428, 465)
 
 [node name="Firetrap9" type="Marker2D" parent="Spawn-fire-traps"]
 position = Vector2(1087, 608)
@@ -532,6 +532,40 @@ position = Vector2(252, 304)
 
 [node name="Firetrap3" type="Marker2D" parent="Spawn-fire-traps"]
 position = Vector2(486, 581)
+
+[node name="Spawn-bear-traps" type="Node2D" parent="."]
+
+[node name="Beartrap1" type="Marker2D" parent="Spawn-bear-traps"]
+position = Vector2(407, 225)
+
+[node name="Beartrap2" type="Marker2D" parent="Spawn-bear-traps"]
+position = Vector2(621, 402)
+
+[node name="Beartrap3" type="Marker2D" parent="Spawn-bear-traps"]
+position = Vector2(429, 563)
+
+[node name="Beartrap4" type="Marker2D" parent="Spawn-bear-traps"]
+position = Vector2(195, 179)
+
+[node name="Spawn-spike-traps" type="Node2D" parent="."]
+
+[node name="Spiketrap1" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(328, 327)
+
+[node name="Spiketrap2" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(227, 440)
+
+[node name="Spiketrap3" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(308, 614)
+
+[node name="Spiketrap4" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(77, 166)
+
+[node name="Spiketrap5" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(776, 158)
+
+[node name="Spiketrap6" type="Marker2D" parent="Spawn-spike-traps"]
+position = Vector2(663, 316)
 
 [node name="Spawn-poison-traps" type="Node2D" parent="."]
 

@@ -3,7 +3,9 @@ extends CharacterBody2D
 const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
 
 @export var SPEED:float = 100.0
-var SPEED_DEFAULT = 100.0
+@export var SPEED_DEFAULT = 100.0
+@export var active_slows: Array = []
+
 var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
@@ -342,5 +344,32 @@ func _on_heal_timeout():
 
 func _on_polimorf_timeout() -> void:
 	revertir_apariencia()
-	
-signal died(player_id)
+
+func slow_for(duration: float, slow_amount: float) -> void:
+	var slow_effect = {
+		"duration": duration,
+		"amount": slow_amount
+	}
+	active_slows.append(slow_effect)
+	_update_speed()
+	# Crear un temporizador independiente para remover el efecto después de su duración
+	var slow_timer := Timer.new()
+	slow_timer.one_shot = true
+	slow_timer.wait_time = duration
+	add_child(slow_timer)
+	slow_timer.timeout.connect(func():
+		active_slows.erase(slow_effect)
+		_update_speed()
+		slow_timer.queue_free()
+	)
+	slow_timer.start()
+
+func _update_speed() -> void:
+	var speed_factor := 1.0
+	for s in active_slows:
+		speed_factor *= (1.0 - s.amount)
+
+	speed_factor = clamp(speed_factor, 0.1, 1.0)  # mínimo 10% de la velocidad
+	SPEED = SPEED_DEFAULT * speed_factor
+
+signal died
