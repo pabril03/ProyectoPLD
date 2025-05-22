@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bklj2r23yv7p4"]
+[gd_scene load_steps=14 format=3 uid="uid://bklj2r23yv7p4"]
 
 [ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="1_ggk2n"]
 [ext_resource type="Script" uid="uid://cv6jyoxm3eata" path="res://scripts/opciones_juego.gd" id="1_pgcaq"]
 [ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="2_pgcaq"]
 [ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="3_vvywr"]
 [ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="4_hvx20"]
+[ext_resource type="PackedScene" uid="uid://bc3gqbpjnrymw" path="res://UI/settings_menu.tscn" id="6_vvywr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i3a36"]
 shader = ExtResource("1_ggk2n")
@@ -39,23 +40,30 @@ shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
 shader = ExtResource("4_hvx20")
 shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
 
-[node name="Menu" type="VBoxContainer"]
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pgcaq")
+
+[node name="Div" type="VBoxContainer" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -265.0
-offset_top = -175.0
+offset_top = -172.0
 offset_right = 265.0
-offset_bottom = 279.0
+offset_bottom = 172.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 5
-alignment = 1
-script = ExtResource("1_pgcaq")
 
-[node name="Juego" type="NinePatchRect" parent="."]
+[node name="Juego" type="NinePatchRect" parent="Div"]
 material = SubResource("ShaderMaterial_i3a36")
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -65,7 +73,7 @@ patch_margin_top = 20
 patch_margin_right = 14
 patch_margin_bottom = 20
 
-[node name="Label" type="Label" parent="Juego"]
+[node name="Label" type="Label" parent="Div/Juego"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -84,13 +92,13 @@ text = "OPCIONES"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Div"]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Opcion1" type="Button" parent="VBoxContainer"]
+[node name="Opcion1" type="Button" parent="Div/VBoxContainer"]
 material = SubResource("ShaderMaterial_38inf")
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
@@ -101,7 +109,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
 text = "Resume"
 
-[node name="Opcion2" type="Button" parent="VBoxContainer"]
+[node name="Opcion2" type="Button" parent="Div/VBoxContainer"]
 material = SubResource("ShaderMaterial_yuo6r")
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
@@ -112,7 +120,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
 text = "Options"
 
-[node name="Salir" type="Button" parent="VBoxContainer"]
+[node name="Salir" type="Button" parent="Div/VBoxContainer"]
 material = SubResource("ShaderMaterial_p8c5i")
 custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
@@ -123,6 +131,10 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
 text = "ATRÁS"
 
-[connection signal="pressed" from="VBoxContainer/Opcion1" to="." method="_on_opcion_1_pressed"]
-[connection signal="pressed" from="VBoxContainer/Opcion2" to="." method="_on_opcion_2_pressed"]
-[connection signal="pressed" from="VBoxContainer/Salir" to="." method="_on_salir_pressed"]
+[node name="SettingsMenu" parent="." instance=ExtResource("6_vvywr")]
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="Div/VBoxContainer/Opcion1" to="." method="_on_opcion_1_pressed"]
+[connection signal="pressed" from="Div/VBoxContainer/Opcion2" to="." method="_on_opcion_2_pressed"]
+[connection signal="pressed" from="Div/VBoxContainer/Salir" to="." method="_on_salir_pressed"]

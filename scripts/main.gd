@@ -66,13 +66,13 @@ func _ready():
 	menu.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
 	# Conectar la señal del botón ‘ResumeButton’
-	var btn1 = menu.get_node("VBoxContainer/Opcion1") as Button
+	var btn1 = menu.get_node("Div/VBoxContainer/Opcion1") as Button
 	btn1.pressed.connect(Callable(self, "_on_Opcion1_pressed"))
 	
-	var btn2 = menu.get_node("VBoxContainer/Opcion2") as Button
+	var btn2 = menu.get_node("Div/VBoxContainer/Opcion2") as Button
 	btn2.pressed.connect(Callable(self, "_on_Opcion2_pressed"))
 	
-	var btnSalir = menu.get_node("VBoxContainer/Salir") as Button
+	var btnSalir = menu.get_node("Div/VBoxContainer/Salir") as Button
 	btnSalir.pressed.connect(Callable(self, "_on_Salir_pressed"))
 
 func _input(event: InputEvent) -> void:
@@ -93,7 +93,7 @@ func _toggle_pause():
 	
 	if get_tree().paused:
 		print("Jugador %d ha pausado la partida" % last_pauser_id)
-		var resume_btn = menu.get_node("VBoxContainer/Opcion1") as Button
+		var resume_btn = menu.get_node("Div/VBoxContainer/Opcion1") as Button
 		resume_btn.grab_focus()
 
 	# Opcional: mostrar/ocultar tu menú de pausa
@@ -111,7 +111,9 @@ func _on_Opcion1_pressed() -> void:
 
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:
-	print("Pulso Opcion2: abre opciones avanzadas…")
+	#$SettingsMenu.visible = true
+	$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = true
+	#print("Pulso Opcion2: abre opciones avanzadas…")
 
 # Salir al menú principal
 func _on_Salir_pressed() -> void:
@@ -121,7 +123,9 @@ func _on_Salir_pressed() -> void:
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
-	return
+	if $SplitScreen2D/UILayer/Opciones/SettingsMenu.volver:
+		$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = false
+		$SplitScreen2D/UILayer/Opciones/SettingsMenu.volver = false
 
 func get_next_player_id() -> int:
 	next_player_id += 1

@@ -1,0 +1,164 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc3gqbpjnrymw"]
+
+[ext_resource type="Script" uid="uid://thdmsdn37nhf" path="res://scripts/UI/settings_menu.gd" id="1_77no7"]
+
+[node name="SettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_77no7")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -424.0
+offset_top = -225.5
+offset_right = 424.0
+offset_bottom = 225.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.43134, 0.43134, 0.43134, 1)
+
+[node name="TabContainer" type="TabContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Video" type="TabBar" parent="ColorRect/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/TabContainer/Video"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="VideoSettings" type="GridContainer" parent="ColorRect/TabContainer/Video/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+columns = 2
+
+[node name="ModoPantalla" type="Label" parent="ColorRect/TabContainer/Video/MarginContainer/VideoSettings"]
+layout_mode = 2
+text = "Modo de pantalla"
+
+[node name="OptionButton" type="OptionButton" parent="ColorRect/TabContainer/Video/MarginContainer/VideoSettings"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Ventana"
+popup/item_0/id = 0
+popup/item_1/text = "Pantalla Completa"
+popup/item_1/id = 1
+
+[node name="Audio" type="TabBar" parent="ColorRect/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/TabContainer/Audio"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/TabContainer/Audio/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="LabelMasterVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Volumen general"
+
+[node name="MasterVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="SliderMasterVol" type="HSlider" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MasterVbox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MasterVbox"]
+layout_mode = 2
+text = "100"
+
+[node name="LabelMusicVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Volumen de la música"
+
+[node name="MusicVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SliderMusicVol" type="HSlider" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MusicVbox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MusicVbox"]
+layout_mode = 2
+text = "100"
+
+[node name="LabelSFXVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Volumen de efectos"
+
+[node name="SfxVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SliderSFXVol" type="HSlider" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/SfxVbox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/SfxVbox"]
+layout_mode = 2
+text = "100"
+
+[node name="Button" type="Button" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = -45.5
+offset_right = 115.0
+offset_bottom = -12.5
+grow_vertical = 0
+text = "Volver"
+
+[connection signal="item_selected" from="ColorRect/TabContainer/Video/MarginContainer/VideoSettings/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MasterVbox/SliderMasterVol" to="." method="_on_slider_master_vol_value_changed"]
+[connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MusicVbox/SliderMusicVol" to="." method="_on_slider_music_vol_value_changed"]
+[connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/SfxVbox/SliderSFXVol" to="." method="_on_slider_sfx_vol_value_changed"]
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]
