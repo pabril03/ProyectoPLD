@@ -155,6 +155,12 @@ color_ramp = SubResource("Gradient_8b7ct")
 [node name="Polimorf" type="Timer" parent="."]
 wait_time = 8.0
 
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="ActivarDash" type="Timer" parent="."]
+wait_time = 2.0
+
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -203,5 +209,7 @@ texture = ExtResource("15_riq8v")
 offset_top = -20.0
 
 [connection signal="timeout" from="Polimorf" to="." method="_on_polimorf_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="ActivarDash" to="." method="_on_activar_dash_timeout"]
 
 [editable path="Panel/HBoxContainer/AbilityButton"]

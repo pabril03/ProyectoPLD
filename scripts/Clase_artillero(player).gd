@@ -4,11 +4,13 @@ const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.t
 
 @export var SPEED:float = 100.0
 @export var SPEED_DEFAULT = 100.0
+@export var SPEED_DASH = 300.0
 @export var active_slows: Array = []
 
 var DEADZONE := 0.2
 var escudo_activo:bool = false
 var puede_activar_escudo = true
+var activar_dash: bool = true
 var max_health = 20
 var health = 20
 var player_id: int
@@ -45,6 +47,7 @@ signal health_changed(new_health)
 @onready var speedTimer  = $SpeedTimer
 @onready var damageTimer = $DamageTimer
 @onready var healTimer   = $HealTimer
+@onready var dashTimer = $DashTimer
 
 
 func _ready():
@@ -213,6 +216,14 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("artillero_idle")
+		
+		# Dash del jugador, le aumenta la velocidad respecto al Timer
+		if Input.is_action_just_pressed("dash") and activar_dash:
+			SPEED = SPEED_DASH
+			activar_dash = false
+			dashTimer.start()
+			$ActivarDash.start()
+			
 	
 	
 
@@ -372,5 +383,12 @@ func _update_speed() -> void:
 
 	speed_factor = clamp(speed_factor, 0.1, 1.0)  # mínimo 10% de la velocidad
 	SPEED = SPEED_DEFAULT * speed_factor
+
+# Timers para el dash
+func _on_dash_timer_timeout() -> void:
+	SPEED = SPEED_DEFAULT
+
+func _on_activar_dash_timeout() -> void:
+	activar_dash = true
 
 signal died
