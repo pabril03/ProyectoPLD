@@ -80,6 +80,7 @@ func _physics_process(_delta: float) -> void:
 	
 	# Condición de teleport, cada 2 segundos. Tepear se pone a true dentro de teletransportador.gd
 	if tepear and id_tp != -1 and colocados:
+		#print("ENTRO")
 		teletransportar()
 		tepear = false
 		# Si ya existe un timer previo, lo eliminamos

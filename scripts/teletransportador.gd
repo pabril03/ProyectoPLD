@@ -7,6 +7,8 @@ var id : int = -1
 var tp_cooldown : bool = false
 var colocados: bool = false
 
+var player = null
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if not parar:
@@ -26,7 +28,14 @@ func update_direction():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("teletransportar"):
-		if not tp_cooldown:
+		if not tp_cooldown and body.colocados:
 			body.tepear = true
 			body.id_tp = id
 			tp_cooldown = true
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.has_method("teletransportar") and id == 1:
+		player = null
+		#print("SALGO")
+		body.tepear = false
