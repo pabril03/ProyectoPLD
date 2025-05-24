@@ -4,6 +4,7 @@ var target_to_follow: Node2D = null
 var follow_timer: Timer
 var trap_used: bool = false
 var player_speed: int = 0
+var player_id: int = -1
 
 func _ready() -> void:
 	damage_amount = 3

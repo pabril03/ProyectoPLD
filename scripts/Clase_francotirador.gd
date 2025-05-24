@@ -1,5 +1,10 @@
 extends "Clase_artillero(player).gd"
 
+@onready var teleport = preload("res://escenas/Trampas/teletransportador.tscn")
+
+var tp_activo : bool = false
+var tepear : bool = false
+
 func _ready() -> void:
 	SPEED = 120.0
 	SPEED_DEFAULT = 120.0
@@ -89,6 +94,14 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("francotirador_idle")
+			
+		# Habilidad de teletransporte
+		if Input.is_action_just_pressed("second_ability"):
+			var tp = teleport.instantiate()
+			tp.global_position = global_position
+			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+			world.add_child(tp)
+			tp_activo = true
 		
 	
 
@@ -116,3 +129,6 @@ func activar_escudo():
 	await get_tree().create_timer(cooldown_escudo).timeout
 	
 	puede_activar_escudo = true
+
+func teletransportar():
+	tepear = true

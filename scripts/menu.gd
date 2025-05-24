@@ -8,7 +8,7 @@ func _ready() -> void:
 	# Al entrar en la escena, el foco cae en “Play”
 	play_btn.grab_focus()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if $SettingsMenu.volver:
 		$SettingsMenu.visible = false
 		$SettingsMenu.volver = false
