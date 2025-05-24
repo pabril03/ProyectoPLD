@@ -9,6 +9,8 @@ var colocados : bool = false
 
 var teleport1: Node2D = null
 var teleport2: Node2D = null
+var tp_timer
+
 
 func _ready() -> void:
 	SPEED = 120.0
@@ -16,7 +18,6 @@ func _ready() -> void:
 	max_health = 15
 	health = 15
 	cooldown_escudo = 1.25
-	
 	
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -77,12 +78,26 @@ func _physics_process(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 	
+	# Condición de teleport, cada 2 segundos. Tepear se pone a true dentro de teletransportador.gd
 	if tepear and id_tp != -1 and colocados:
 		teletransportar()
 		tepear = false
-		await get_tree().create_timer(2.0).timeout
-		teleport1.tp_cooldown = false
-		teleport2.tp_cooldown = false
+		# Si ya existe un timer previo, lo eliminamos
+		if tp_timer and tp_timer.is_inside_tree():
+			tp_timer.queue_free()
+			tp_timer = null
+
+		# Crear nuevo timer
+		tp_timer = Timer.new()
+		tp_timer.wait_time = 2.0
+		tp_timer.one_shot = true
+		tp_timer.connect("timeout", Callable(self, "_on_tp_timer_timeout"))
+		add_child(tp_timer)
+		tp_timer.start()
+
+		# Mientras tanto, impedir nuevo teletransporte
+		teleport1.tp_cooldown = true
+		teleport2.tp_cooldown = true
 
 	if polimorf:
 		if not en_polimorf:
@@ -108,7 +123,7 @@ func _physics_process(_delta: float) -> void:
 		else:
 			animaciones.play("francotirador_idle")
 			
-		# Habilidad de teletransporte
+		# Habilidad de teletransporte (Tecla E)
 		if Input.is_action_just_pressed("second_ability"):
 			if tp_activo and teleport1 and teleport2:
 				if teleport1.parar and teleport2.parar:
@@ -116,7 +131,10 @@ func _physics_process(_delta: float) -> void:
 					teleport2.queue_free()
 					tp_activo = false
 					colocados = false
+					if tp_timer:
+						tp_timer.queue_free()
 			
+			# Si no hay teleports activos, se crean
 			if not tp_activo:
 				teleport1 = teleport.instantiate()
 				teleport2 = teleport.instantiate()
@@ -130,6 +148,7 @@ func _physics_process(_delta: float) -> void:
 				
 				teleport1.parar = true
 				tp_activo = true
+			# Cuando se coloca el segundo teleport con la E, fija la posicion del segundo teleport
 			else:
 				teleport2.parar = true
 				colocados = true
@@ -167,3 +186,14 @@ func teletransportar():
 		global_position = teleport1.global_position
 	teleport1.tp_cooldown = true
 	teleport2.tp_cooldown = true
+
+# Cooldown del timer del teleport
+func _on_tp_timer_timeout():
+	# Cooldown finalizado, permitir nuevo teletransporte
+	teleport1.tp_cooldown = false
+	teleport2.tp_cooldown = false
+
+	# Eliminar el timer
+	if tp_timer and tp_timer.is_inside_tree():
+		tp_timer.queue_free()
+		tp_timer = null
