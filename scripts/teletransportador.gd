@@ -27,13 +27,6 @@ func update_direction():
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("teletransportar"):
 		if not tp_cooldown:
-			print("ENTRO")
 			body.tepear = true
 			body.id_tp = id
 			tp_cooldown = true
-			$Timer.start()
-
-
-func _on_timer_timeout() -> void:
-	print("SALGO")
-	tp_cooldown = false

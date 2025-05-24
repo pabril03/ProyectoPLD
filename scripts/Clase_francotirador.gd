@@ -5,6 +5,7 @@ extends "Clase_artillero(player).gd"
 var tp_activo : bool = false
 var tepear : bool = false
 var id_tp : int = -1
+var colocados : bool = false
 
 var teleport1: Node2D = null
 var teleport2: Node2D = null
@@ -76,9 +77,12 @@ func _physics_process(_delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 	
-	if tepear and id_tp != -1:
+	if tepear and id_tp != -1 and colocados:
 		teletransportar()
 		tepear = false
+		await get_tree().create_timer(2.0).timeout
+		teleport1.tp_cooldown = false
+		teleport2.tp_cooldown = false
 
 	if polimorf:
 		if not en_polimorf:
@@ -111,6 +115,7 @@ func _physics_process(_delta: float) -> void:
 					teleport1.queue_free()
 					teleport2.queue_free()
 					tp_activo = false
+					colocados = false
 			
 			if not tp_activo:
 				teleport1 = teleport.instantiate()
@@ -127,10 +132,8 @@ func _physics_process(_delta: float) -> void:
 				tp_activo = true
 			else:
 				teleport2.parar = true
+				colocados = true
 			
-			
-		
-	
 
 func activar_escudo():
 	if not puede_activar_escudo:
