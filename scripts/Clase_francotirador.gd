@@ -4,6 +4,10 @@ extends "Clase_artillero(player).gd"
 
 var tp_activo : bool = false
 var tepear : bool = false
+var id_tp : int = -1
+
+var teleport1: Node2D = null
+var teleport2: Node2D = null
 
 func _ready() -> void:
 	SPEED = 120.0
@@ -11,6 +15,7 @@ func _ready() -> void:
 	max_health = 15
 	health = 15
 	cooldown_escudo = 1.25
+	
 	
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -70,6 +75,10 @@ func _physics_process(_delta: float) -> void:
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
+	
+	if tepear and id_tp != -1:
+		teletransportar()
+		tepear = false
 
 	if polimorf:
 		if not en_polimorf:
@@ -97,11 +106,29 @@ func _physics_process(_delta: float) -> void:
 			
 		# Habilidad de teletransporte
 		if Input.is_action_just_pressed("second_ability"):
-			var tp = teleport.instantiate()
-			tp.global_position = global_position
-			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
-			world.add_child(tp)
-			tp_activo = true
+			if tp_activo and teleport1 and teleport2:
+				if teleport1.parar and teleport2.parar:
+					teleport1.queue_free()
+					teleport2.queue_free()
+					tp_activo = false
+			
+			if not tp_activo:
+				teleport1 = teleport.instantiate()
+				teleport2 = teleport.instantiate()
+				teleport1.global_position = global_position
+				teleport1.id = 1
+				teleport2.global_position = global_position
+				teleport2.id = 2
+				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+				world.add_child(teleport1)
+				world.add_child(teleport2)
+				
+				teleport1.parar = true
+				tp_activo = true
+			else:
+				teleport2.parar = true
+			
+			
 		
 	
 
@@ -131,4 +158,9 @@ func activar_escudo():
 	puede_activar_escudo = true
 
 func teletransportar():
-	tepear = true
+	if id_tp == 1:
+		global_position = teleport2.global_position
+	else:
+		global_position = teleport1.global_position
+	teleport1.tp_cooldown = true
+	teleport2.tp_cooldown = true

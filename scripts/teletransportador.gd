@@ -1,19 +1,23 @@
 extends CharacterBody2D
 
 @export var speed := 200.0
-
+var parar : bool = false
 var direction := Vector2.ZERO
+var id : int = -1
+var tp_cooldown : bool = false
+var colocados: bool = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	update_direction()
-	
-	if direction.length() > 0.1:
-		velocity = direction.normalized() * speed
-	else:
-		velocity = Vector2.ZERO
+	if not parar:
+		update_direction()
 		
-	move_and_slide()
+		if direction.length() > 0.1:
+			velocity = direction.normalized() * speed
+		else:
+			velocity = Vector2.ZERO
+			
+		move_and_slide()
 	
 func update_direction():
 	var mouse_target = get_global_mouse_position()
@@ -22,4 +26,14 @@ func update_direction():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.has_method("teletransportar"):
-		body.tepear = true
+		if not tp_cooldown:
+			print("ENTRO")
+			body.tepear = true
+			body.id_tp = id
+			tp_cooldown = true
+			$Timer.start()
+
+
+func _on_timer_timeout() -> void:
+	print("SALGO")
+	tp_cooldown = false
