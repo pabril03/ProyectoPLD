@@ -10,7 +10,7 @@ var colocados: bool = false
 var player = null
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not parar:
 		update_direction()
 		

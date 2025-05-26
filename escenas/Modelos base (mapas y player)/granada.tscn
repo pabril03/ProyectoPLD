@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://cjwpvltfy1akw"]
+
+[ext_resource type="Script" uid="uid://bdk3548x3b18c" path="res://escenas/Modelos base (mapas y player)/granada.gd" id="1_ogfl5"]
+[ext_resource type="Texture2D" uid="uid://cktl2rqwh72f1" path="res://sprites/granadas/—Pngtree—pixel art game supplies cartoon_6460115.png" id="2_lmvsa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ogfl5"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hunkl"]
+radius = 14.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmvsa"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oy3nv"]
+radius = 47.0106
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_ogfl5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ogfl5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9.53674e-07, -1.90735e-06)
+scale = Vector2(0.00604169, 0.00572919)
+texture = ExtResource("2_lmvsa")
+
+[node name="ExplosionArea" type="Area2D" parent="."]
+collision_mask = 222
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
+shape = SubResource("CircleShape2D_hunkl")
+
+[node name="Retardo" type="Timer" parent="."]
+
+[node name="Cuerpo" type="Area2D" parent="."]
+collision_mask = 33
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cuerpo"]
+shape = SubResource("CircleShape2D_lmvsa")
+
+[node name="LaunchArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaunchArea"]
+shape = SubResource("CircleShape2D_oy3nv")

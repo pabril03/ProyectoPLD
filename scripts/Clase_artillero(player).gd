@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
+const BearTrapScene = preload("res://escenas/Trampas/bear_trap.tscn")
 
 @export var SPEED:float = 100.0
 @export var SPEED_DEFAULT = 100.0
@@ -15,6 +16,7 @@ var max_health = 20
 var health = 20
 var player_id: int
 var danio_default = 2
+var traps_used = []
 
 var death_sentences_player: Array = [""]
 var death_sentences_enemies: Array = [""]
@@ -48,7 +50,7 @@ signal health_changed(new_health)
 @onready var damageTimer = $DamageTimer
 @onready var healTimer   = $HealTimer
 @onready var dashTimer = $DashTimer
-
+@onready var dashCD = $ActivarDash
 
 func _ready():
 	emit_signal("health_changed", health)
@@ -159,6 +161,8 @@ func heal(amount: float) -> void:
 func _physics_process(_delta: float) -> void:
 
 	var usar_escudo := false
+	var usar_dash := false
+	var usar_habilidad := false
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -170,6 +174,8 @@ func _physics_process(_delta: float) -> void:
 		velocity.y = directionY * SPEED
 		
 		usar_escudo = Input.is_action_pressed("shield")
+		usar_dash = Input.is_action_pressed("dash")
+		usar_habilidad = Input.is_action_just_pressed("second_ability")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -188,6 +194,8 @@ func _physics_process(_delta: float) -> void:
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
 		usar_escudo = Input.is_action_pressed("shield_pad")
+		usar_dash = Input.is_action_pressed("dash_pad")
+		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -217,15 +225,30 @@ func _physics_process(_delta: float) -> void:
 		else:
 			animaciones.play("artillero_idle")
 		
+		for idx in range(traps_used.size() - 1, -1, -1):
+			var trap = traps_used[idx]
+			if not is_instance_valid(trap):
+				traps_used.remove(idx)
+		
+		if usar_habilidad:
+			if traps_used.size() > 3:
+				traps_used.front().queue_free()
+				traps_used.pop_front()
+
+			if traps_used.size() <= 3:
+				var new_trap = BearTrapScene.instantiate()
+				new_trap.owner_id = player_id
+				new_trap.global_position = global_position
+				traps_used.append(new_trap)
+				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+				world.add_child(new_trap)
+		
 		# Dash del jugador, le aumenta la velocidad respecto al Timer
-		if Input.is_action_just_pressed("dash") and activar_dash:
+		if usar_dash and activar_dash:
 			SPEED = SPEED_DASH
 			activar_dash = false
 			dashTimer.start()
-			$ActivarDash.start()
-			
-	
-	
+			dashCD.start()
 
 func activar_escudo():
 	if not puede_activar_escudo:
@@ -327,7 +350,6 @@ func _respawn_in_place() -> void:
 	emit_signal("health_changed", health)
 	global_position = GameManager.get_spawn_point()  # obtiene Vector2
 
-	SPEED = SPEED_DEFAULT
 	is_invulnerable = true
 	animaciones.visible = true
 	collision.disabled = false
@@ -342,6 +364,8 @@ func _respawn_in_place() -> void:
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false
+	active_slows.clear()
+	_update_speed()
 	muriendo = false
 
 # Al expirar cada timer, apagamos la correspondiente aura
@@ -377,6 +401,9 @@ func slow_for(duration: float, slow_amount: float) -> void:
 	slow_timer.start()
 
 func _update_speed() -> void:
+	if muriendo:
+		return
+
 	var speed_factor := 1.0
 	for s in active_slows:
 		speed_factor *= (1.0 - s.amount)

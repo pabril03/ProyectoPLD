@@ -15,9 +15,11 @@ var tp_timer
 func _ready() -> void:
 	SPEED = 120.0
 	SPEED_DEFAULT = 120.0
+	SPEED_DASH = 350.0
 	max_health = 15
 	health = 15
 	cooldown_escudo = 1.25
+	dashCD.wait_time = 1.5
 	
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -44,6 +46,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 
 	var usar_escudo := false
+	var usar_dash := false
+	var usar_habilidad := false
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -55,6 +59,8 @@ func _physics_process(_delta: float) -> void:
 		velocity.y = directionY * SPEED
 		
 		usar_escudo = Input.is_action_pressed("shield")
+		usar_dash = Input.is_action_pressed("dash")
+		usar_habilidad = Input.is_action_just_pressed("second_ability")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -73,6 +79,8 @@ func _physics_process(_delta: float) -> void:
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
 		usar_escudo = Input.is_action_pressed("shield_pad")
+		usar_dash = Input.is_action_pressed("dash_pad")
+		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -125,7 +133,7 @@ func _physics_process(_delta: float) -> void:
 			animaciones.play("francotirador_idle")
 			
 		# Habilidad de teletransporte (Tecla E)
-		if Input.is_action_just_pressed("second_ability"):
+		if usar_habilidad:
 			if tp_activo and teleport1 and teleport2:
 				if teleport1.parar and teleport2.parar:
 					teleport1.queue_free()
@@ -153,7 +161,13 @@ func _physics_process(_delta: float) -> void:
 			else:
 				teleport2.parar = true
 				colocados = true
-			
+		
+		# Dash del jugador, le aumenta la velocidad respecto al Timer
+		if usar_dash and activar_dash:
+			SPEED = SPEED_DASH
+			activar_dash = false
+			dashTimer.start()
+			$ActivarDash.start()
 
 func activar_escudo():
 	if not puede_activar_escudo:

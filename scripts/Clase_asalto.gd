@@ -1,11 +1,18 @@
 extends "Clase_artillero(player).gd"
 
+@export var Grenade: PackedScene = preload("res://escenas/Modelos base (mapas y player)/granada.tscn")
+@export var grenade_cooldown: float = 3.0
+@export var max_grenade_distance: float = 200.0
+var _can_throw_grenade: bool = true
+
 func _ready() -> void:
 	SPEED = 75.0
 	SPEED_DEFAULT = 75.0
+	SPEED_DASH = 200.0
 	max_health = 30
 	health = 30
 	cooldown_escudo = 2.5
+	dashCD.wait_time = 3.5
 	
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -31,6 +38,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 
 	var usar_escudo := false
+	var usar_dash := false
+	var usar_habilidad := false
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -42,6 +51,8 @@ func _physics_process(_delta: float) -> void:
 		velocity.y = directionY * SPEED
 		
 		usar_escudo = Input.is_action_pressed("shield")
+		usar_dash = Input.is_action_pressed("dash")
+		usar_habilidad = Input.is_action_just_pressed("second_ability")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -60,6 +71,8 @@ func _physics_process(_delta: float) -> void:
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
 		usar_escudo = Input.is_action_pressed("shield_pad")
+		usar_dash = Input.is_action_pressed("dash_pad")
+		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -88,6 +101,36 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("asalto_idle")
+	
+	if usar_habilidad and _can_throw_grenade:
+		var target: Vector2
+		if dispositivo == null:
+			target = get_global_mouse_position()
+		else:
+			# joystick derecho
+			var rx := Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
+			var ry := Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_Y)
+			var dir := Vector2(rx, ry)
+			if dir.length() < DEADZONE:
+				target = global_position
+			else:
+				target = global_position + dir.normalized() * max_grenade_distance
+		# instanciar y lanzar
+		var grenade = Grenade.instantiate()
+		grenade.global_position = global_position
+		get_tree().current_scene.get_node("SplitScreen2D").play_area.add_child(grenade)
+		grenade.throw_to(target)
+		# cooldown
+		_can_throw_grenade = false
+		await get_tree().create_timer(grenade_cooldown).timeout
+		_can_throw_grenade = true
+	
+	# Dash del jugador, le aumenta la velocidad respecto al Timer
+		if usar_dash and activar_dash:
+			SPEED = SPEED_DASH
+			activar_dash = false
+			dashTimer.start()
+			$ActivarDash.start()
 
 func activar_escudo():
 	if not puede_activar_escudo:

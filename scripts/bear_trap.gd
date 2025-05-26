@@ -5,6 +5,7 @@ var follow_timer: Timer
 var trap_used: bool = false
 var player_speed: int = 0
 var player_id: int = -1
+var owner_id = null
 
 func _ready() -> void:
 	damage_amount = 3
@@ -43,8 +44,9 @@ func _physics_process(_delta: float) -> void:
 
 	for b in bodies:
 		if b.is_in_group("player") or b.has_method("repeler_balas"):
-			has_target = true
-			break
+			if b.player_id != owner_id:
+				has_target = true
+				break
 
 	if has_target:
 		if rearm_timer.is_stopped() and damage_timer.is_stopped():
@@ -71,6 +73,8 @@ func _on_damage_timeout() -> void:
 
 	for body in detector.get_overlapping_bodies():
 		if (body.is_in_group("player") or body.has_method("repeler_balas")):
+			if body.player_id == owner_id:
+				return
 			if body.health <= 0:
 				continue
 			if body.has_method("take_damage") and not body.escudo_activo:
