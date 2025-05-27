@@ -74,10 +74,6 @@ func _physics_process(_delta: float) -> void:
 		usar_dash = Input.is_action_pressed("dash_pad")
 		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
 
-	# Movimiento real
-	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
-	move_and_slide()
-
 	if polimorf:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
@@ -118,19 +114,25 @@ func _physics_process(_delta: float) -> void:
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
 		grenade.global_position = global_position
-		get_tree().current_scene.get_node("SplitScreen2D").play_area.add_child(grenade)
+		grenade.owner_id = player_id
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(grenade)
 		grenade.throw_to(target)
 		# cooldown
 		_can_throw_grenade = false
 		await get_tree().create_timer(grenade_cooldown).timeout
 		_can_throw_grenade = true
-	
+
 	# Dash del jugador, le aumenta la velocidad respecto al Timer
-		if usar_dash and activar_dash:
-			SPEED = SPEED_DASH
-			activar_dash = false
-			dashTimer.start()
-			$ActivarDash.start()
+	if usar_dash and activar_dash:
+		SPEED = SPEED_DASH
+		activar_dash = false
+		dashTimer.start()
+		$ActivarDash.start()
+
+	# Movimiento real
+	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
+	move_and_slide()
 
 func activar_escudo():
 	if not puede_activar_escudo:

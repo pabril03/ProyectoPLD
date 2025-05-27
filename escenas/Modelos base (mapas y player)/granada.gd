@@ -2,13 +2,16 @@ extends CharacterBody2D
 
 const DeathAnimation: PackedScene = preload("res://escenas/VFX/death_animation.tscn")
 
+@onready var sprite = $Sprite2D
+
 var SPEED: float = 200.0
-var dano: float = 10
+var dano: float = 15
+var owner_id: int = 0
 
 var max_distance: float = 300.0
 var distance_traveled: float = 0.0
 var last_position: Vector2
-var max_travel_time = 1.5
+var max_travel_time = 1.0
 
 # Lanzamiento parabólicoar max_travel_time: float = 1.0
 var arc_height: float = 100.0
@@ -25,11 +28,13 @@ var parar: bool = false
 @onready var explosion = $ExplosionArea
 @onready var cuerpo = $Cuerpo
 
+var hit_bodies = []
+
 func _ready():
 	# Inicializa posición de partida si no se ha seteado
 	if last_position == Vector2.ZERO:
 		last_position = global_position
-	cuerpo.body_entered.connect(Callable(self, "_on_body_entered"))
+	collision_layer = 1 << 9  # = 32
 
 # Llamada externa: lanza esta granada hacia raw_target
 func throw_to(raw_target: Vector2) -> void:
@@ -65,49 +70,38 @@ func _physics_process(delta: float) -> void:
 	if _thrown:
 		_elapsed += delta
 		var t = clamp(_elapsed / max_travel_time, 0.0, 1.0)
-		# Trayectoria parabólica
-		var flat = _start_pos.lerp(_target_pos, t)
+		
+		# Movimiento lineal plano (como en Enter the Gungeon)
+		global_position = _start_pos.lerp(_target_pos, t)
+		
+		# Simulación de altura (2.5D visual) usando offset del sprite
 		var height = 4.0 * arc_height * t * (1.0 - t)
-		global_position = flat + Vector2(0, -height)
+		sprite.position.y = -height  # Solo modifica la posición relativa del sprite
+		#sombra.scale = Vector2(1.0 - 0.5 * t, 1.0 - 0.5 * t)  # Sombra se hace más chica al elevarse
+		#sombra.modulate.a = 1.0 - t * 0.5  # Sombra se desvanece un poco
 
-		# Distancia para max_distance
-		distance_traveled += _start_pos.distance_to(global_position) if t < 1.0 else 0
-		if t >= 1.0 or distance_traveled >= max_distance:
+		# Final de la trayectoria
+		if t >= 1.0:
+			# La situamos donde estaba la granada al explotar
+			var animacion = DeathAnimation.instantiate()
+			animacion.global_position = global_position
+			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+			world.add_child(animacion)
+			animacion._play_vfx(1)
 			explode()
 		return
 
-	# Si no está "lanzada", puede moverse o colisionar como bala normal
-	var current_position = global_position
-	distance_traveled += current_position.distance_to(last_position)
-	last_position = current_position
-
-	if distance_traveled >= max_distance:
-		explode()
-		return
-
-	var colision = move_and_collide(velocity * delta)
-	if colision:
-		explode()
-		return
-
-	if not parar:
-		# Mantenimiento de velocidad
-		velocity = velocity.normalized() * SPEED if velocity.length() > 0.1 else Vector2.ZERO
-		move_and_slide()
-
 func explode() -> void:
-	# Mostramos los efectos de explosion
-	var death_FX = DeathAnimation.instantiate()
-	# La situamos donde estaba la granada al explotar
-	death_FX.global_position = global_position
 
 	# Lógica de daño
 	for body in explosion.get_overlapping_bodies():
-		if (body.is_in_group("player") or body.has_method("repeler_balas")):
-			if body.health > 0 and body.has_method("take_damage") and not body.escudo_activo:
+		if body.has_method("take_damage") and not hit_bodies.has(body):
+			if body.health > 0 and not body.is_in_group("player"):
+				hit_bodies.append(body)
+				body.take_damage(dano, owner_id, "Jugador" ,"Bombazo")
+				
+			if body.health > 0 and body.is_in_group("player") and not (owner_id == body.player_id) and not body.escudo_activo():
+				hit_bodies.append(body)
 				body.take_damage(dano)
-	queue_free()
 
-func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player") or body.is_in_group("balas"):
-		explode()
+	queue_free()

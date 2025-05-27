@@ -150,6 +150,7 @@ second_ability_pad={
 2d_physics/layer_6="balas"
 2d_physics/layer_7="escudo"
 2d_physics/layer_8="enemigos"
+2d_physics/layer_9="granadas"
 
 [physics]
 
