@@ -208,7 +208,7 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield_pad")
 		usar_dash = Input.is_action_pressed("dash_pad")
 		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
-		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -239,11 +239,15 @@ func _physics_process(_delta: float) -> void:
 			animaciones.play("artillero_idle")
 		
 		# Falta modificar todavia !!!!
-		#if cambiar_arma and (len(weapons) > 1):
-			#if arma_actual == 0:
-				#inutilizar_arma(arma)
-				#recuperar_arma(arma_secundaria)
-				#arma_actual = 1
+		if cambiar_arma and (len(weapons) > 1):
+			if arma_actual == 0:
+				inutilizar_arma(arma)
+				recuperar_arma(arma_secundaria)
+				arma_actual = 1
+			else:
+				inutilizar_arma(arma_secundaria)
+				recuperar_arma(arma)
+				arma_actual = 0
 		
 		for idx in range(traps_used.size() - 1, -1, -1):
 			var trap = traps_used[idx]
@@ -341,21 +345,29 @@ func add_weapon(nuevaArma: String) -> void:
 		call_deferred("add_child", arma_secundaria)
 		inutilizar_arma(arma)
 		arma_actual = 1
+		weapons.append(nuevaArma)
 	else:
 		arma_secundaria.queue_free()
 		arma_secundaria = packed.instantiate()
 		call_deferred("add_child", arma_secundaria)
 		inutilizar_arma(arma)
 		arma_actual = 1
+		weapons.pop_back()
+		weapons.append(nuevaArma)
+	
 		
 # Funciones para ocultar el arma secundaria
 func inutilizar_arma(weapon: Node2D) -> void:
 	weapon.set_process(false)
 	weapon.get_node("Sprite2D").visible = false
+	if weapon.tipo_arma == "Sniper":
+		weapon.get_node("Line2D").visible = false
 
 func recuperar_arma(weapon: Node2D) -> void:
 	weapon.set_process(true)
 	weapon.get_node("Sprite2D").visible = true
+	if weapon.tipo_arma == "Sniper":
+		weapon.get_node("Line2D").visible = true
 
 
 

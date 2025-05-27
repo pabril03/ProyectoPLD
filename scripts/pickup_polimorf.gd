@@ -27,7 +27,7 @@ func _on_body_entered(body: Node) -> void:
 	is_taken = true
 
 	# 1) Cambiar el arma del jugador
-	body.cambiar_arma(weapon_name)
+	body.add_weapon(weapon_name)
 
 	# 2) Notificar al GameManager
 	#    (capitalizamos para que coincida con "Shotgun" o "Pistol")

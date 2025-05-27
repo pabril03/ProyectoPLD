@@ -63,6 +63,7 @@ func _physics_process(_delta: float) -> void:
 	var usar_escudo := false
 	var usar_dash := false
 	var usar_habilidad := false
+	var cambiar_arma := false
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -76,6 +77,7 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield")
 		usar_dash = Input.is_action_pressed("dash")
 		usar_habilidad = Input.is_action_just_pressed("second_ability")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -96,6 +98,7 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield_pad")
 		usar_dash = Input.is_action_pressed("dash_pad")
 		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -124,7 +127,17 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("rogue_idle")
-			
+		
+		if cambiar_arma and (len(weapons) > 1):
+			if arma_actual == 0:
+				inutilizar_arma(arma)
+				recuperar_arma(arma_secundaria)
+				arma_actual = 1
+			else:
+				inutilizar_arma(arma_secundaria)
+				recuperar_arma(arma)
+				arma_actual = 0
+		
 	if usar_habilidad:
 		activar_invisibilidad()
 		
