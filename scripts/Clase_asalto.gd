@@ -22,6 +22,7 @@ func _ready() -> void:
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
 	
 	original_gun = "shotgun"
+	weapons.append(original_gun)
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false

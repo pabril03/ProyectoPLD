@@ -104,7 +104,7 @@ func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: Str
 			death_FX.global_position = global_position
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(death_FX)
-
+			drop_weapon()
 			queue_free()
 	
 func heal(amount: float) -> void:
@@ -127,3 +127,28 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 
 func _on_area_2d_body_exited(_body: Node2D) -> void:
 	pass # Replace with function body.
+
+func drop_weapon() -> void:
+	var num : int = randi() % 5
+	var nuevaArma : String = ""
+	match num:
+		0:
+			nuevaArma = "PickupPistol"
+		1:
+			nuevaArma = "PickupPolimorf"
+		2:
+			nuevaArma = "PickupShotgun"
+		3:
+			nuevaArma = "PickupSniper"
+		4:
+			nuevaArma = "PickupSword"
+		
+	var path = "res://escenas/Spawns Armas y Powerups/%s.tscn" % nuevaArma
+	
+	var packed = load(path) as PackedScene
+	
+	var arma = packed.instantiate()
+	arma.global_position = global_position
+	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+	world.add_child(arma)
+	

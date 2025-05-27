@@ -79,3 +79,21 @@ func _on_damage_timer_timeout() -> void:
 	for body in cuerpos_en_contacto:
 		if is_instance_valid(body) and body.is_in_group("player") and not body.get_escudo_activo():
 			body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "golpetazo")
+
+func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
+	if !muriendo:
+		health = clamp(health - amount, 0, max_health)
+		emit_signal("health_changed", health)
+		
+		if health <= 0:
+			muriendo = true
+			var msj = generar_frase(autor, String(tipo_enemigo))
+			print(msj)
+
+			# Mostramos los efectos de muerte
+			var death_FX = DeathAnimation.instantiate()
+			# La situamos donde estaba el jugador al morir
+			death_FX.global_position = global_position
+			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+			world.add_child(death_FX)
+			queue_free()

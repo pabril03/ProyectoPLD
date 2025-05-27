@@ -30,6 +30,11 @@ var cooldown_escudo: float = 1.0
 var afecta_daga = true
 var original_frames: SpriteFrames
 
+# Gestión de armas
+var arma_secundaria
+var weapons: Array[String] = []
+var arma_actual: int = 0
+
 var polimorf: bool = false
 var en_polimorf: bool = false
 @export var textura: SpriteFrames
@@ -62,6 +67,7 @@ func _ready():
 
 	cambiar_arma("gun")
 	original_gun = "gun"
+	weapons.append(original_gun)
 
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
@@ -164,6 +170,8 @@ func _physics_process(_delta: float) -> void:
 	var usar_escudo := false
 	var usar_dash := false
 	var usar_habilidad := false
+	var cambiar_arma := false
+	
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -177,6 +185,9 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield")
 		usar_dash = Input.is_action_pressed("dash")
 		usar_habilidad = Input.is_action_just_pressed("second_ability")
+		
+		# Falta añadir correcciones dependiendo del número de player_id !!!!!
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -197,6 +208,7 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield_pad")
 		usar_dash = Input.is_action_pressed("dash_pad")
 		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -225,6 +237,13 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("artillero_idle")
+		
+		# Falta modificar todavia !!!!
+		#if cambiar_arma and (len(weapons) > 1):
+			#if arma_actual == 0:
+				#inutilizar_arma(arma)
+				#recuperar_arma(arma_secundaria)
+				#arma_actual = 1
 		
 		for idx in range(traps_used.size() - 1, -1, -1):
 			var trap = traps_used[idx]
@@ -301,6 +320,44 @@ func cambiar_arma(nuevaArma: String):
 	
 	arma = packed.instantiate()  # Asignamos un nuevo arma al jugador
 	call_deferred("add_child", arma)
+
+
+# Función para que se le añada una segunda arma al jugador
+func add_weapon(nuevaArma: String) -> void:
+	var path = "res://escenas/Armas/%s.tscn" % nuevaArma
+	var packed = load(path) as PackedScene # Cargamos la escena en tiempo de ejecución
+	if not packed:
+		push_error("No se puede cargar la escena: %s" % path)
+		return
+	
+	# Si ya tiene el arma no la coge otra vez
+	if nuevaArma == arma.tipo_arma.capitalize():
+		return
+
+	var tipo_arma
+
+	if len(weapons) <= 1:
+		arma_secundaria = packed.instantiate() # Añadimos un nuevo arma al jugador
+		call_deferred("add_child", arma_secundaria)
+		inutilizar_arma(arma)
+		arma_actual = 1
+	else:
+		arma_secundaria.queue_free()
+		arma_secundaria = packed.instantiate()
+		call_deferred("add_child", arma_secundaria)
+		inutilizar_arma(arma)
+		arma_actual = 1
+		
+# Funciones para ocultar el arma secundaria
+func inutilizar_arma(weapon: Node2D) -> void:
+	weapon.set_process(false)
+	weapon.get_node("Sprite2D").visible = false
+
+func recuperar_arma(weapon: Node2D) -> void:
+	weapon.set_process(true)
+	weapon.get_node("Sprite2D").visible = true
+
+
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
