@@ -13,6 +13,7 @@ var tp_timer
 
 
 func _ready() -> void:
+	visibility_layer = 1 << player_id
 	SPEED = 120.0
 	SPEED_DEFAULT = 120.0
 	SPEED_DASH = 350.0

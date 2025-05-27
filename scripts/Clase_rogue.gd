@@ -1,11 +1,41 @@
 extends "Clase_artillero(player).gd"
 
+@onready var invisibilidad = $Invisibilidad
+const LAYER_DEFAULT = 1 << 0       # capa 1: visibilidad normal
+var LAYER_INVIS = 0
+
+var _my_viewport_idx: int
+var _original_vp_masks := []
+
 func _ready() -> void:
+	await get_tree().create_timer(0.05).timeout
+	var split = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
+	_my_viewport_idx = split.players.find(self)
+	if _my_viewport_idx == -1:
+		push_warning("Jugador no registrado en SplitScreen2D.players")
+		return
+
+	LAYER_INVIS = 1 << (1 + _my_viewport_idx)
+
+	# Guarda máscara original de todos los viewports
+	_original_vp_masks.clear()
+	for vp in GameManager.player_viewports:
+		_original_vp_masks.append(vp.canvas_cull_mask)
+		# Asegúrate de que TU viewport vea ambas capas
+		# (default + tu capa invis)
+		vp.canvas_cull_mask |= LAYER_DEFAULT | LAYER_INVIS
+
 	SPEED = 150.0
 	SPEED_DEFAULT = 150.0
 	max_health = 15
 	health = 15
 	cooldown_escudo = 0.85
+	invisibilidad.visible = false
+	
+	
+	# El jugador se ve siempre a sí mismo aunque sea invisible
+	var player_viewport = get_parent().get_parent()
+	player_viewport.canvas_cull_mask |= (1 << player_id)
 	
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -30,8 +60,9 @@ func _ready() -> void:
 	original_frames = animaciones.sprite_frames
 
 func _physics_process(_delta: float) -> void:
-
 	var usar_escudo := false
+	var usar_dash := false
+	var usar_habilidad := false
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:
@@ -43,6 +74,8 @@ func _physics_process(_delta: float) -> void:
 		velocity.y = directionY * SPEED
 		
 		usar_escudo = Input.is_action_pressed("shield")
+		usar_dash = Input.is_action_pressed("dash")
+		usar_habilidad = Input.is_action_just_pressed("second_ability")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -61,6 +94,8 @@ func _physics_process(_delta: float) -> void:
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
 		usar_escudo = Input.is_action_pressed("shield_pad")
+		usar_dash = Input.is_action_pressed("dash_pad")
+		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -89,6 +124,17 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("rogue_idle")
+			
+	if usar_habilidad:
+		activar_invisibilidad()
+		
+
+	# Dash del jugador, le aumenta la velocidad respecto al Timer
+	if usar_dash and activar_dash:
+		SPEED = SPEED_DASH
+		activar_dash = false
+		dashTimer.start()
+		$ActivarDash.start()
 
 func activar_escudo():
 	if not puede_activar_escudo:
@@ -134,3 +180,30 @@ func aplicar_potenciador(tipo:String):
 			auraDamage.emitting = true
 			damageTimer.start(10.0)
 			arma.DANIO = danio_default
+
+func activar_invisibilidad():
+	# 1) Activa tu efecto visual
+	invisibilidad.visible = true
+
+	# 2) Cambia tu layer a la capa de invisibilidad
+	visibility_layer = LAYER_INVIS
+
+	# 3) Quita esa capa de los demás viewports
+	for i in GameManager.player_viewports.size():
+		if i == _my_viewport_idx:
+			continue
+		var vp: SubViewport = GameManager.player_viewports[i]
+		vp.canvas_cull_mask = _original_vp_masks[i] & ~LAYER_INVIS
+
+	# 4) Espera
+	await get_tree().create_timer(1.5).timeout
+
+	# 5) Desactiva tu efecto
+	invisibilidad.visible = false
+
+	# 6) Vuelve a la capa default
+	visibility_layer = LAYER_DEFAULT
+
+	# 7) Restaura todas las máscaras originales
+	for i in GameManager.player_viewports.size():
+		GameManager.player_viewports[i].canvas_cull_mask = _original_vp_masks[i]

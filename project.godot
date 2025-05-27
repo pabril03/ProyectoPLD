@@ -142,6 +142,11 @@ second_ability_pad={
 
 [layer_names]
 
+2d_render/layer_1="Mapa general"
+2d_render/layer_2="Jugador 1"
+2d_render/layer_3="jugador 2"
+2d_render/layer_4="jugador 3"
+2d_render/layer_5="jugador 4"
 2d_physics/layer_1="mapa"
 2d_physics/layer_2="jugador 1"
 2d_physics/layer_3="jugador 2"

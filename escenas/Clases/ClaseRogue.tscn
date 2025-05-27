@@ -279,6 +279,13 @@ libraries = {
 &"": SubResource("AnimationLibrary_ijira")
 }
 
+[node name="Invisibilidad" type="ColorRect" parent="." index="15"]
+offset_left = -23.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 22.0
+color = Color(0, 0, 0, 0.498039)
+
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
 
 [editable path="Gun"]

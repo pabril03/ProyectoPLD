@@ -6,6 +6,7 @@ extends "Clase_artillero(player).gd"
 var _can_throw_grenade: bool = true
 
 func _ready() -> void:
+	visibility_layer = 1 << player_id
 	SPEED = 75.0
 	SPEED_DEFAULT = 75.0
 	SPEED_DASH = 200.0

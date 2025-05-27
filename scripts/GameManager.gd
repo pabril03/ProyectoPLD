@@ -2,6 +2,7 @@
 extends Node
 
 var spawn_markers: Array[Marker2D] = []
+var player_viewports: Array = []
 
 # Variable global para el número de jugadores
 var num_jugadores: int = 1
@@ -159,3 +160,11 @@ func resetearStats() -> void:
 func asignarClase(clase: String, player: int) -> void:
 	clases[player] = clase
 	print(clases)
+
+func add_viewport(viewport: SubViewport) -> void:
+	if viewport == null:
+		push_error("Intentaste añadir un viewport nulo.")
+		return
+
+	player_viewports.append(viewport)
+	print(player_viewports)

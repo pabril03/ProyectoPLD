@@ -82,6 +82,7 @@ func _physics_process(delta: float) -> void:
 
 		# Final de la trayectoria
 		if t >= 1.0:
+			await get_tree().create_timer(1.0).timeout
 			# La situamos donde estaba la granada al explotar
 			var animacion = DeathAnimation.instantiate()
 			animacion.global_position = global_position
@@ -100,8 +101,9 @@ func explode() -> void:
 				hit_bodies.append(body)
 				body.take_damage(dano, owner_id, "Jugador" ,"Bombazo")
 				
-			if body.health > 0 and body.is_in_group("player") and not (owner_id == body.player_id) and not body.escudo_activo():
-				hit_bodies.append(body)
-				body.take_damage(dano)
+			if body.health > 0 and body.is_in_group("player") and owner_id != body.player_id:
+				if not body.escudo_activo:
+					hit_bodies.append(body)
+					body.take_damage(dano)
 
 	queue_free()

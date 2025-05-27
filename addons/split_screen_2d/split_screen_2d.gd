@@ -419,6 +419,7 @@ func _clear_viewport_container() -> void:
 	# Clear the arrays of viewports and cameras.
 	cameras = []
 	viewports = []
+	GameManager.player_viewports.clear()
 
 	# Remove the viewport container from the scene tree.
 	viewport_container.free()
@@ -473,3 +474,6 @@ func _safe_reparent(node: Node, new_parent: Node) -> void:
 		node.reparent(new_parent)
 	else:
 		new_parent.add_child(node)
+
+func get_subviewport(player_id: int) -> SubViewport:
+	return viewports[player_id-1]

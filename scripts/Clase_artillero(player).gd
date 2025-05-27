@@ -53,6 +53,7 @@ signal health_changed(new_health)
 @onready var dashCD = $ActivarDash
 
 func _ready():
+	visibility_layer = 1 << player_id
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
 	collision_mask = 1
