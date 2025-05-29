@@ -41,7 +41,7 @@ func _process(_delta: float) -> void:
 		var jugador = get_parent()
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_pressed("shoot")
-		disparar_alterno = Input.is_action_pressed("Alter-shoot")
+		disparar_alterno = Input.is_action_pressed("alter-shoot")
 		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 
 	else:
@@ -52,8 +52,19 @@ func _process(_delta: float) -> void:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
 		
-		disparar = Input.is_action_pressed("shoot_pad") # o el que definas
-		disparar_alterno = Input.is_action_pressed("alter-shoot_pad") # o el que definas
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		if dispositivo == 0:
+			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
+		if dispositivo == 1:
+			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
+		if dispositivo == 2:
+			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
+		if dispositivo == 3:
+			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:

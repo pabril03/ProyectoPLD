@@ -81,7 +81,7 @@ func _input(event: InputEvent) -> void:
 		last_pauser_id = 1  # asumimos teclado = jugador 1
 		_toggle_pause()
 
-	elif event is InputEventJoypadButton and event.pressed and event.is_action("pause pad"):
+	elif event is InputEventJoypadButton and event.pressed and event.is_action("pause p1") and event.is_action("pause p2") and event.is_action("pause p3") and event.is_action("pause p1"):
 		var device = event.device
 		last_pauser_id = GameManager.get_player_id_for_device(device)
 		if last_pauser_id == -1:

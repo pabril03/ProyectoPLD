@@ -173,7 +173,6 @@ func _physics_process(_delta: float) -> void:
 	var cambiar_arma := false
 	
 	var dispositivo = GameManager.get_device_for_player(player_id)
-
 	if dispositivo == null:
 		# JUGADOR CON TECLADO
 		var directionX := Input.get_axis("left", "right")
@@ -187,7 +186,7 @@ func _physics_process(_delta: float) -> void:
 		usar_habilidad = Input.is_action_just_pressed("second_ability")
 		
 		# Falta añadir correcciones dependiendo del número de player_id !!!!!
-		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -205,10 +204,26 @@ func _physics_process(_delta: float) -> void:
 			velocity.y = 0
 
 		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		usar_escudo = Input.is_action_pressed("shield_pad")
-		usar_dash = Input.is_action_pressed("dash_pad")
-		usar_habilidad = Input.is_action_just_pressed("second_ability_pad")
-		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
+		if dispositivo == 0:
+			usar_escudo = Input.is_action_pressed("shield_p1")
+			usar_dash = Input.is_action_pressed("dash_p1")
+			usar_habilidad = Input.is_action_just_pressed("second_ability_p1")
+			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
+		if dispositivo == 1:
+			usar_escudo = Input.is_action_pressed("shield_p2")
+			usar_dash = Input.is_action_pressed("dash_p2")
+			usar_habilidad = Input.is_action_just_pressed("second_ability_p2")
+			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
+		if dispositivo == 2:
+			usar_escudo = Input.is_action_pressed("shield_p3")
+			usar_dash = Input.is_action_pressed("dash_p3")
+			usar_habilidad = Input.is_action_just_pressed("second_ability_p3")
+			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p3")
+		if dispositivo == 3:
+			usar_escudo = Input.is_action_pressed("shield_p4")
+			usar_dash = Input.is_action_pressed("dash_p4")
+			usar_habilidad = Input.is_action_just_pressed("second_ability_p4")
+			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p4")
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -500,6 +515,8 @@ func _respawn_in_place() -> void:
 	health = max_health
 	emit_signal("health_changed", health)
 	global_position = GameManager.get_spawn_point()  # obtiene Vector2
+	active_slows.clear()
+	_update_speed()
 
 	is_invulnerable = true
 	animaciones.visible = true
@@ -515,8 +532,6 @@ func _respawn_in_place() -> void:
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false
-	active_slows.clear()
-	_update_speed()
 	muriendo = false
 
 # Al expirar cada timer, apagamos la correspondiente aura
@@ -552,8 +567,6 @@ func slow_for(duration: float, slow_amount: float) -> void:
 	slow_timer.start()
 
 func _update_speed() -> void:
-	if muriendo:
-		return
 
 	var speed_factor := 1.0
 	for s in active_slows:
@@ -564,7 +577,8 @@ func _update_speed() -> void:
 
 # Timers para el dash
 func _on_dash_timer_timeout() -> void:
-	SPEED = SPEED_DEFAULT
+	# SPEED = SPEED_DEFAULT
+	_update_speed()
 
 func _on_activar_dash_timeout() -> void:
 	activar_dash = true

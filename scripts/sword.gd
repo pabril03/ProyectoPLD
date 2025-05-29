@@ -51,7 +51,7 @@ func _process(_delta: float) -> void:
 	if dispositivo == null:
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_just_pressed("shoot")
-		disparar_alterno = Input.is_action_just_pressed("Alter-shoot")
+		disparar_alterno = Input.is_action_just_pressed("alter-shoot")
 	else:
 		input_vec.x = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_X)
 		input_vec.y = Input.get_joy_axis(dispositivo, JOY_AXIS_RIGHT_Y)
@@ -59,8 +59,19 @@ func _process(_delta: float) -> void:
 		if input_vec.length() > DEADZONE:
 			rotation = input_vec.angle()
 			
-		disparar = Input.is_action_just_pressed("shoot_pad") # o el que definas
-		disparar_alterno = Input.is_action_just_pressed("alter-shoot_pad") # o el que definas
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		if dispositivo == 0:
+			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
+		if dispositivo == 1:
+			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
+		if dispositivo == 2:
+			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
+		if dispositivo == 3:
+			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
 
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	# Voltear sprite según orientación
