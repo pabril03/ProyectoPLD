@@ -47,6 +47,9 @@ func _play_vfx(index: int) -> void:
 	for s in death_sprites:
 		s.visible = false
 		s.stop()
+		# Desconecta la señal si estaba conectada
+		if s.animation_finished.is_connected(_on_anim_finished):
+			s.animation_finished.disconnect(_on_anim_finished)
 
 	# Si el índice es válido, selecciona y reproduce
 	if index >= 0 and index < death_sprites.size():

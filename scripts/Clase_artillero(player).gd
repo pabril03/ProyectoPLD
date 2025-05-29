@@ -116,7 +116,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 	if is_invulnerable:
 		return
-	#print(amount)
+
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
 		emit_signal("health_changed", health)
@@ -338,8 +338,6 @@ func add_weapon(nuevaArma: String) -> void:
 	if nuevaArma == arma.tipo_arma.capitalize():
 		return
 
-	var tipo_arma
-
 	if len(weapons) <= 1:
 		arma_secundaria = packed.instantiate() # Añadimos un nuevo arma al jugador
 		call_deferred("add_child", arma_secundaria)
@@ -359,17 +357,100 @@ func add_weapon(nuevaArma: String) -> void:
 # Funciones para ocultar el arma secundaria
 func inutilizar_arma(weapon: Node2D) -> void:
 	weapon.set_process(false)
-	weapon.get_node("Sprite2D").visible = false
-	if weapon.tipo_arma == "Sniper":
+	
+	if weapon.has_node("Sprite2D"):
+		weapon.get_node("Sprite2D").visible = false
+
+	if weapon.tipo_arma == "Sniper" and weapon.has_node("Line2D"):
 		weapon.get_node("Line2D").visible = false
 
+	if weapon.has_node("AnimationPlayer"):
+		var anim_player := weapon.get_node("AnimationPlayer") as AnimationPlayer
+		anim_player.stop()
+		anim_player.set_process(false)
+
+	if weapon.has_node("Espada"):
+		var espada := weapon.get_node("Espada") as Area2D
+		# DEFERRED para no interferir con el flush de física
+		espada.call_deferred("set_monitoring", false)
+		espada.call_deferred("set_process", false)
+		espada.call_deferred("set_visible", false)
+
+		if espada.has_node("CollisionShape2D"):
+			var col_shape := espada.get_node("CollisionShape2D") as CollisionShape2D
+			# desactivar la forma de colisión deferred
+			col_shape.call_deferred("set_disabled", true)
+
+	# Si tienes timers o más nodos hijos, haz lo mismo:
+	if weapon.has_node("Timer"):
+		var timer := weapon.get_node("Timer") as Timer
+		timer.stop()
+		timer.call_deferred("set_process", false)
+
+	if weapon.has_node("AltTimer"):
+		var alt_timer := weapon.get_node("AltTimer") as Timer
+		alt_timer.stop()
+		alt_timer.call_deferred("set_process", false)
+
 func recuperar_arma(weapon: Node2D) -> void:
+	# 1) Reactiva el processing del nodo principal
 	weapon.set_process(true)
-	weapon.get_node("Sprite2D").visible = true
-	if weapon.tipo_arma == "Sniper":
+
+	# 2) Reactivamos la capacidad de disparo
+	if weapon.tipo_arma == "Gun" or weapon.tipo_arma == "Sniper" or weapon.tipo_arma == "Shotgun" or weapon.tipo_arma == "polimorf":
+		weapon.puedoDisparar = true
+	
+	if weapon.tipo_arma == "grenade_launcher":
+		weapon.can_throw_grenade = true
+		weapon.can_throw_grenade_disperse = true
+
+	# 3) Vuelve a mostrar el sprite
+	if weapon.has_node("Sprite2D"):
+		weapon.get_node("Sprite2D").visible = true
+
+	# 4) Reactiva la línea del sniper si la hubiera
+	if weapon.tipo_arma == "Sniper" and weapon.has_node("Line2D"):
 		weapon.get_node("Line2D").visible = true
 
+	# 5) Reactiva el AnimationPlayer del arma
+	if weapon.has_node("AnimationPlayer"):
+		var anim_player := weapon.get_node("AnimationPlayer") as AnimationPlayer
+		anim_player.call_deferred("set_process", true)
+		# (Opcional) Reproducir animación de idle
+		if anim_player.has_animation("Idle"):
+			anim_player.call_deferred("play", "Idle")
+	
+	# 6) Reactiva la parte de la espada
+	if weapon.has_node("Espada"):
+		var espada := weapon.get_node("Espada") as Area2D
 
+		# Reactiva colisiones y visibilidad del área
+		espada.call_deferred("set_monitoring", true)
+		espada.call_deferred("set_process", true)
+		espada.call_deferred("set_visible", true)
+
+		# Habilita de nuevo la forma de colisión
+		if espada.has_node("CollisionShape2D"):
+			var col_shape := espada.get_node("CollisionShape2D") as CollisionShape2D
+			col_shape.call_deferred("set_disabled", false)
+
+		# 7) Reactiva los timers y resetea los flags
+		if weapon.has_node("Timer"):
+			var timer := weapon.get_node("Timer") as Timer
+			timer.stop()  # para asegurar
+			timer.call_deferred("set_process", true)
+		if weapon.has_node("AltTimer"):
+			var alt_timer := weapon.get_node("AltTimer") as Timer
+			alt_timer.stop()
+			alt_timer.call_deferred("set_process", true)
+
+		# 8) Reset de los flags de disponibilidad de ataque
+		if weapon.has_method("reset_attack_flags"):
+			weapon.call_deferred("reset_attack_flags")
+		else:
+			# Si no tienes un método, por ejemplo reasignamos directamente:
+			weapon.set("listo", true)
+			weapon.set("listo_alt", true)
 
 func aplicar_potenciador(tipo:String):
 	match tipo:
@@ -430,7 +511,7 @@ func _respawn_in_place() -> void:
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	if rng.randf() < 0.8:  
-		cambiar_arma(original_gun)
+		add_weapon(original_gun)
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false

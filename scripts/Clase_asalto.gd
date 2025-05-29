@@ -125,7 +125,8 @@ func _physics_process(_delta: float) -> void:
 			if dir.length() < DEADZONE:
 				target = global_position
 			else:
-				target = global_position + dir.normalized() * max_grenade_distance
+				var strength = clamp((dir.length() - DEADZONE) / (1.0 - DEADZONE), 0.0, 1.0)
+				target = global_position + dir.normalized() * (max_grenade_distance * strength)
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
 		grenade.global_position = global_position

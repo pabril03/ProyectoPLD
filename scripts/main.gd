@@ -5,6 +5,7 @@ const EnemigoEscena = preload("res://escenas/Modelos base (mapas y player)/enemi
 var PickUpShotgun = preload("res://escenas/Spawns Armas y Powerups/PickupShotgun.tscn")
 var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.tscn")
 var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
+var PickUpLauncher = preload("res://escenas/Spawns Armas y Powerups/PickupLauncher.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 

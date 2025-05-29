@@ -3,6 +3,7 @@ extends Node2D
 const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 
 @onready var punta: Marker2D = $Marker2D
+@onready var laser: Line2D = $Line2D
 @onready var sprite: Sprite2D = $Sprite2D
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
@@ -21,11 +22,34 @@ var direccion_disparo = Vector2.ZERO
 
 var tipo_arma: String = "Sniper"
 
+const LAYER_DEFAULT = 1 << 0       # capa 1: visibilidad normal
+var LAYER_INVIS = 0
+var _my_viewport_idx: int
+var _original_vp_masks := []
+
 func _ready() -> void:
+	await get_tree().create_timer(0.05).timeout
+	var player = get_parent()
+	var split = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
+	_my_viewport_idx = split.players.find(player)
+	if _my_viewport_idx == -1:
+		push_warning("Jugador no registrado en SplitScreen2D.players")
+		return
+
+	# Para volver invisible solo el laser
+	LAYER_INVIS = 1 << (5 + _my_viewport_idx)
+
+	# Guarda máscara original de todos los viewports
+	_original_vp_masks.clear()
+	for vp in GameManager.player_viewports:
+		_original_vp_masks.append(vp.canvas_cull_mask)
+		vp.canvas_cull_mask |= LAYER_DEFAULT | LAYER_INVIS
+		
 	shoot_timer.wait_time = 1.5
 	alt_timer.wait_time = 2.25
 
-	visibility_layer = get_parent().player_id + 1
+	visibility_layer = get_parent().player_id + 5
+	activar_invisibilidad()
 
 func _process(_delta: float) -> void:
 	
@@ -171,3 +195,15 @@ func conectar() -> void:
 # Conecta señales para reactivar el disparo cuando terminen
 	shoot_timer.timeout.connect(_on_timer_timeout)
 	alt_timer.timeout.connect(_on_alt_timer_timeout)
+
+func activar_invisibilidad():
+
+	# 1) Cambia tu layer a la capa de invisibilidad
+	laser.visibility_layer = LAYER_INVIS
+
+	# 2) Quita esa capa de los demás viewports
+	for i in GameManager.player_viewports.size():
+		if i == _my_viewport_idx:
+			continue
+		var vp: SubViewport = GameManager.player_viewports[i]
+		vp.canvas_cull_mask = _original_vp_masks[i] & ~LAYER_INVIS

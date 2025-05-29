@@ -74,6 +74,8 @@ func _process(_delta: float) -> void:
 	if get_parent().polimorf:
 		$Sprite2D.visible = false
 	else:
+		if player.muriendo:
+			return
 		$Sprite2D.visible = true
 		if disparar:
 			attack_arc()
@@ -116,7 +118,6 @@ func _on_attack_area_body_entered(_body: Node) -> void:
 	
 	for body in attack_area.get_overlapping_bodies():
 		if body.is_in_group("balas"):
-			print("Hello")
 			body.queue_free()
 		
 		if not hit_targets.has(body):

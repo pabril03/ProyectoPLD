@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2m2tivu2kv8t"]
+
+[ext_resource type="Script" uid="uid://ctm8dunnhd1c2" path="res://escenas/Armas/grenade_launcher.gd" id="1_j235d"]
+[ext_resource type="Texture2D" uid="uid://b6rdomt1tnaal" path="res://sprites/grenade_launcher.png" id="2_resbn"]
+
+[node name="GrenadeLauncher" type="Node2D"]
+script = ExtResource("1_j235d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, -2)
+scale = Vector2(0.0515625, 0.046875)
+texture = ExtResource("2_resbn")
+flip_h = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(16, -2)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5

@@ -45,6 +45,7 @@ func _ready() -> void:
 
 	cambiar_arma("sword")
 	original_gun = "sword"
+	weapons.append(original_gun)
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
 		aura.emitting = false
