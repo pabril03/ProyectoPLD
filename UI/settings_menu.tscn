@@ -34,9 +34,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Video" type="TabBar" parent="ColorRect/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -71,7 +72,6 @@ popup/item_1/text = "Pantalla Completa"
 popup/item_1/id = 1
 
 [node name="Audio" type="TabBar" parent="ColorRect/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -104,7 +104,9 @@ alignment = 1
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 4
-value = 100.0
+max_value = 1.0
+step = 0.05
+value = 1.0
 
 [node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MasterVbox"]
 layout_mode = 2
@@ -122,7 +124,9 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 4
-value = 100.0
+max_value = 1.0
+step = 0.05
+value = 1.0
 
 [node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MusicVbox"]
 layout_mode = 2
@@ -140,7 +144,9 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 4
-value = 100.0
+max_value = 1.0
+step = 0.05
+value = 1.0
 
 [node name="Label" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/SfxVbox"]
 layout_mode = 2

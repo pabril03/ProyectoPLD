@@ -7,6 +7,7 @@ extends Control
 func _ready() -> void:
 	# Al entrar en la escena, el foco cae en “Play”
 	play_btn.grab_focus()
+	GlobalSettings.set_music_enabled(true)
 	
 func _process(_delta: float) -> void:
 	if $SettingsMenu.volver:

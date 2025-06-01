@@ -12,9 +12,9 @@ func load_data() -> void:
 		# Si no existe el archivo, asignamos valores por defecto
 		game_data = {
 			"full_screen_on": false,
-			"master_vol": -10.0,
-			"music_vol": -10.0,
-			"sfx_vol": -10.0
+			"master_vol": 1.0,
+			"music_vol": 1.0,
+			"sfx_vol": 1.0
 		}
 		save_data()
 	else:

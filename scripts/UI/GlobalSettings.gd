@@ -1,5 +1,23 @@
 extends Node
 
+@onready var audio := AudioStreamPlayer.new()
+var play_music : bool = true
+
+func _ready():
+	add_child(audio)
+	audio.stream = preload("res://audio/default_song.mp3")
+	audio.bus = "Music"
+	if play_music:
+		audio.play()
+
+# Función para desactivar la música del menú
+func set_music_enabled(enabled: bool) -> void:
+	play_music = enabled
+	if play_music:
+		audio.play()
+	else:
+		audio.stop()
+
 #VIDEO
 
 func change_displayMode(toggle):
@@ -13,12 +31,14 @@ func change_displayMode(toggle):
 # AUDIO
 
 func update_master_vol(bus_idx, vol):
-	if vol <= -50:
+	var db_vol = linear_to_db(vol)
+	
+	if vol <= 0.001:
 		AudioServer.set_bus_mute(bus_idx, true)
-		AudioServer.set_bus_volume_db(bus_idx, -80)  # volumen mínimo absoluto
+		AudioServer.set_bus_volume_db(bus_idx, -80)
 	else:
 		AudioServer.set_bus_mute(bus_idx, false)
-		AudioServer.set_bus_volume_db(bus_idx, vol)
+		AudioServer.set_bus_volume_db(bus_idx, db_vol)
 	
 	match bus_idx:
 		0:

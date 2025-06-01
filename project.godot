@@ -29,6 +29,7 @@ enabled=PackedStringArray("res://addons/split_screen_2d/plugin.cfg")
 
 folder_colors={
 "res://UI/": "purple",
+"res://audio/": "pink",
 "res://escenas/": "purple",
 "res://sprites/": "yellow"
 }

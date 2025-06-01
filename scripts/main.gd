@@ -76,6 +76,8 @@ func _ready():
 	var btnSalir = menu.get_node("Div/VBoxContainer/Salir") as Button
 	btnSalir.pressed.connect(Callable(self, "_on_Salir_pressed"))
 
+	GlobalSettings.set_music_enabled(false)  # Para apagar la música
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_action_pressed("pause"):
 		last_pauser_id = 1  # asumimos teclado = jugador 1
