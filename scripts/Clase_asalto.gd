@@ -56,7 +56,7 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield")
 		usar_dash = Input.is_action_pressed("dash")
 		usar_habilidad = Input.is_action_just_pressed("second_ability")
-		cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
+		cambiar_arma = Input.is_action_just_pressed("switch_weapons")
 		
 	else:
 		# JUGADOR CON MANDO
@@ -118,7 +118,7 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("asalto_idle")
-		
+			
 		if cambiar_arma and (len(weapons) > 1):
 			if arma_actual == 0:
 				inutilizar_arma(arma)
