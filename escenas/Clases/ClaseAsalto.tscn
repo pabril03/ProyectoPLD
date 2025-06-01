@@ -85,7 +85,6 @@ position = Vector2(20, -3)
 wait_time = 2.25
 
 [node name="Timer" parent="Gun" index="3"]
-process_mode = 3
 wait_time = 1.5
 
 [node name="ProgressBar" parent="." index="4"]

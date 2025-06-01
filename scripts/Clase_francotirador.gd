@@ -177,20 +177,22 @@ func _physics_process(_delta: float) -> void:
 			
 			# Si no hay teleports activos, se crean
 			if not tp_activo:
-				teleport1 = teleport.instantiate()
 				teleport2 = teleport.instantiate()
-				teleport1.global_position = global_position
-				teleport1.id = 1
 				teleport2.global_position = global_position
 				teleport2.id = 2
+				teleport2.player_id = player_id
 				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
-				world.add_child(teleport1)
 				world.add_child(teleport2)
-				
-				teleport1.parar = true
 				tp_activo = true
 			# Cuando se coloca el segundo teleport con la E, fija la posicion del segundo teleport
 			else:
+				teleport1 = teleport.instantiate()
+				teleport1.id = 1
+				teleport1.player_id = player_id
+				teleport1.global_position = global_position
+				teleport1.parar = true
+				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+				world.add_child(teleport1)
 				teleport2.parar = true
 				colocados = true
 		

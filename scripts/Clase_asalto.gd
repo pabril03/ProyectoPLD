@@ -118,7 +118,7 @@ func _physics_process(_delta: float) -> void:
 			animaciones.flip_h = velocity.x < 0
 		else:
 			animaciones.play("asalto_idle")
-		
+			
 		if cambiar_arma and (len(weapons) > 1):
 			if arma_actual == 0:
 				inutilizar_arma(arma)
