@@ -152,9 +152,8 @@ func _on_explosion_timeout() -> void:
 	death_FX.global_position = global_position
 	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 	world.add_child(death_FX)
-	death_FX._play_vfx(4)
+	death_FX._play_vfx(2)
 
-	await get_tree().create_timer(1.5).timeout
 	if target_close and target_close.is_inside_tree():
 		if target_close.has_method("take_damage"):
 			target_close.take_damage(explosion_damage)

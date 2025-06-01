@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var death_sprites: Array = [
 	$Death1, $Death2, $Death3,
-	$Death4, $Death5, $Death6, $Death7
+	$Death4, $Death5, $Death6
 ]
 
 var rng := RandomNumberGenerator.new()
@@ -13,7 +13,7 @@ func _enter_tree() -> void:
 	# Reconstruye el Array cuando ya existan los nodos hijos
 	death_sprites = [
 		$Death1, $Death2, $Death3,
-		$Death4, $Death5, $Death6, $Death7
+		$Death4, $Death5, $Death6
 	]
 	if death_sprites.is_empty():
 		return

@@ -75,6 +75,9 @@ frame_progress = 0.0
 [node name="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource("CircleShape2D_kyw2t")
 
+[node name="ProgressBar" parent="." index="3"]
+modulate = Color(0.741176, 0, 0, 1)
+
 [node name="StateMachine" type="Node" parent="." index="4" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_csw7q")
 initial_state = NodePath("Idle")

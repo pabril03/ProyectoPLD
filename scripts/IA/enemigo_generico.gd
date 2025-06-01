@@ -104,7 +104,8 @@ func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: Str
 			death_FX.global_position = global_position
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(death_FX)
-			drop_weapon()
+			#drop_weapon()
+			call_deferred("drop_weapon")
 			queue_free()
 	
 func heal(amount: float) -> void:

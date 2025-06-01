@@ -119,6 +119,13 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 
 	if !muriendo:
 		health = clamp(health - amount, 0, max_health)
+		
+		animaciones.modulate = Color(1,0,0)
+		# Espera 0.05 segundos
+		await get_tree().create_timer(0.05).timeout
+		# Vuelve al color normal
+		animaciones.modulate = Color(1, 1, 1)
+		
 		emit_signal("health_changed", health)
 
 		if health <= 0:

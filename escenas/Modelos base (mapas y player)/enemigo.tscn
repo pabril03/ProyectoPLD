@@ -59,6 +59,7 @@ position = Vector2(-38, 0)
 wait_time = 0.75
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(0.741176, 0, 0, 1)
 offset_left = -17.0
 offset_top = -28.0
 offset_right = 18.0

@@ -161,6 +161,8 @@ wait_time = 0.25
 [node name="ActivarDash" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="DamageTick" type="Timer" parent="."]
+
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5

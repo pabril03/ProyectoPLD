@@ -57,6 +57,7 @@ shape = SubResource("CircleShape2D_h06l4")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 visible = false
+modulate = Color(0.739789, 1.93726e-06, 9.62615e-07, 1)
 offset_left = -30.0
 offset_top = -36.0
 offset_right = 31.0

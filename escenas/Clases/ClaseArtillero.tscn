@@ -55,5 +55,8 @@ collision_mask = 255
 sprite_frames = SubResource("SpriteFrames_qagxd")
 animation = &"artillero_run"
 
+[node name="ProgressBar" parent="." index="4"]
+modulate = Color(0, 0.989946, 0.439899, 1)
+
 [editable path="Gun"]
 [editable path="Panel/HBoxContainer/AbilityButton"]
