@@ -1,0 +1,101 @@
+[gd_scene load_steps=16 format=3 uid="uid://cjwpvltfy1akw"]
+
+[ext_resource type="Script" uid="uid://bdk3548x3b18c" path="res://escenas/Modelos base (mapas y player)/granada.gd" id="1_ogfl5"]
+[ext_resource type="Texture2D" uid="uid://cktl2rqwh72f1" path="res://sprites/granadas/—Pngtree—pixel art game supplies cartoon_6460115.png" id="2_lmvsa"]
+[ext_resource type="Texture2D" uid="uid://dj4gulqpv11si" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f0.png" id="4_p6y8w"]
+[ext_resource type="Texture2D" uid="uid://dnq505hhtmgvf" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f1.png" id="5_h443j"]
+[ext_resource type="Texture2D" uid="uid://sbwyp5lwb62t" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f2.png" id="6_yny70"]
+[ext_resource type="Texture2D" uid="uid://c0eml6eey1ptv" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f3.png" id="7_ef8rs"]
+[ext_resource type="Texture2D" uid="uid://d00mpi3ochuce" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f0.png" id="8_wwskm"]
+[ext_resource type="Texture2D" uid="uid://cel20mvwy8778" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f1.png" id="9_wphsq"]
+[ext_resource type="Texture2D" uid="uid://cd2fjikwjf7np" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f2.png" id="10_6pp5d"]
+[ext_resource type="Texture2D" uid="uid://ckl5d2tj61f2p" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f3.png" id="11_jsvel"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ogfl5"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hunkl"]
+radius = 43.0116
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmvsa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oy3nv"]
+radius = 223.02
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bjm32"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_p6y8w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h443j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_yny70")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ef8rs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_wwskm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wphsq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6pp5d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_jsvel")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_ogfl5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ogfl5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.021, 0.02)
+texture = ExtResource("2_lmvsa")
+
+[node name="ExplosionArea" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 222
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
+shape = SubResource("CircleShape2D_hunkl")
+
+[node name="Retardo" type="Timer" parent="."]
+
+[node name="Cuerpo" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cuerpo"]
+shape = SubResource("CircleShape2D_lmvsa")
+
+[node name="LaunchArea" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaunchArea"]
+shape = SubResource("CircleShape2D_oy3nv")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+sprite_frames = SubResource("SpriteFrames_bjm32")
+animation = &"run"

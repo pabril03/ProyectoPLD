@@ -1,0 +1,98 @@
+[gd_scene load_steps=15 format=3 uid="uid://chx5kbqntwnip"]
+
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_wrntr"]
+[ext_resource type="Script" uid="uid://bfvcqb1p3g1e6" path="res://scripts/Clase_asalto.gd" id="2_qk0wo"]
+[ext_resource type="Texture2D" uid="uid://ce8yyadbdgdnc" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f0.png" id="3_mn3du"]
+[ext_resource type="PackedScene" uid="uid://cjwpvltfy1akw" path="res://escenas/Modelos base (mapas y player)/granada.tscn" id="3_qk0wo"]
+[ext_resource type="Texture2D" uid="uid://dmtw16whxmsw4" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f1.png" id="4_gwrt8"]
+[ext_resource type="Texture2D" uid="uid://brvnwqdia0335" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f2.png" id="5_oup5b"]
+[ext_resource type="Texture2D" uid="uid://rslw8sqkjsdc" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_idle_anim_f3.png" id="6_8bx7r"]
+[ext_resource type="Texture2D" uid="uid://8cuplb3q5nnh" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f0.png" id="7_olni8"]
+[ext_resource type="Texture2D" uid="uid://gx6n3hdaqcqb" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f1.png" id="8_x4ui2"]
+[ext_resource type="Texture2D" uid="uid://bden5nxdeibgg" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f2.png" id="9_mwyat"]
+[ext_resource type="Texture2D" uid="uid://p7yrxcjnfbe8" path="res://0x72_DungeonTilesetII_v1.7/frames/knight_f_run_anim_f3.png" id="10_1ocrg"]
+[ext_resource type="Script" uid="uid://bgrrtjysmjpry" path="res://scripts/shotgun.gd" id="11_j6euf"]
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="12_rprvc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_shdsd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mn3du")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gwrt8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_oup5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8bx7r")
+}],
+"loop": true,
+"name": &"asalto_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("7_olni8")
+}, {
+"duration": 0.5,
+"texture": ExtResource("8_x4ui2")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_mwyat")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_1ocrg")
+}],
+"loop": true,
+"name": &"asalto_run",
+"speed": 5.0
+}]
+
+[node name="Player" instance=ExtResource("1_wrntr")]
+collision_layer = 0
+collision_mask = 255
+script = ExtResource("2_qk0wo")
+Grenade = ExtResource("3_qk0wo")
+grenade_cooldown = 3.0
+max_grenade_distance = 200.0
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_shdsd")
+animation = &"asalto_idle"
+
+[node name="Gun" parent="." index="2"]
+position = Vector2(0, 2.5)
+script = ExtResource("11_j6euf")
+SPEED = 200
+BOUNCES = 1
+SPREAD_DEGREES = 45.0
+ALT_SPREAD_DEGREES = 22.5
+DANIO = 1.25
+PELLETS = 7
+
+[node name="Sprite2D" parent="Gun" index="0"]
+position = Vector2(8.5, -1.75)
+scale = Vector2(0.62, 0.483333)
+texture = ExtResource("12_rprvc")
+
+[node name="Marker2D" parent="Gun" index="1"]
+position = Vector2(20, -3)
+
+[node name="AltTimer" type="Timer" parent="Gun" index="2"]
+wait_time = 2.25
+
+[node name="Timer" parent="Gun" index="3"]
+wait_time = 1.5
+
+[node name="ProgressBar" parent="." index="4"]
+modulate = Color(0, 0.988235, 0.439216, 1)
+offset_top = -17.0
+offset_bottom = -4.0
+
+[connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_alt_timer_timeout"]
+
+[editable path="Gun"]
+[editable path="Panel/HBoxContainer/AbilityButton"]

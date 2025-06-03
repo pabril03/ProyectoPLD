@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4443vhnliebx"]
+
+[ext_resource type="Script" uid="uid://lwo8r1fdcnbu" path="res://scripts/enemigo.gd" id="1_ra38p"]
+[ext_resource type="Texture2D" uid="uid://cie4rig1wwhjn" path="res://sprites/icon.svg" id="2_onb25"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhebs"]
+radius = 23.0217
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_743j8"]
+radius = 27.0185
+
+[sub_resource type="GDScript" id="GDScript_uhebs"]
+script/source = "extends ProgressBar
+
+func _ready() -> void:
+	var player = get_parent()
+	
+	max_value = player.max_health
+	min_value = 0
+	
+	value = player.health
+	
+	player.connect(\"health_changed\", Callable(self, \"_on_entity_health_changed\"))
+	
+	show()
+
+func _on_entity_health_changed(new_health):
+	value = new_health
+	
+	if new_health < get_parent().max_health:
+		show()   # Se muestra si se ha perdido salud
+	else:
+		hide()   # Se oculta si la salud es completa
+"
+
+[node name="Enemigo" type="StaticBody2D" groups=["enemy"]]
+collision_layer = 128
+collision_mask = 223
+script = ExtResource("1_ra38p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_onb25")
+
+[node name="Detector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("CircleShape2D_uhebs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_743j8")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-38, 0)
+
+[node name="DamageTimer" type="Timer" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(0.741176, 0, 0, 1)
+offset_left = -17.0
+offset_top = -28.0
+offset_right = 18.0
+offset_bottom = -12.0
+scale = Vector2(1, 0.45)
+show_percentage = false
+script = SubResource("GDScript_uhebs")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://dru65xtsab1g1"]
+
+[ext_resource type="PackedScene" uid="uid://bghg4cc4p4p7q" path="res://escenas/Modelos base (mapas y player)/player.tscn" id="1_fce64"]
+[ext_resource type="Texture2D" uid="uid://pa5c4mg2vf7n" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f0.png" id="2_8yic7"]
+[ext_resource type="Texture2D" uid="uid://r140ndon7k8g" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f1.png" id="3_l4j85"]
+[ext_resource type="Texture2D" uid="uid://obsgoi4j0j74" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f2.png" id="4_7jheb"]
+[ext_resource type="Texture2D" uid="uid://dckgn1vsm5swx" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_idle_anim_f3.png" id="5_il41g"]
+[ext_resource type="Texture2D" uid="uid://c16y7rgjw4rau" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f0.png" id="6_57glj"]
+[ext_resource type="Texture2D" uid="uid://cs6xyxuxt5mxq" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f1.png" id="7_lntbg"]
+[ext_resource type="Texture2D" uid="uid://d36ifa4pjcyie" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f2.png" id="8_gsf0u"]
+[ext_resource type="Texture2D" uid="uid://cbpw5wutrbygr" path="res://0x72_DungeonTilesetII_v1.7/frames/doc_run_anim_f3.png" id="9_x0i6e"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qagxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8yic7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_l4j85")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7jheb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_il41g")
+}],
+"loop": true,
+"name": &"artillero_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("6_57glj")
+}, {
+"duration": 0.5,
+"texture": ExtResource("7_lntbg")
+}, {
+"duration": 0.5,
+"texture": ExtResource("8_gsf0u")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_x0i6e")
+}],
+"loop": true,
+"name": &"artillero_run",
+"speed": 5.0
+}]
+
+[node name="Player" instance=ExtResource("1_fce64")]
+collision_layer = 0
+collision_mask = 255
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_qagxd")
+animation = &"artillero_run"
+
+[node name="ProgressBar" parent="." index="4"]
+modulate = Color(0, 0.989946, 0.439899, 1)
+
+[editable path="Gun"]
+[editable path="Panel/HBoxContainer/AbilityButton"]

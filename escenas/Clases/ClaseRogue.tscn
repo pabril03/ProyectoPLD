@@ -1,0 +1,298 @@
+[gd_scene load_steps=19 format=3 uid="uid://b1byhevhchtvt"]
+
+[ext_resource type="PackedScene" uid="uid://dru65xtsab1g1" path="res://escenas/Clases/ClaseArtillero.tscn" id="1_6ws63"]
+[ext_resource type="Script" uid="uid://dla320m4a5s77" path="res://scripts/Clase_rogue.gd" id="2_uvxfe"]
+[ext_resource type="Texture2D" uid="uid://dc05tig1piemj" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_idle_anim_f0.png" id="3_7u6r2"]
+[ext_resource type="Texture2D" uid="uid://dxkllfohh7ro2" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_idle_anim_f1.png" id="4_w0ntu"]
+[ext_resource type="Texture2D" uid="uid://01ivct5ttnt3" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_idle_anim_f2.png" id="5_1ul5r"]
+[ext_resource type="Texture2D" uid="uid://df3b05dccy26u" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_idle_anim_f3.png" id="6_m6nxe"]
+[ext_resource type="Texture2D" uid="uid://d2lu7uouljj0j" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_run_anim_f0.png" id="7_10dx5"]
+[ext_resource type="Texture2D" uid="uid://wudqde7pgft0" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_run_anim_f1.png" id="8_bq8gn"]
+[ext_resource type="Texture2D" uid="uid://cw1nkm6srnr7a" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_run_anim_f2.png" id="9_t7khm"]
+[ext_resource type="Texture2D" uid="uid://c8f506fatcq4m" path="res://0x72_DungeonTilesetII_v1.7/frames/elf_m_run_anim_f3.png" id="10_ce4k3"]
+[ext_resource type="Script" uid="uid://cx30xphta1wkw" path="res://scripts/sword.gd" id="11_lrjgv"]
+[ext_resource type="Texture2D" uid="uid://dkfbfuuev7hnx" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_anime_sword.png" id="12_cvlgu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83nye"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7u6r2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w0ntu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1ul5r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_m6nxe")
+}],
+"loop": true,
+"name": &"rogue_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": ExtResource("7_10dx5")
+}, {
+"duration": 0.5,
+"texture": ExtResource("8_bq8gn")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_t7khm")
+}, {
+"duration": 0.5,
+"texture": ExtResource("10_ce4k3")
+}],
+"loop": true,
+"name": &"rogue_run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5qsrs"]
+size = Vector2(30, 50)
+
+[sub_resource type="Animation" id="Animation_hjntn"]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Espada/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Espada/CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 20)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Espada/CollisionShape2D:shape:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, 50)]
+}
+
+[sub_resource type="Animation" id="Animation_5qsrs"]
+resource_name = "arc_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(5, -5), Vector2(15, -30), Vector2(35, -5), Vector2(15, 30), Vector2(5, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.366667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.261799, -0.785398, 0.785398, 2.35619, 0.261799]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Espada/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.133333, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Espada/CollisionShape2D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.767945]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Espada/CollisionShape2D:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-10, 20)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Espada/CollisionShape2D:shape:size")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, 50)]
+}
+
+[sub_resource type="Animation" id="Animation_gbtrm"]
+resource_name = "thrust_hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(10, -5), Vector2(25, -5), Vector2(50, -5), Vector2(25, -5), Vector2(10, -5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.261799, 0.785398, 1.5708, 0.785398, 0.261799]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Espada/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Espada/CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-5, 20)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Espada/CollisionShape2D:shape:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(40, 20)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ijira"]
+_data = {
+&"RESET": SubResource("Animation_hjntn"),
+&"arc_hit": SubResource("Animation_5qsrs"),
+&"thrust_hit": SubResource("Animation_gbtrm")
+}
+
+[node name="Player" instance=ExtResource("1_6ws63")]
+script = ExtResource("2_uvxfe")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+position = Vector2(0, -10)
+scale = Vector2(1.3, 1.25714)
+sprite_frames = SubResource("SpriteFrames_83nye")
+animation = &"rogue_idle"
+
+[node name="Gun" parent="." index="2"]
+script = ExtResource("11_lrjgv")
+SPEED = 200
+DANIO = 7.5
+
+[node name="Espada" type="Area2D" parent="Gun" index="0"]
+position = Vector2(-6, 2.00003)
+scale = Vector2(1.4, 1.4)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Gun/Espada" index="0"]
+position = Vector2(0, 20)
+skew = 0.261799
+shape = SubResource("RectangleShape2D_5qsrs")
+disabled = true
+
+[node name="Sprite2D" parent="Gun" index="1"]
+position = Vector2(10, -5)
+rotation = 0.261799
+scale = Vector2(0.7, 0.7)
+skew = 0.261799
+texture = ExtResource("12_cvlgu")
+
+[node name="AltTimer" type="Timer" parent="Gun" index="4"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun" index="5"]
+libraries = {
+&"": SubResource("AnimationLibrary_ijira")
+}
+
+[node name="Invisibilidad" type="ColorRect" parent="." index="15"]
+offset_left = -23.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 22.0
+color = Color(0, 0, 0, 0.498039)
+
+[node name="AmmoLabel" parent="." index="16"]
+offset_left = -23.0
+offset_top = -36.0
+offset_right = -3.0
+offset_bottom = 20.0
+
+[connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
+
+[editable path="Gun"]
+[editable path="Panel/HBoxContainer/AbilityButton"]

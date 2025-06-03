@@ -379,7 +379,9 @@ func _build_viewport(size: Vector2 = screen_size) -> SubViewportContainer:
 	var container := SubViewportContainer.new()
 	var viewport := SubViewport.new()
 	var camera := Camera2D.new()
-
+	
+	#AÑADIDO NUEVO POR PEDRO
+	camera.set_zoom(Vector2(1.25,1.25))
 	# Add the camera to the viewport.
 	container.add_child(viewport)
 
@@ -397,7 +399,7 @@ func _build_viewport(size: Vector2 = screen_size) -> SubViewportContainer:
 
 	# Allow the viewport to receive input events.
 	viewport.set_handle_input_locally(false)
-
+	
 	# Add the viewport and camera to the arrays, so they can be accessed later.
 	cameras.append(camera)
 	viewports.append(viewport)
@@ -417,6 +419,7 @@ func _clear_viewport_container() -> void:
 	# Clear the arrays of viewports and cameras.
 	cameras = []
 	viewports = []
+	GameManager.player_viewports.clear()
 
 	# Remove the viewport container from the scene tree.
 	viewport_container.free()
@@ -471,3 +474,6 @@ func _safe_reparent(node: Node, new_parent: Node) -> void:
 		node.reparent(new_parent)
 	else:
 		new_parent.add_child(node)
+
+func get_subviewport(player_id: int) -> SubViewport:
+	return viewports[player_id-1]

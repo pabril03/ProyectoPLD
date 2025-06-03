@@ -1,0 +1,203 @@
+[gd_scene load_steps=24 format=3 uid="uid://ddylj2mvljleq"]
+
+[ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
+[ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://scripts/selector_personajes.gd" id="1_fjnxs"]
+[ext_resource type="Script" uid="uid://d2g0ioyr38dfd" path="res://scripts/characterData.gd" id="2_i2etj"]
+[ext_resource type="Texture2D" uid="uid://cmttxbt1vm3fk" path="res://sprites/raygun.png" id="3_uf3pn"]
+[ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_k6fdu"]
+[ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="5_uf3pn"]
+[ext_resource type="Texture2D" uid="uid://dkfbfuuev7hnx" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_anime_sword.png" id="6_k6fdu"]
+
+[sub_resource type="Resource" id="Resource_dduyb"]
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_vxhlt"]
+script = ExtResource("2_i2etj")
+key = "Francotirador"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_k6fdu"]
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_6dy1r"]
+script = ExtResource("2_i2etj")
+key = "Rogue"
+img = ExtResource("6_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_w3ft1"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_8khsw"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_0oqqe"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_m8yo0"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_7khji"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_k7gms"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_vmqmp"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_puaky"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_ojipl"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_3bqco"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Artillero"
+img = ExtResource("3_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_hqvb5"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Sniper"
+img = ExtResource("4_k6fdu")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[sub_resource type="Resource" id="Resource_02q24"]
+resource_local_to_scene = true
+script = ExtResource("2_i2etj")
+key = "Asalto"
+img = ExtResource("5_uf3pn")
+metadata/_custom_type_script = "uid://d2g0ioyr38dfd"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fjnxs")
+personajesDisponibles = Array[ExtResource("2_i2etj")]([SubResource("Resource_dduyb"), SubResource("Resource_vxhlt"), SubResource("Resource_k6fdu"), SubResource("Resource_6dy1r")])
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.384314, 0.384314, 0.384314, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -82.0
+offset_top = 63.0
+offset_right = 82.0
+offset_bottom = 101.0
+grow_horizontal = 2
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -479.0
+offset_top = -248.5
+offset_right = 479.0
+offset_bottom = 248.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Selecciona tu clase"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(958, 343)
+layout_mode = 2
+theme_override_constants/separation = 250
+
+[node name="Personaje1" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_w3ft1"), SubResource("Resource_8khsw"), SubResource("Resource_0oqqe")])
+
+[node name="Personaje2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_m8yo0"), SubResource("Resource_7khji"), SubResource("Resource_k7gms")])
+
+[node name="Personaje3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_vmqmp"), SubResource("Resource_puaky"), SubResource("Resource_ojipl")])
+
+[node name="Personaje4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+visible = false
+layout_mode = 2
+Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_3bqco"), SubResource("Resource_hqvb5"), SubResource("Resource_02q24")])
+
+[node name="Empezar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Empezar"
+
+[connection signal="pressed" from="VBoxContainer/Empezar" to="." method="_on_empezar_pressed"]

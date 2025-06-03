@@ -2,10 +2,7 @@
 extends Node
 
 var spawn_markers: Array[Marker2D] = []
-
-# Armas:
-var shotgun_count: int = 0
-var pistol_count: int = 0
+var player_viewports: Array = []
 
 # Variable global para el número de jugadores
 var num_jugadores: int = 1
@@ -18,25 +15,43 @@ var device_for_player := []
 var player_devices := {}
 var jugadores_vivos := 0
 var max_players := 4
+var soloplay = false
+
+var clases: Array = [null,null,null,null]
 
 func _ready() -> void:
+	configurar_dispositivos()
+
+func configurar_dispositivos() -> void:
 		# Obtener lista de joypads conectados
 	var joypads = Input.get_connected_joypads()
-	
-	match joypads.size():
-		0:
-			# Sin mandos: se juega 1 solo jugador con teclado y ratón
-			device_for_player.append(null) # Jugador 1
 
-		1:
-			# Un mando: Jugador 1 usa teclado+ratón, Jugador 2 usa mando
-			device_for_player.append(null)      # Jugador 1
-			device_for_player.append(joypads[0]) # Jugador 2
+	if !device_for_player.is_empty():
+		print("Joypads: ", joypads)
+		device_for_player.clear()
+		player_devices.clear()
 
-		_:
-			# Dos o más mandos: asigna los dos primeros
-			device_for_player.append(joypads[0]) # Jugador 1
-			device_for_player.append(joypads[1]) # Jugador 2
+	if soloplay:
+		if joypads.size() == 0:
+			device_for_player.append(null)
+		else:
+			device_for_player.append(joypads[0])
+
+	else:
+		match joypads.size():
+			0:
+				# Sin mandos: se juega 1 solo jugador con teclado y ratón
+				device_for_player.append(null) # Jugador 1
+
+			1:
+				# Un mando: Jugador 1 usa teclado+ratón, Jugador 2 usa mando
+				device_for_player.append(null)      # Jugador 1
+				device_for_player.append(joypads[0]) # Jugador 2
+
+			_:
+				# Dos o más mandos: asigna los dos primeros
+				device_for_player.append(joypads[0]) # Jugador 1
+				device_for_player.append(joypads[1]) # Jugador 2
 
 func registrar_jugador(id_jugador: int) -> void:
 	if jugadores.size() >= max_players:
@@ -53,7 +68,6 @@ func registrar_jugador(id_jugador: int) -> void:
 	print("Jugador %d registrado con dispositivo %s" % [id_jugador, str(player_devices[id_jugador])])
 
 	# El nuevo player coge una pistola
-	arma_agarrada("Gun")
 
 	return jugadores.size()  # Devuelve un player_id único (1, 2, 3, ...)
 
@@ -118,20 +132,6 @@ func initialize_spawns(count):
 	for i in range(count):
 		spawn_states.append(0)  # Al inicio todos están libres
 
-func arma_soltada(tipo_arma: String) -> void:
-	if tipo_arma == "Shotgun":
-		shotgun_count -= 1
-
-	elif tipo_arma == "Gun":
-		pistol_count -= 1
-
-func arma_agarrada(tipo_arma: String) -> void:
-	if tipo_arma == "Shotgun":
-		shotgun_count += 1
-	
-	elif tipo_arma == "Gun":
-		pistol_count += 1
-
 func _init_player_spawns() -> void:
 	var parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
 	for m in parent.get_children():
@@ -141,3 +141,29 @@ func _init_player_spawns() -> void:
 func get_spawn_point() -> Vector2:
 	var idx = randi() % spawn_markers.size()
 	return spawn_markers[idx].global_position
+
+func resetearStats() -> void:
+	spawn_markers = []
+
+	# Variable global para el número de jugadores
+	num_jugadores = 1
+	jugadores_eliminados = [] # Guardamos los ID de los jugadores eliminnados en orden
+	jugadores = []
+	spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
+
+	# Índices de player: 0 = jugador1, 1 = jugador2
+	device_for_player = []
+	player_devices = {}
+	jugadores_vivos = 0
+	clases = [null,null,null,null]
+	
+func asignarClase(clase: String, player: int) -> void:
+	clases[player] = clase
+	print(clases)
+
+func add_viewport(viewport: SubViewport) -> void:
+	if viewport == null:
+		push_error("Intentaste añadir un viewport nulo.")
+		return
+
+	player_viewports.append(viewport)

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://trggrjl74esa"]
+
+[ext_resource type="Script" uid="uid://37fbnbfsc3iu" path="res://escenas/Spawns Armas y Powerups/pickup_launcher.gd" id="1_vqlj6"]
+[ext_resource type="Texture2D" uid="uid://b6rdomt1tnaal" path="res://sprites/grenade_launcher.png" id="2_2m1mn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jkxx7"]
+radius = 21.2132
+
+[node name="PickupLauncher" type="Node2D"]
+script = ExtResource("1_vqlj6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.249999, -1.5)
+scale = Vector2(0.0835937, 0.0859375)
+texture = ExtResource("2_2m1mn")
+flip_h = true
+
+[node name="ItemRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemRange"]
+shape = SubResource("CircleShape2D_jkxx7")
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 10.0

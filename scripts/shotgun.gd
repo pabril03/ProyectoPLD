@@ -1,12 +1,14 @@
 extends Node2D
 
-const bala = preload("res://escenas/bala.tscn")
+const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 
 @onready var punta: Marker2D = $Marker2D
 @onready var sprite: Sprite2D = $Sprite2D
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
+const MAX_AMMO = 10
+var municion = 10
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -27,9 +29,7 @@ func _ready() -> void:
 	shoot_timer.wait_time = 1.5
 	alt_timer.wait_time = 2.25
 
-	# Conecta señales para reactivar el disparo cuando terminen
-	shoot_timer.timeout.connect(_on_timer_timeout)
-	alt_timer.timeout.connect(_on_alt_timer_timeout)
+	visibility_layer = get_parent().player_id + 1
 
 func _process(_delta: float) -> void:
 	
@@ -43,7 +43,7 @@ func _process(_delta: float) -> void:
 		var jugador = get_parent()
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_pressed("shoot")
-		disparar_alterno = Input.is_action_pressed("Alter-shoot")
+		disparar_alterno = Input.is_action_pressed("alter-shoot")
 		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 
 	else:
@@ -54,31 +54,52 @@ func _process(_delta: float) -> void:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
 		
-		disparar = Input.is_action_pressed("shoot_pad") # o el que definas
-		disparar_alterno = Input.is_action_pressed("alter-shoot_pad") # o el que definas
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		if dispositivo == 0:
+			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
+		if dispositivo == 1:
+			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
+		if dispositivo == 2:
+			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
+		if dispositivo == 3:
+			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
 		scale.y = -1
+		get_parent().get_node("AnimatedSprite2D").flip_h = true
 	else:
 		scale.y = 1
-	
-	if disparar:
-		disparo()
+		get_parent().get_node("AnimatedSprite2D").flip_h = false
 		
-	if disparar_alterno:
-		disparo_largo()
+	if get_parent().polimorf:
+		$Sprite2D.visible = false
+	else:
+		$Sprite2D.visible = true
+		if disparar:
+			disparo()
+		if disparar_alterno:
+			disparo_largo()
 
 func disparo():
 	var player = get_parent()
 
 	if not puedoDisparar or player.escudo_activo:
 		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 
 	puedoDisparar = false
 	shoot_timer.start()
 	
 	var half_spread = deg_to_rad(SPREAD_DEGREES) * 0.5
+	municion -= 1
 	for j in range(PELLETS):
 		var angle_offset = randf_range(-half_spread, half_spread)
 		var dir = direccion_disparo.rotated(angle_offset)
@@ -120,12 +141,16 @@ func disparo_largo():
 	var player = get_parent()
 	if not puedoDisparar or player.escudo_activo:
 		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 
 	puedoDisparar = false
 	alt_timer.start()
 
 	var half_spread = deg_to_rad(ALT_SPREAD_DEGREES) * 0.5
-
+	municion -= 1
 	for j in range(PELLETS):
 		var angle_offset = randf_range(-half_spread, half_spread)
 		var dir = direccion_disparo.rotated(angle_offset)
@@ -174,3 +199,11 @@ func desaparecer() -> void:
 
 func aparecer() -> void:
 	sprite.visible = true
+
+func conectar() -> void:
+# Conecta señales para reactivar el disparo cuando terminen
+	shoot_timer.timeout.connect(_on_timer_timeout)
+	alt_timer.timeout.connect(_on_alt_timer_timeout)
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bttrry3x2p1q4"]
+
+[ext_resource type="Script" uid="uid://bb1suc61v4861" path="res://scripts/daga.gd" id="1_8spsc"]
+[ext_resource type="Texture2D" uid="uid://lqg6xe7ai3qo" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_katana.png" id="2_8spsc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ryi72"]
+radius = 4.0
+height = 26.0
+
+[node name="Daga" type="Area2D"]
+script = ExtResource("1_8spsc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_8spsc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ryi72")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

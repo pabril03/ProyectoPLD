@@ -1,15 +1,51 @@
 extends Node2D
 
-const EnemigoEscena = preload("res://escenas/enemigo.tscn")
-const SniperEscena = preload("res://escenas/sniper_class.tscn")
-var PickUpShotgun = preload("res://escenas/PickupShotgun.tscn")
-var PickUpPistol = preload("res://escenas/PickupPistol.tscn")
-var PickUpSniper = preload("res://escenas/PickupSniper.tscn")
-var Potenciador = preload("res://escenas/potenciador.tscn")
-const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
+const JugadorEscena = preload("res://escenas/Modelos base (mapas y player)/player.tscn")  # Ruta de la escena del jugador
+const EnemigoEscena = preload("res://escenas/Modelos base (mapas y player)/enemigo.tscn")
+var PickUpShotgun = preload("res://escenas/Spawns Armas y Powerups/PickupShotgun.tscn")
+var PickUpPistol = preload("res://escenas/Spawns Armas y Powerups/PickupPistol.tscn")
+var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.tscn")
+var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimorf.tscn")
+var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
+var PickUpLauncher = preload("res://escenas/Spawns Armas y Powerups/PickupLauncher.tscn")
+var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
+const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
+const BearTrapScene: PackedScene = preload("res://escenas/Trampas/bear_trap.tscn")
+const SpikeTrapScene: PackedScene = preload("res://escenas/Trampas/spike_trap.tscn")
+const GasTrapScene: PackedScene = preload("res://escenas/Trampas/gas_trap.tscn")
+const EnemigoFuego = preload("res://escenas/Modelos base (mapas y player)/enemigo_fuegoV2.tscn")
+const EnemigoDagas = preload("res://escenas/Modelos base (mapas y player)/enemigo_dagasV2.tscn")
+const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/enemigo_esqueleto.tscn")
 
 @onready var split_screen: SplitScreen2D
-@onready var punto_respawn_enemigo = $PuntoRespawnEnemigo
+@onready var puntos_respawn_enemigo_fuego = [
+	$PuntoRespawnEnemigoFuego,
+	$PuntoRespawnEnemigoFuego2,
+	$PuntoRespawnEnemigoFuego3,
+	$PuntoRespawnEnemigoFuego4,
+	$PuntoRespawnEnemigoFuego5
+]
+
+@onready var puntos_respawn_enemigo_dagas = [
+	$PuntoRespawnEnemigoDagas,
+	$PuntoRespawnEnemigoDagas2,
+	$PuntoRespawnEnemigoDagas3,
+	$PuntoRespawnEnemigoDagas4,
+	$PuntoRespawnEnemigoDagas5
+]
+
+@onready var puntos_respawn_enemigo_esqueleto = [
+	$PuntoRespawnEnemigoEsqueleto,
+	$PuntoRespawnEnemigoEsqueleto2,
+	$PuntoRespawnEnemigoEsqueleto3,
+	$PuntoRespawnEnemigoEsqueleto4,
+	$PuntoRespawnEnemigoEsqueleto5,
+	$PuntoRespawnEnemigoEsqueleto6,
+	$PuntoRespawnEnemigoEsqueleto7,
+	$PuntoRespawnEnemigoEsqueleto8,
+	$PuntoRespawnEnemigoEsqueleto9,
+	$PuntoRespawnEnemigoEsqueleto10
+]
 
 @onready var spawn_points = [
 	$"Spawns-PowerUp/Pot1",
@@ -19,27 +55,85 @@ const FireTrapScene: PackedScene = preload("res://escenas/fire_trap.tscn")
 ]
 
 @onready var spawn_pistol = [
-	$"Spawns-pistol/PistolRestock1"
+	$"Spawns-pistol/PistolRestock1",
+	$"Spawns-pistol/PistolRestock2"
 ]
 
 @onready var spawn_shotgun = [
-	$"Spawns-shotgun/ShotgunRestock1"
+	$"Spawns-shotgun/ShotgunRestock1",
+	$"Spawns-shotgun/ShotgunRestock2"
 ]
 
 @onready var spawn_sniper = [
-	$"Spawns-sniper/SniperRestock1"
+	$"Spawns-sniper/SniperRestock1",
+	$"Spawns-sniper/SniperRestock2"
+]
+
+@onready var spawn_polimorf = [
+	$"Spawn-polimorf/PolimorfRestock1",
+	$"Spawn-polimorf/PolimorfRestock2"
+]
+
+@onready var spawn_sword = [
+	$"Spawns-sword/SwordRestock1",
+	$"Spawns-sword/SwordRestock2"
+]
+
+@onready var spawn_launcher = [
+	$"Spawns-launcher/LauncherRestock"
 ]
 
 @onready var trap_points := [
 	$"Spawn-fire-traps/Firetrap1",
 	$"Spawn-fire-traps/Firetrap2",
-	$"Spawn-fire-traps/Firetrap3"
+	$"Spawn-fire-traps/Firetrap3",
+	$"Spawn-fire-traps/Firetrap4",
+	$"Spawn-fire-traps/Firetrap5",
+	$"Spawn-fire-traps/Firetrap6",
+	$"Spawn-fire-traps/Firetrap7",
+	$"Spawn-fire-traps/Firetrap8",
+	$"Spawn-fire-traps/Firetrap9",
+	$"Spawn-fire-traps/Firetrap10"
+]
+
+@onready var bear_points := [
+	$"Spawn-bear-traps/Beartrap1",
+	$"Spawn-bear-traps/Beartrap2",
+	$"Spawn-bear-traps/Beartrap3",
+	$"Spawn-bear-traps/Beartrap4",
+]
+
+@onready var spike_points := [
+	$"Spawn-spike-traps/Spiketrap1",
+	$"Spawn-spike-traps/Spiketrap2",
+	$"Spawn-spike-traps/Spiketrap3",
+	$"Spawn-spike-traps/Spiketrap4",
+	$"Spawn-spike-traps/Spiketrap5",
+	$"Spawn-spike-traps/Spiketrap6",
+]
+
+@onready var gas_points := [
+	$"Spawn-poison-traps/Poisontrap",
+	$"Spawn-poison-traps/Poisontrap2",
+	$"Spawn-poison-traps/Poisontrap3",
+	$"Spawn-poison-traps/Poisontrap4",
+	$"Spawn-poison-traps/Poisontrap5",
+	$"Spawn-poison-traps/Poisontrap6",
+	$"Spawn-poison-traps/Poisontrap7",
+	$"Spawn-poison-traps/Poisontrap8",
+	$"Spawn-poison-traps/Poisontrap9",
+	$"Spawn-poison-traps/Poisontrap10",
+	$"Spawn-poison-traps/Poisontrap11",
+	$"Spawn-poison-traps/Poisontrap12",
+	$"Spawn-poison-traps/Poisontrap13",
+	$"Spawn-poison-traps/Poisontrap14",
+	$"Spawn-poison-traps/Poisontrap15",
+	$"Spawn-poison-traps/Poisontrap16",
+	$"Spawn-poison-traps/Poisontrap17"
 ]
 
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
-var enemy: StaticBody2D # Referencia al dummy
-
 var player_respawning = false # Flag para evitar múltiples respawns
 var sniper_respawning = false
 var enemy_respawning = false
@@ -66,6 +160,12 @@ func _ready():
 	spawn_escopeta()
 	spawn_francotirador()
 	spawn_fire_traps()
+	spawn_bear_traps()
+	spawn_spike_traps()
+	spawn_gas_traps()
+	spawn_arma_polimorf()
+	spawn_espada()
+	spawn_lanzador()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -81,12 +181,7 @@ func _on_Salir_pressed() -> void:
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
-
-	if not is_instance_valid(enemy) and not enemy_respawning:
-		enemy_respawning = true
-		await get_tree().create_timer(2.0).timeout  # Espera 2 segundos antes del respawn
-		spawnear_dummy()
-		enemy_respawning = false
+	pass
 
 func get_next_enemy_id() -> int:
 	var id = next_enemy_id
@@ -94,15 +189,34 @@ func get_next_enemy_id() -> int:
 	return id
 
 func spawnear_dummy():
-	enemy = EnemigoEscena.instantiate()
-	enemy.enemy_id = get_next_enemy_id()
+	
+	for index in puntos_respawn_enemigo_fuego.size():
+		var enemy = EnemigoFuego.instantiate()
+		
+		enemy.global_position = puntos_respawn_enemigo_fuego[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "Fueboca"
+		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
 
-	# Asigna la posición global del spawn, con un pequeño offset si lo necesitas.
-	enemy.global_position = punto_respawn_enemigo.global_position + Vector2(0, -10)
-	enemy.tipo_enemigo = "Dummy"
-	enemy.set_damage_on_touch(5)
-	enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
-	add_child(enemy)
+	for index in puntos_respawn_enemigo_dagas.size():
+		var enemy = EnemigoDagas.instantiate()   
+		enemy.global_position = puntos_respawn_enemigo_dagas[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "Dagomante"
+		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
+
+	for index in puntos_respawn_enemigo_esqueleto.size():
+		var enemy = EnemigoEsqueleto.instantiate()   
+		enemy.global_position = puntos_respawn_enemigo_esqueleto[index].global_position + Vector2(0, -10)
+		enemy.tipo_enemigo = "Esqueletrico"
+		enemy.set_damage_on_touch(3)
+		enemy.add_to_group("enemy")
+		enemy.process_mode = Node.PROCESS_MODE_PAUSABLE
+		add_child(enemy)
 
 #Spawnear potenciadores en el spawn que haya hueco
 func spawnear_potenciador(index):
@@ -136,22 +250,62 @@ func liberar_spawn(index):
 	reponer_potenciador(index)
 
 func spawn_pistola():
-	var pistola = PickUpPistol.instantiate()
-	pistola.global_position = spawn_pistol[0].global_position
-	add_child(pistola)
+	for index in spawn_pistol.size():
+		var pistola = PickUpPistol.instantiate()   
+		pistola.global_position = spawn_pistol[index].global_position
+		add_child(pistola)
 
 func spawn_escopeta():
-	var escopeta = PickUpShotgun.instantiate()
-	escopeta.global_position = spawn_shotgun[0].global_position
-	add_child(escopeta)
+	for index in spawn_shotgun.size():
+		var escopeta = PickUpShotgun.instantiate()   
+		escopeta.global_position = spawn_shotgun[index].global_position
+		add_child(escopeta)
 
 func spawn_francotirador():
-	var francotirador = PickUpSniper.instantiate()
-	francotirador.global_position = spawn_sniper[0].global_position
-	add_child(francotirador)
+	for index in spawn_sniper.size():
+		var francotirador = PickUpSniper.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		francotirador.global_position = spawn_sniper[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(francotirador)
+		
+func spawn_arma_polimorf():
+	for index in spawn_polimorf.size():
+		var polimorf = PickUpPolimorf.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		polimorf.global_position = spawn_polimorf[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(polimorf)
+
+func spawn_espada():
+	for index in spawn_sword.size():
+		var espada = PickUpSword.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		espada.global_position = spawn_sword[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(espada)
+
+func spawn_lanzador():
+	for index in spawn_launcher.size():
+		var launcher = PickUpLauncher.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		launcher.global_position = spawn_launcher[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(launcher)
 
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():
 		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
 		trap.global_position = trap_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+func spawn_bear_traps() -> void:
+	for index in bear_points.size():
+		var trap = BearTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = bear_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+
+func spawn_spike_traps() -> void:
+	for index in spike_points.size():
+		var trap = SpikeTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = spike_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+
+func spawn_gas_traps() -> void:
+	for index in gas_points.size():
+		var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

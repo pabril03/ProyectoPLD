@@ -1,8 +1,10 @@
 extends Node2D
 
-const bala = preload("res://escenas/bala.tscn")
+const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 @export var DANIO = 2
 const DEADZONE := 0.2
+const MAX_AMMO : float = 20.0
+var municion : float = 20.0
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
@@ -30,7 +32,7 @@ func _process(_delta: float) -> void:
 		var jugador = get_parent()
 		look_at(get_global_mouse_position())
 		disparar = Input.is_action_pressed("shoot")
-		disparar_alterno = Input.is_action_just_pressed("Alter-shoot")
+		disparar_alterno = Input.is_action_just_pressed("alter-shoot")
 		direccion_disparo = (get_global_mouse_position() - jugador.global_position).normalized()
 	
 	else:
@@ -41,21 +43,36 @@ func _process(_delta: float) -> void:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
 		
-		disparar = Input.is_action_pressed("shoot_pad") # o el que definas
-		disparar_alterno = Input.is_action_pressed("alter-shoot_pad") # o el que definas
+		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
+		if dispositivo == 0:
+			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
+		if dispositivo == 1:
+			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
+		if dispositivo == 2:
+			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
+		if dispositivo == 3:
+			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
+			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
 		scale.y = -1
+		get_parent().get_node("AnimatedSprite2D").flip_h = true
 	else:
 		scale.y = 1
+		get_parent().get_node("AnimatedSprite2D").flip_h = false
 	
-	if disparar:
-		disparo()
-		
-	if disparar_alterno:
-		disparo_rafaga()
-	
+	if get_parent().polimorf:
+		$Sprite2D.visible = false
+	else:
+		$Sprite2D.visible = true
+		if disparar:
+			disparo()
+		if disparar_alterno:
+			disparo_rafaga()
 
 func disparo():
 	var player = get_parent()
@@ -63,9 +80,14 @@ func disparo():
 	if not puedoDisparar or player.escudo_activo:
 		return
 	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+	
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
+		municion -= 1.0
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		bullet_i.shooter_id = player.player_id
 		match bullet_i.shooter_id:
@@ -112,6 +134,10 @@ func disparo_rafaga():
 	if en_rafaga or not cooldown_rafaga or player.escudo_activo or not puedoDisparar:
 		return
 
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+
 	# Variables de control para el CD de las ráfagas
 	en_rafaga = true
 	cooldown_rafaga = false
@@ -121,7 +147,11 @@ func disparo_rafaga():
 	var posicion_rafaga = punta.global_position
 
 	for i in range(3):   # Disparara ráfagas de 3 disparos rápidos
+		if municion == 0.0:
+			return
+		
 		var bullet_i = bala.instantiate()
+		municion -= 1.0
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
@@ -173,3 +203,6 @@ func desaparecer() -> void:
 
 func aparecer() -> void:
 	sprite.visible = true
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

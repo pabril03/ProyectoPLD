@@ -1,0 +1,149 @@
+[gd_scene load_steps=11 format=3 uid="uid://cx42uqs822i3i"]
+
+[ext_resource type="Script" uid="uid://bwjgka4y0mirb" path="res://scripts/numJugadores.gd" id="1_55bae"]
+[ext_resource type="Shader" uid="uid://b6lbsfl678e61" path="res://UI/inicio.gdshader" id="2_jp6an"]
+[ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="3_n70lp"]
+[ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="4_uxjvj"]
+[ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="5_6d8gr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k6fdu"]
+shader = ExtResource("2_jp6an")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dduyb"]
+shader = ExtResource("5_6d8gr")
+shader_parameter/bg_color = Vector4(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vxhlt"]
+texture = ExtResource("3_n70lp")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+modulate_color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6dy1r"]
+texture = ExtResource("3_n70lp")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+modulate_color = Color(0.122252, 0.122252, 0.122252, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w3ft1"]
+texture = ExtResource("3_n70lp")
+texture_margin_left = 15.0
+texture_margin_right = 15.0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_55bae")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.385493, 0.385492, 0.385492, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -305.0
+offset_top = -200.0
+offset_right = 305.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 150
+
+[node name="Juego" type="NinePatchRect" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_k6fdu")
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("3_n70lp")
+patch_margin_left = 14
+patch_margin_top = 20
+patch_margin_right = 14
+patch_margin_bottom = 20
+
+[node name="Label" type="Label" parent="VBoxContainer/Juego"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.5
+offset_top = -19.5
+offset_right = 79.5
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_uxjvj")
+theme_override_font_sizes/font_size = 24
+text = "Jugadores"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Opcion1" type="Button" parent="VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_dduyb")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_uxjvj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vxhlt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6dy1r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w3ft1")
+text = "1"
+
+[node name="Opcion2" type="Button" parent="VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_dduyb")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_uxjvj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vxhlt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6dy1r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w3ft1")
+text = "2"
+
+[node name="Opcion3" type="Button" parent="VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_dduyb")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_uxjvj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vxhlt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6dy1r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w3ft1")
+text = "3"
+
+[node name="Opcion4" type="Button" parent="VBoxContainer/HBoxContainer"]
+material = SubResource("ShaderMaterial_dduyb")
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_uxjvj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vxhlt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6dy1r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_w3ft1")
+text = "4"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Opcion1" to="." method="_on_opcion_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Opcion2" to="." method="_on_opcion_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Opcion3" to="." method="_on_opcion_3_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Opcion4" to="." method="_on_opcion_4_pressed"]
