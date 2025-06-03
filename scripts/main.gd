@@ -180,7 +180,6 @@ func spawnear_jugador() -> void:
 	var cam = split_screen.get_player_camera(jugador)
 	split_screen.make_camera_track_player(cam, jugador)
 	GameManager.player_viewports = split_screen.viewports
-	print(GameManager.player_viewports)
 
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [id_a_usar])

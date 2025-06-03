@@ -10,6 +10,8 @@ extends Node2D
 var dispositivo: Variant = null # null = teclado/ratón, int = joypad id
 const DEADZONE := 0.2
 const JOY_ID := 0 # primer mando
+const MAX_MUNICION = "INF"
+var municion = "INF"
 
 @export var SPEED := 200
 @export var DANIO := 7.5
@@ -147,3 +149,6 @@ func conectar() -> void:
 # Conecta señales para reactivar el disparo cuando terminen
 	timer.timeout.connect(_on_arc_timeout)
 	alt_timer.timeout.connect(_on_thrust_timeout)
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

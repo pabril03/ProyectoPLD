@@ -7,6 +7,7 @@ const BearTrapScene = preload("res://escenas/Trampas/bear_trap.tscn")
 @export var SPEED_DEFAULT = 100.0
 @export var SPEED_DASH = 300.0
 @export var active_slows: Array = []
+@export var remainingHP = 3
 
 var DEADZONE := 0.2
 var escudo_activo:bool = false
@@ -45,6 +46,9 @@ signal health_changed(new_health)
 @onready var escudo = $Escudo
 @onready var escudo_sprite = $Escudo/Sprite2D
 @onready var arma = $Gun
+@onready var ammolabel = $AmmoLabel
+@onready var reloadlabel = $ReloadLabel
+@onready var liveslabel = $RemainingHP
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
 # Auras de potenciadores
@@ -67,6 +71,7 @@ func _ready():
 
 	cambiar_arma("gun")
 	original_gun = "gun"
+	arma.set_municion(INF)
 	weapons.append(original_gun)
 
 	for aura in [auraDamage, auraSpeed, auraHeal]:
@@ -114,6 +119,7 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 	return frases[randi() % frases.size()]
 
 func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
+
 	if is_invulnerable:
 		return
 
@@ -162,8 +168,12 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(death_FX)
 
+			if weapons.size() > 1:
+				arma_secundaria.desaparecer()
+				arma_secundaria.set_process(false)
 			arma.desaparecer()
 			arma.set_process(false)
+			await get_tree().create_timer(2.0).timeout
 
 			# Reaparecemos en un lugar
 			_respawn_in_place()
@@ -178,6 +188,7 @@ func _physics_process(_delta: float) -> void:
 	var usar_dash := false
 	var usar_habilidad := false
 	var cambiar_arma := false
+	actualizar_ammo_label()
 	
 	var dispositivo = GameManager.get_device_for_player(player_id)
 	if dispositivo == null:
@@ -516,8 +527,10 @@ func revertir_apariencia() -> void:
 	SPEED = SPEED_DEFAULT
 
 func _respawn_in_place() -> void:
-
-	await get_tree().create_timer(2.0).timeout
+	remainingHP -= 1
+	if remainingHP == 0:
+		return
+	remaining_hp()
 	# Restauramos estado
 	health = max_health
 	emit_signal("health_changed", health)
@@ -528,14 +541,21 @@ func _respawn_in_place() -> void:
 	is_invulnerable = true
 	animaciones.visible = true
 	collision.disabled = false
+	
+	if weapons.size() > 1:
+		arma_secundaria.aparecer()
+		arma_secundaria.set_process(true)
 	arma.aparecer()
 	arma.set_process(true)
 	set_physics_process(true)
 	
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	if rng.randf() < 0.8:  
-		add_weapon(original_gun)
+	if rng.randf() < 0.8 and weapons.size() > 1:  
+		arma_actual = 0
+		weapons.pop_back()
+		arma_secundaria.queue_free()
+		# add_weapon(original_gun)
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false
@@ -589,5 +609,31 @@ func _on_dash_timer_timeout() -> void:
 
 func _on_activar_dash_timeout() -> void:
 	activar_dash = true
+
+func actualizar_ammo_label() -> void:
+	# Cambia "Munición: %d" por el texto que prefieras.
+	if arma_actual == 0:
+		if arma.municion == INF:
+			ammolabel.text = "INF"
+		else:
+			ammolabel.text = "%d/%d" % [arma.municion, arma.MAX_AMMO]
+	else: 
+		if arma_secundaria.tipo_arma != "sword":
+			ammolabel.text = "%d/%d" % [arma_secundaria.municion, arma_secundaria.MAX_AMMO]
+		else:
+			ammolabel.text = "INF"
+
+func recarga_ammo_label() -> void:
+	ammolabel.visible = false
+	reloadlabel.visible = true
+	await get_tree().create_timer(2.0).timeout
+	ammolabel.visible = true
+	reloadlabel.visible = false
+
+func remaining_hp()-> void:
+	liveslabel.visible = true
+	liveslabel.text = "%d" % remainingHP
+	await get_tree().create_timer(2.0).timeout
+	liveslabel.visible = false
 
 signal died

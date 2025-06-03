@@ -167,4 +167,3 @@ func add_viewport(viewport: SubViewport) -> void:
 		return
 
 	player_viewports.append(viewport)
-	print(player_viewports)

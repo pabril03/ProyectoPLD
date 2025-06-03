@@ -3,6 +3,8 @@ extends Node2D
 const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 @export var DANIO = 2
 const DEADZONE := 0.2
+const MAX_AMMO : float = 20.0
+var municion : float = 20.0
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
@@ -78,9 +80,14 @@ func disparo():
 	if not puedoDisparar or player.escudo_activo:
 		return
 	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+	
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
+		municion -= 1.0
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		bullet_i.shooter_id = player.player_id
 		match bullet_i.shooter_id:
@@ -127,6 +134,10 @@ func disparo_rafaga():
 	if en_rafaga or not cooldown_rafaga or player.escudo_activo or not puedoDisparar:
 		return
 
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+
 	# Variables de control para el CD de las ráfagas
 	en_rafaga = true
 	cooldown_rafaga = false
@@ -136,7 +147,11 @@ func disparo_rafaga():
 	var posicion_rafaga = punta.global_position
 
 	for i in range(3):   # Disparara ráfagas de 3 disparos rápidos
+		if municion == 0.0:
+			return
+		
 		var bullet_i = bala.instantiate()
+		municion -= 1.0
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
@@ -188,3 +203,6 @@ func desaparecer() -> void:
 
 func aparecer() -> void:
 	sprite.visible = true
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

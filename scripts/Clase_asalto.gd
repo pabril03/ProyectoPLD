@@ -20,8 +20,10 @@ func _ready() -> void:
 	collision_mask = 1
 	escudo.escudo_id = player_id
 	arma.dispositivo = GameManager.get_device_for_player(player_id) # null = teclado/rató, int = joy_id
-	
+
+	cambiar_arma("shotgun")
 	original_gun = "shotgun"
+	arma.set_municion(INF)
 	weapons.append(original_gun)
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
@@ -43,6 +45,7 @@ func _physics_process(_delta: float) -> void:
 	var usar_dash := false
 	var usar_habilidad := false
 	var cambiar_arma := false
+	actualizar_ammo_label()
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:

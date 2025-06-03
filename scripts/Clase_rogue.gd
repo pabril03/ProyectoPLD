@@ -45,6 +45,7 @@ func _ready() -> void:
 
 	cambiar_arma("sword")
 	original_gun = "sword"
+	arma.set_municion(INF)
 	weapons.append(original_gun)
 	
 	for aura in [auraDamage, auraSpeed, auraHeal]:
@@ -65,6 +66,7 @@ func _physics_process(_delta: float) -> void:
 	var usar_dash := false
 	var usar_habilidad := false
 	var cambiar_arma := false
+	actualizar_ammo_label()
 	var dispositivo = GameManager.get_device_for_player(player_id)
 
 	if dispositivo == null:

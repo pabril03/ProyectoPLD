@@ -8,6 +8,8 @@ const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
+const MAX_AMMO = 10
+var municion = 10
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -109,12 +111,17 @@ func disparo():
 	if not puedoDisparar or player.escudo_activo:
 		return
 
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+
 	puedoDisparar = false
 	shoot_timer.start()
 
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
@@ -152,12 +159,17 @@ func disparo_largo():
 	if not puedoDisparar or player.escudo_activo:
 		return
 
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+
 	puedoDisparar = false
 	alt_timer.start()
 
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
@@ -218,3 +230,6 @@ func activar_invisibilidad():
 			continue
 		var vp: SubViewport = GameManager.player_viewports[i]
 		vp.canvas_cull_mask = _original_vp_masks[i] & ~LAYER_INVIS
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

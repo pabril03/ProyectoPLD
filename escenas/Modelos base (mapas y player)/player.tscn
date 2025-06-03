@@ -163,6 +163,43 @@ wait_time = 2.0
 
 [node name="DamageTick" type="Timer" parent="."]
 
+[node name="ReloadLabel" type="Label" parent="."]
+visible = false
+offset_left = -33.0
+offset_top = -35.0
+offset_right = 302.0
+offset_bottom = 30.0
+scale = Vector2(0.2, 0.2)
+theme_override_font_sizes/font_size = 36
+text = "¡CAMBIA DE ARMA!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoLabel" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -25.0
+offset_top = -24.0
+offset_right = -5.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+text = "
+50"
+
+[node name="RemainingHP" type="Label" parent="."]
+visible = false
+offset_left = -19.0
+offset_top = -53.0
+offset_right = 20.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 24
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5

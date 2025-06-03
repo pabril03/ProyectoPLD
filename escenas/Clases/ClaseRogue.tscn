@@ -286,6 +286,12 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.498039)
 
+[node name="AmmoLabel" parent="." index="16"]
+offset_left = -23.0
+offset_top = -36.0
+offset_right = -3.0
+offset_bottom = 20.0
+
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
 
 [editable path="Gun"]

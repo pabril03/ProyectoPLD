@@ -7,6 +7,8 @@ const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
 @onready var alt_timer: Timer = $AltTimer
+const MAX_AMMO = 10
+var municion = 10
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -88,11 +90,16 @@ func disparo():
 
 	if not puedoDisparar or player.escudo_activo:
 		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 
 	puedoDisparar = false
 	shoot_timer.start()
 	
 	var half_spread = deg_to_rad(SPREAD_DEGREES) * 0.5
+	municion -= 1
 	for j in range(PELLETS):
 		var angle_offset = randf_range(-half_spread, half_spread)
 		var dir = direccion_disparo.rotated(angle_offset)
@@ -134,12 +141,16 @@ func disparo_largo():
 	var player = get_parent()
 	if not puedoDisparar or player.escudo_activo:
 		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 
 	puedoDisparar = false
 	alt_timer.start()
 
 	var half_spread = deg_to_rad(ALT_SPREAD_DEGREES) * 0.5
-
+	municion -= 1
 	for j in range(PELLETS):
 		var angle_offset = randf_range(-half_spread, half_spread)
 		var dir = direccion_disparo.rotated(angle_offset)
@@ -193,3 +204,6 @@ func conectar() -> void:
 # Conecta señales para reactivar el disparo cuando terminen
 	shoot_timer.timeout.connect(_on_timer_timeout)
 	alt_timer.timeout.connect(_on_alt_timer_timeout)
+
+func set_municion(ammo: float) -> void:
+	municion = ammo

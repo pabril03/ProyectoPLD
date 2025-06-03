@@ -7,6 +7,8 @@ extends Node2D
 var can_throw_grenade: bool = true
 var can_throw_grenade_disperse: bool = true
 
+const MAX_AMMO = 10
+var municion = 10
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -82,6 +84,13 @@ func _process(_delta: float) -> void:
 func disparo():
 	var player = get_parent()
 	
+	if player.escudo_activo:
+		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+	
 	if can_throw_grenade:
 		var target: Vector2
 		if dispositivo == null:
@@ -98,6 +107,7 @@ func disparo():
 				target = global_position + dir.normalized() * (max_grenade_distance * strength)
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
+		municion -= 1
 		grenade.global_position = global_position
 		grenade.owner_id = player.player_id
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
@@ -111,6 +121,13 @@ func disparo():
 
 func disparo_rafaga():
 	var player = get_parent()
+	
+	if player.escudo_activo:
+		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 	
 	if can_throw_grenade_disperse:
 		var target: Vector2
@@ -129,7 +146,10 @@ func disparo_rafaga():
 		
 		# instanciar y lanzar
 		for i in range(racimo_shots):
+			if municion == 0:
+				return
 			var grenade = Grenade.instantiate()
+			municion -= 1
 			grenade.dano = 3
 			grenade.global_position = punta.global_position
 			grenade.owner_id = player.player_id

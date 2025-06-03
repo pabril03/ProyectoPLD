@@ -7,6 +7,8 @@ const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 var puedoDisparar: bool = true
 @onready var shoot_timer: Timer = $Timer
 
+const MAX_AMMO = 5
+var municion = 5
 const DEADZONE := 0.2
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
@@ -78,6 +80,10 @@ func disparo():
 
 	if not puedoDisparar or player.escudo_activo:
 		return
+	
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
 
 	puedoDisparar = false
 	shoot_timer.start()
@@ -85,6 +91,7 @@ func disparo():
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		bullet_i.polimorf = true
 		var spriteBala = bullet_i.get_node("Sprite2D")
@@ -123,12 +130,17 @@ func disparo_largo():
 	if not puedoDisparar or player.escudo_activo:
 		return
 
+	if municion == 0:
+		player.recarga_ammo_label()
+		return
+
 	puedoDisparar = false
 	#alt_timer.start()
 
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
