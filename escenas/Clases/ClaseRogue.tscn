@@ -292,7 +292,11 @@ offset_top = -36.0
 offset_right = -3.0
 offset_bottom = 20.0
 
+[node name="Timer_invisible" type="Timer" parent="." index="21"]
+wait_time = 6.0
+
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
+[connection signal="timeout" from="Timer_invisible" to="." method="_on_timer_invisible_timeout"]
 
 [editable path="Gun"]
 [editable path="Panel/HBoxContainer/AbilityButton"]

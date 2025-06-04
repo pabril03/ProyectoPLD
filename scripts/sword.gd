@@ -11,7 +11,7 @@ var dispositivo: Variant = null # null = teclado/ratón, int = joypad id
 const DEADZONE := 0.2
 const JOY_ID := 0 # primer mando
 const MAX_MUNICION = "INF"
-var municion = "INF"
+var municion = INF
 
 @export var SPEED := 200
 @export var DANIO := 7.5

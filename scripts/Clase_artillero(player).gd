@@ -61,6 +61,9 @@ signal health_changed(new_health)
 @onready var healTimer   = $HealTimer
 @onready var dashTimer = $DashTimer
 @onready var dashCD = $ActivarDash
+@onready var timer_trap = $Timer_trap
+var cd_trap : bool = false
+
 
 func _ready():
 	visibility_layer = 1 << player_id
@@ -299,13 +302,15 @@ func _physics_process(_delta: float) -> void:
 				traps_used.front().queue_free()
 				traps_used.pop_front()
 
-			if traps_used.size() <= 3:
+			if traps_used.size() <= 3 and not cd_trap:
 				var new_trap = BearTrapScene.instantiate()
 				new_trap.owner_id = player_id
 				new_trap.global_position = global_position
 				traps_used.append(new_trap)
 				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 				world.add_child(new_trap)
+				cd_trap = true
+				timer_trap.start()
 		
 		# Dash del jugador, le aumenta la velocidad respecto al Timer
 		if usar_dash and activar_dash:
@@ -646,3 +651,7 @@ func remaining_hp()-> void:
 	liveslabel.visible = false
 
 signal died
+
+
+func _on_cd_trap_timeout() -> void:
+	cd_trap = false

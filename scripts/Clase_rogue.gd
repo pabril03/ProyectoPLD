@@ -7,6 +7,9 @@ var LAYER_INVIS = 0
 var _my_viewport_idx: int
 var _original_vp_masks := []
 
+@onready var timer_invisible = $Timer_invisible
+var cd_invisible : bool = false
+
 func _ready() -> void:
 	await get_tree().create_timer(0.05).timeout
 	var split = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
@@ -157,8 +160,10 @@ func _physics_process(_delta: float) -> void:
 				recuperar_arma(arma)
 				arma_actual = 0
 		
-	if usar_habilidad:
+	if usar_habilidad and not cd_invisible:
 		activar_invisibilidad()
+		cd_invisible = true
+		timer_invisible.start()
 		
 
 	# Dash del jugador, le aumenta la velocidad respecto al Timer
@@ -239,3 +244,7 @@ func activar_invisibilidad():
 	# 7) Restaura todas las máscaras originales
 	for i in GameManager.player_viewports.size():
 		GameManager.player_viewports[i].canvas_cull_mask = _original_vp_masks[i]
+
+
+func _on_timer_invisible_timeout() -> void:
+	cd_invisible = false
