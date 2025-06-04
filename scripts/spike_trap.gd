@@ -45,7 +45,7 @@ func _on_damage_timeout() -> void:
 			if body.health <= 0:
 				continue
 			if body.has_method("take_damage") and not body.escudo_activo:
-				body.take_damage(damage_amount)
+				body.take_damage(damage_amount, 5)
 				body.slow_for(1.5,0.3)
 				did_damage = true
 	if did_damage:

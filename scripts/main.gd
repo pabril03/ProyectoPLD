@@ -129,6 +129,10 @@ func _process(_delta: float) -> void:
 	if $SplitScreen2D/UILayer/Opciones/SettingsMenu.volver:
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = false
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.volver = false
+	
+	if GameManager.finished_game():
+		var tree = Engine.get_main_loop() as SceneTree
+		tree.change_scene_to_file("res://UI/ScoreBoard.tscn")
 
 func get_next_player_id() -> int:
 	next_player_id += 1

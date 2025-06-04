@@ -19,7 +19,13 @@ var soloplay = false
 
 var clases: Array = [null,null,null,null]
 
+var scores := {}
+var kill_log: Array = []
+
+var dead_players_count = 0
+
 func _ready() -> void:
+	scores[0] = 0
 	configurar_dispositivos()
 
 func configurar_dispositivos() -> void:
@@ -67,7 +73,7 @@ func registrar_jugador(id_jugador: int) -> void:
 
 	print("Jugador %d registrado con dispositivo %s" % [id_jugador, str(player_devices[id_jugador])])
 
-	# El nuevo player coge una pistola
+	scores[id_jugador] = 0
 
 	return jugadores.size()  # Devuelve un player_id único (1, 2, 3, ...)
 
@@ -157,6 +163,10 @@ func resetearStats() -> void:
 	jugadores_vivos = 0
 	clases = [null,null,null,null]
 	
+	scores = {}
+	kill_log = []
+	dead_players_count = 0
+	
 func asignarClase(clase: String, player: int) -> void:
 	clases[player] = clase
 	print(clases)
@@ -167,3 +177,33 @@ func add_viewport(viewport: SubViewport) -> void:
 		return
 
 	player_viewports.append(viewport)
+
+func register_kill(shooter_id: int, victim_id: int) -> void:
+
+	# 1) Asegurarnos de que el shooter ya exista en el diccionario
+	if not scores.has(shooter_id):
+		scores[shooter_id] = 0
+
+	# 2) Sumar 1 kill a ese shooter
+	scores[shooter_id] += 1
+
+	# 3) Añadir al historial
+	kill_log.append({ "shooter": shooter_id, "victim": victim_id })
+
+	# 4) Guardar al victim como eliminado (si te sirve)
+	guardar_id_jugador(victim_id)
+
+	# Ejemplo de log en consola:
+	print("Jugador %d ha matado a Jugador %d (Kills totales: %d)" %
+		  [shooter_id, victim_id, scores[shooter_id]])
+		
+func dead_player() -> void:
+	dead_players_count += 1
+
+func finished_game() -> bool:
+	if soloplay and dead_players_count == 1:
+		return true
+	if dead_players_count >= num_jugadores-1 and not soloplay:
+		return true
+	else:
+		return false

@@ -27,6 +27,7 @@ var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
 var cooldown_escudo: float = 1.0
+var eliminado = false
 
 var afecta_daga = true
 var original_frames: SpriteFrames
@@ -118,9 +119,12 @@ func generar_frase_muerte(tipo_enemigo: String, tipo_muerte: String) -> String:
 
 	return frases[randi() % frases.size()]
 
-func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
+func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador", tipo_muerte: String = "Disparo") -> void:
 
 	if is_invulnerable:
+		return
+
+	if muriendo:
 		return
 
 	if !muriendo:
@@ -150,15 +154,18 @@ func take_damage(amount: float, autor: int = 2, tipo_enemigo: String = "Jugador"
 			# Guardamos el player_id en GameManager para que pueda ser utilizado al respawnear
 			GameManager.guardar_id_jugador(id_guardado)
 			
-			if tipo_enemigo == "Jugador":
+			if autor != 0 and autor != 5:
 				print(generar_frase_pvp(autor, player_id, tipo_muerte))
 
-			elif tipo_enemigo == "Trap":
+			elif autor == 5:
 				print("Trampeado xd")
 
 			else:
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
-				
+
+			if not eliminado:
+				GameManager.register_kill(autor,player_id)
+				eliminado = true
 			GameManager.jugador_muerto()
 
 			# Mostramos los efectos de muerte
@@ -529,8 +536,10 @@ func revertir_apariencia() -> void:
 func _respawn_in_place() -> void:
 	remainingHP -= 1
 	if remainingHP == 0:
+		GameManager.dead_player()
 		return
 	remaining_hp()
+	eliminado = false
 	# Restauramos estado
 	health = max_health
 	emit_signal("health_changed", health)

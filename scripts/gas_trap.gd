@@ -103,4 +103,4 @@ func _on_damage_timeout() -> void:
 			if body.health <= 0:
 				continue
 			if body.has_method("take_damage"):
-				body.take_damage(damage_amount)
+				body.take_damage(damage_amount, 5)

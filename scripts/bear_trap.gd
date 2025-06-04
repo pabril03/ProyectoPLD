@@ -78,7 +78,7 @@ func _on_damage_timeout() -> void:
 			if body.health <= 0:
 				continue
 			if body.has_method("take_damage") and not body.escudo_activo:
-				body.take_damage(damage_amount)
+				body.take_damage(damage_amount, 5)
 				body.slow_for(5.0, 0.4)  # ralentizar durante 5 segundos
 				did_damage = true
 				target_to_follow = body  # guardar referencia para seguir
