@@ -8,9 +8,18 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qkbeq")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = -1
+offset_right = 3022.0
+offset_bottom = 1629.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0110876, 0.0110876, 0.0110876, 1)
+
 [node name="SplitScreen2D" type="Node2D" parent="." node_paths=PackedStringArray("play_area")]
 script = ExtResource("2_8r4by")
 play_area = NodePath("Mapa")
+transparent_background = true
 metadata/_custom_type_script = "uid://b77tyuhg6gub1"
 
 [node name="Mapa" parent="SplitScreen2D" instance=ExtResource("3_mk8gy")]

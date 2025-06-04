@@ -77,6 +77,8 @@ func _ready():
 	btnSalir.pressed.connect(Callable(self, "_on_Salir_pressed"))
 
 	GlobalSettings.set_music_enabled(false)  # Para apagar la música
+	
+	#$ColorRect.set_size(split_screen.screen_size)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_action_pressed("pause"):
