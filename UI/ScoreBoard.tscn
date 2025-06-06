@@ -41,6 +41,7 @@ text = "INICIO
 "
 
 [node name="Button" type="Button" parent="."]
+layout_mode = 0
 offset_left = 855.0
 offset_top = 556.0
 offset_right = 962.0

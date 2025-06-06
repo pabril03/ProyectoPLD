@@ -146,6 +146,9 @@ var max_players = 4
 
 var toggled_on = false
 
+var luz
+
+
 func _ready():
 
 	spawnear_dummy()
@@ -168,6 +171,14 @@ func _ready():
 	spawn_lanzador()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Para ajustar el brillo
+	if not luz:
+		var env_scene = preload("res://escenas/luz.tscn")
+		luz = env_scene.instantiate()
+		
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(luz)
 
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:

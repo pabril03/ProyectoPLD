@@ -1,7 +1,9 @@
 extends Node
 
 @onready var audio := AudioStreamPlayer.new()
+
 var play_music : bool = true
+signal brightness_updated(value)
 
 func _ready():
 	add_child(audio)
@@ -26,6 +28,11 @@ func change_displayMode(toggle):
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	Save.game_data.full_screen_on = toggle
+	Save.save_data()
+
+func update_brightness(value):
+	emit_signal("brightness_updated",value)
+	Save.game_data.brightness = value
 	Save.save_data()
 
 # AUDIO

@@ -9,7 +9,6 @@
 script = ExtResource("1_qkbeq")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = -1
 offset_right = 3022.0
 offset_bottom = 1629.0
 grow_horizontal = 2
