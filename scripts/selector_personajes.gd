@@ -21,5 +21,17 @@ func _ready() -> void:
 
 	play_btn.grab_focus()
 
+func _process(_delta: float) -> void:
+	if $SeleccionJuego.volver:
+		$SeleccionJuego.visible = false
+		$SeleccionJuego.volver = false
+		$VBoxContainer.visible = true
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Volver"):
+		$SeleccionJuego.visible = false
+		$VBoxContainer.visible = true
+
 func _on_empezar_pressed() -> void:
-	get_tree().change_scene_to_file("res://escenas/Modelos base (mapas y player)/main.tscn")
+	$SeleccionJuego.visible = true
+	$VBoxContainer.visible = false

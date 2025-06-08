@@ -163,11 +163,6 @@ wait_time = 2.0
 
 [node name="DamageTick" type="Timer" parent="."]
 
-[node name="ShieldTimer" type="Timer" parent="."]
-wait_time = 0.75
-
-[node name="ShieldReloadTimer" type="Timer" parent="."]
-
 [node name="ReloadLabel" type="Label" parent="."]
 visible = false
 offset_left = -33.0
@@ -255,7 +250,5 @@ offset_top = -20.0
 [connection signal="timeout" from="Polimorf" to="." method="_on_polimorf_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="ActivarDash" to="." method="_on_activar_dash_timeout"]
-[connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
-[connection signal="timeout" from="ShieldReloadTimer" to="." method="_on_shield_reload_timer_timeout"]
 
 [editable path="Panel/HBoxContainer/AbilityButton"]

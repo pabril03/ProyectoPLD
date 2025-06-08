@@ -21,6 +21,8 @@ var clases: Array = [null,null,null,null]
 
 var scores := {}
 var kill_log: Array = []
+var vidas : int = 1
+var mapa : String = ""
 
 var dead_players_count = 0
 

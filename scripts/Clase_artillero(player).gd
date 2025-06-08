@@ -7,7 +7,7 @@ const BearTrapScene = preload("res://escenas/Trampas/bear_trap.tscn")
 @export var SPEED_DEFAULT = 100.0
 @export var SPEED_DASH = 300.0
 @export var active_slows: Array = []
-@export var remainingHP = 3
+@export var remainingHP = GameManager.vidas
 
 var DEADZONE := 0.2
 var escudo_activo:bool = false
@@ -26,7 +26,7 @@ var muriendo = false
 var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
-var cooldown_escudo: float = 1.0
+var cooldown_escudo: float = 1.25
 var eliminado = false
 
 var afecta_daga = true
@@ -62,8 +62,7 @@ signal health_changed(new_health)
 @onready var dashTimer = $DashTimer
 @onready var dashCD = $ActivarDash
 @onready var timer_trap = $Timer_trap
-@onready var shield_timer = $ShieldTimer
-@onready var shield_reload_timer = $ShieldReloadTimer
+
 var cd_trap : bool = false
 
 
@@ -332,7 +331,21 @@ func activar_escudo():
 	escudo.monitoring = true
 	
 	# El escudo se activa un lapso de tiempo
-	shield_timer.start()
+	await get_tree().create_timer(0.75).timeout
+	desactivar_escudo()
+	
+	# Evitamos el spam incluyendo un timer
+	puede_activar_escudo = false
+	
+	# Cooldown visual del escudo
+	$Panel/HBoxContainer/AbilityButton/Timer.wait_time = cooldown_escudo
+	$Panel/HBoxContainer/AbilityButton.abilityUsed()
+	
+	# Esperamos 1.25s para recargar el escudo
+	await get_tree().create_timer(cooldown_escudo).timeout
+	
+	puede_activar_escudo = true
+	
 	
 
 func desactivar_escudo():
@@ -646,21 +659,3 @@ signal died
 
 func _on_cd_trap_timeout() -> void:
 	cd_trap = false
-
-
-func _on_shield_timer_timeout() -> void:
-	desactivar_escudo()
-	
-	# Evitamos el spam incluyendo un timer
-	puede_activar_escudo = false
-	
-	# Cooldown visual del escudo
-	$Panel/HBoxContainer/AbilityButton/Timer.wait_time = cooldown_escudo
-	$Panel/HBoxContainer/AbilityButton.abilityUsed()
-	
-	# Esperamos 1.25s para recargar el escudo
-	shield_reload_timer.start()
-
-
-func _on_shield_reload_timer_timeout() -> void:
-	puede_activar_escudo = true
