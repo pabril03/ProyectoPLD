@@ -105,6 +105,7 @@ func disparo():
 		var dir = direccion_disparo.rotated(angle_offset)
 	
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:
@@ -156,6 +157,7 @@ func disparo_largo():
 		var dir = direccion_disparo.rotated(angle_offset)
 
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		match bullet_i.shooter_id:

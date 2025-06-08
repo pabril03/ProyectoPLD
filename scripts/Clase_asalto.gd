@@ -6,6 +6,7 @@ extends "Clase_artillero(player).gd"
 var _can_throw_grenade: bool = true
 
 func _ready() -> void:
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
 	SPEED = 75.0
 	SPEED_DEFAULT = 75.0
@@ -148,6 +149,7 @@ func _physics_process(_delta: float) -> void:
 				target = global_position + dir.normalized() * (max_grenade_distance * strength)
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
+		grenade.process_mode = Node.PROCESS_MODE_PAUSABLE
 		grenade.global_position = global_position
 		grenade.owner_id = player_id
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area

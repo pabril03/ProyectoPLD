@@ -107,6 +107,7 @@ func disparo():
 				target = global_position + dir.normalized() * (max_grenade_distance * strength)
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
+		grenade.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1
 		grenade.global_position = global_position
 		grenade.owner_id = player.player_id
@@ -149,6 +150,7 @@ func disparo_rafaga():
 			if municion == 0:
 				return
 			var grenade = Grenade.instantiate()
+			grenade.process_mode = Node.PROCESS_MODE_PAUSABLE
 			municion -= 1
 			grenade.dano = 3
 			grenade.global_position = punta.global_position

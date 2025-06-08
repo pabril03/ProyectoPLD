@@ -87,6 +87,7 @@ func disparo():
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1.0
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		bullet_i.shooter_id = player.player_id
@@ -151,6 +152,7 @@ func disparo_rafaga():
 			return
 		
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1.0
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")

@@ -286,7 +286,10 @@ offset_right = 25.0
 offset_bottom = 22.0
 color = Color(0, 0, 0, 0.498039)
 
-[node name="AmmoLabel" parent="." index="17"]
+[node name="ShieldReloadTimer" parent="." index="17"]
+wait_time = 0.75
+
+[node name="AmmoLabel" parent="." index="19"]
 offset_left = -23.0
 offset_top = -36.0
 offset_right = -3.0

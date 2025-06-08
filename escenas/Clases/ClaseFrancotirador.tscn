@@ -42,6 +42,9 @@ modulate = Color(0, 0.988235, 0.439216, 1)
 offset_top = -17.0
 offset_bottom = -4.0
 
+[node name="ShieldTimer" parent="." index="15"]
+wait_time = 0.5
+
 [node name="Cd_teleport" type="Timer" parent="." index="19"]
 wait_time = 8.0
 

@@ -12,6 +12,7 @@ var cd_invisible : bool = false
 
 func _ready() -> void:
 	await get_tree().create_timer(0.05).timeout
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	var split = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
 	_my_viewport_idx = split.players.find(self)
 	if _my_viewport_idx == -1:

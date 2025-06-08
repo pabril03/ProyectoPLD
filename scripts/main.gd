@@ -19,6 +19,11 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 @onready var punto_respawn2 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn2"
 @onready var punto_respawn3 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn3"
 
+@onready var punto_respawn_m2 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn1"  # Un marcador para el punto de respawn
+@onready var punto_respawn_m2_2 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn2"
+@onready var punto_respawn_m2_3 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn3"
+@onready var punto_respawn_m2_4 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn4"
+
 @onready var menu := $SplitScreen2D/UILayer/Opciones
 
 # Parámetros de zoom

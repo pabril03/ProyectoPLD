@@ -22,16 +22,13 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$PuntoRespawnEnemigoFuego,
 	$PuntoRespawnEnemigoFuego2,
 	$PuntoRespawnEnemigoFuego3,
-	$PuntoRespawnEnemigoFuego4,
-	$PuntoRespawnEnemigoFuego5
+	$PuntoRespawnEnemigoFuego4
 ]
 
 @onready var puntos_respawn_enemigo_dagas = [
 	$PuntoRespawnEnemigoDagas,
 	$PuntoRespawnEnemigoDagas2,
-	$PuntoRespawnEnemigoDagas3,
-	$PuntoRespawnEnemigoDagas4,
-	$PuntoRespawnEnemigoDagas5
+	$PuntoRespawnEnemigoDagas3
 ]
 
 @onready var puntos_respawn_enemigo_esqueleto = [
@@ -42,9 +39,7 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$PuntoRespawnEnemigoEsqueleto5,
 	$PuntoRespawnEnemigoEsqueleto6,
 	$PuntoRespawnEnemigoEsqueleto7,
-	$PuntoRespawnEnemigoEsqueleto8,
-	$PuntoRespawnEnemigoEsqueleto9,
-	$PuntoRespawnEnemigoEsqueleto10
+	$PuntoRespawnEnemigoEsqueleto8
 ]
 
 @onready var spawn_points = [
@@ -70,8 +65,7 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 ]
 
 @onready var spawn_polimorf = [
-	$"Spawn-polimorf/PolimorfRestock1",
-	$"Spawn-polimorf/PolimorfRestock2"
+	$"Spawn-polimorf/PolimorfRestock1"
 ]
 
 @onready var spawn_sword = [
@@ -88,12 +82,7 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawn-fire-traps/Firetrap2",
 	$"Spawn-fire-traps/Firetrap3",
 	$"Spawn-fire-traps/Firetrap4",
-	$"Spawn-fire-traps/Firetrap5",
-	$"Spawn-fire-traps/Firetrap6",
-	$"Spawn-fire-traps/Firetrap7",
-	$"Spawn-fire-traps/Firetrap8",
-	$"Spawn-fire-traps/Firetrap9",
-	$"Spawn-fire-traps/Firetrap10"
+	$"Spawn-fire-traps/Firetrap5"
 ]
 
 @onready var bear_points := [
@@ -129,7 +118,18 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawn-poison-traps/Poisontrap14",
 	$"Spawn-poison-traps/Poisontrap15",
 	$"Spawn-poison-traps/Poisontrap16",
-	$"Spawn-poison-traps/Poisontrap17"
+	$"Spawn-poison-traps/Poisontrap17",
+	$"Spawn-poison-traps/Poisontrap18",
+	$"Spawn-poison-traps/Poisontrap19",
+	$"Spawn-poison-traps/Poisontrap20",
+	$"Spawn-poison-traps/Poisontrap21",
+	$"Spawn-poison-traps/Poisontrap22",
+	$"Spawn-poison-traps/Poisontrap23",
+	$"Spawn-poison-traps/Poisontrap24",
+	$"Spawn-poison-traps/Poisontrap25",
+	$"Spawn-poison-traps/Poisontrap26",
+	$"Spawn-poison-traps/Poisontrap27",
+	$"Spawn-poison-traps/Poisontrap28"
 ]
 
 var last_pauser_id = -1

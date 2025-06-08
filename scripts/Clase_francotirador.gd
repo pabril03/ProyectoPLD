@@ -14,6 +14,7 @@ var cd_tp : bool = false
 
 
 func _ready() -> void:
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
 	SPEED = 120.0
 	SPEED_DEFAULT = 120.0

@@ -58,6 +58,9 @@ animation = &"artillero_run"
 [node name="ProgressBar" parent="." index="4"]
 modulate = Color(0, 0.989946, 0.439899, 1)
 
+[node name="ShieldReloadTimer" parent="." index="16"]
+wait_time = 1.25
+
 [node name="Timer_trap" type="Timer" parent="." index="19"]
 wait_time = 2.0
 

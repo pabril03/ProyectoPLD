@@ -9,6 +9,7 @@ var rng := RandomNumberGenerator.new()
 var chosen_sprite: AnimatedSprite2D
 
 func _enter_tree() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 
 	# Reconstruye el Array cuando ya existan los nodos hijos
 	death_sprites = [

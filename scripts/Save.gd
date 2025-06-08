@@ -8,6 +8,7 @@ func _ready() -> void:
 	load_data()
 
 func load_data() -> void:
+	print(ProjectSettings.globalize_path("user://savegame.dat"))
 	if not FileAccess.file_exists(SAVEFILE):
 		# Si no existe el archivo, asignamos valores por defecto
 		game_data = {

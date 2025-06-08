@@ -22,7 +22,7 @@ var listo: bool = true
 var listo_alt: bool = true
 
 func _ready() -> void:
-	
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	timer.one_shot      = true
 	alt_timer.one_shot  = true
 	
