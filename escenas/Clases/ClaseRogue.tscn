@@ -289,10 +289,7 @@ color = Color(0, 0, 0, 0.498039)
 [node name="ShieldTimer" type="Timer" parent="." index="16"]
 wait_time = 0.75
 
-[node name="ShieldReloadTimer" parent="." index="17"]
-wait_time = 0.75
-
-[node name="AmmoLabel" parent="." index="19"]
+[node name="AmmoLabel" parent="." index="18"]
 offset_left = -23.0
 offset_top = -36.0
 offset_right = -3.0
@@ -303,7 +300,6 @@ wait_time = 6.0
 
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
 [connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]
-[connection signal="timeout" from="ShieldReloadTimer" to="." method="_on_shield_reload_timer_timeout"]
 [connection signal="timeout" from="Timer_invisible" to="." method="_on_timer_invisible_timeout"]
 
 [editable path="Gun"]

@@ -141,7 +141,12 @@ func initialize_spawns(count):
 		spawn_states.append(0)  # Al inicio todos están libres
 
 func _init_player_spawns() -> void:
-	var parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
+	var parent 
+	if mapa == "Mapa 1":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
+	if mapa == "Mapa 2":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E-Mapa2")
+
 	for m in parent.get_children():
 		if m is Marker2D:
 			spawn_markers.append(m)

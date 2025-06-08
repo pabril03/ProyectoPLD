@@ -200,6 +200,9 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Timer_trap" type="Timer" parent="."]
+wait_time = 2.0
+
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5

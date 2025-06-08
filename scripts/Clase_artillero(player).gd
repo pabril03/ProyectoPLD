@@ -65,7 +65,6 @@ signal health_changed(new_health)
 
 var cd_trap : bool = false
 
-
 func _ready():
 	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
@@ -649,6 +648,9 @@ func recarga_ammo_label() -> void:
 	reloadlabel.visible = false
 
 func remaining_hp()-> void:
+	if remainingHP > 10:
+		return
+	
 	liveslabel.visible = true
 	liveslabel.text = "%d" % remainingHP
 	await get_tree().create_timer(2.0).timeout

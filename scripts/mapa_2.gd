@@ -21,8 +21,7 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 @onready var puntos_respawn_enemigo_fuego = [
 	$PuntoRespawnEnemigoFuego,
 	$PuntoRespawnEnemigoFuego2,
-	$PuntoRespawnEnemigoFuego3,
-	$PuntoRespawnEnemigoFuego4
+	$PuntoRespawnEnemigoFuego3
 ]
 
 @onready var puntos_respawn_enemigo_dagas = [
@@ -37,9 +36,7 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$PuntoRespawnEnemigoEsqueleto3,
 	$PuntoRespawnEnemigoEsqueleto4,
 	$PuntoRespawnEnemigoEsqueleto5,
-	$PuntoRespawnEnemigoEsqueleto6,
-	$PuntoRespawnEnemigoEsqueleto7,
-	$PuntoRespawnEnemigoEsqueleto8
+	$PuntoRespawnEnemigoEsqueleto6
 ]
 
 @onready var spawn_points = [
@@ -101,36 +98,36 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawn-spike-traps/Spiketrap6",
 ]
 
-@onready var gas_points := [
-	$"Spawn-poison-traps/Poisontrap",
-	$"Spawn-poison-traps/Poisontrap2",
-	$"Spawn-poison-traps/Poisontrap3",
-	$"Spawn-poison-traps/Poisontrap4",
-	$"Spawn-poison-traps/Poisontrap5",
-	$"Spawn-poison-traps/Poisontrap6",
-	$"Spawn-poison-traps/Poisontrap7",
-	$"Spawn-poison-traps/Poisontrap8",
-	$"Spawn-poison-traps/Poisontrap9",
-	$"Spawn-poison-traps/Poisontrap10",
-	$"Spawn-poison-traps/Poisontrap11",
-	$"Spawn-poison-traps/Poisontrap12",
-	$"Spawn-poison-traps/Poisontrap13",
-	$"Spawn-poison-traps/Poisontrap14",
-	$"Spawn-poison-traps/Poisontrap15",
-	$"Spawn-poison-traps/Poisontrap16",
-	$"Spawn-poison-traps/Poisontrap17",
-	$"Spawn-poison-traps/Poisontrap18",
-	$"Spawn-poison-traps/Poisontrap19",
-	$"Spawn-poison-traps/Poisontrap20",
-	$"Spawn-poison-traps/Poisontrap21",
-	$"Spawn-poison-traps/Poisontrap22",
-	$"Spawn-poison-traps/Poisontrap23",
-	$"Spawn-poison-traps/Poisontrap24",
-	$"Spawn-poison-traps/Poisontrap25",
-	$"Spawn-poison-traps/Poisontrap26",
-	$"Spawn-poison-traps/Poisontrap27",
-	$"Spawn-poison-traps/Poisontrap28"
-]
+#@onready var gas_points := [
+	#$"Spawn-poison-traps/Poisontrap",
+	#$"Spawn-poison-traps/Poisontrap2",
+	#$"Spawn-poison-traps/Poisontrap3",
+	#$"Spawn-poison-traps/Poisontrap4",
+	#$"Spawn-poison-traps/Poisontrap5",
+	#$"Spawn-poison-traps/Poisontrap6",
+	#$"Spawn-poison-traps/Poisontrap7",
+	#$"Spawn-poison-traps/Poisontrap8",
+	#$"Spawn-poison-traps/Poisontrap9",
+	#$"Spawn-poison-traps/Poisontrap10",
+	#$"Spawn-poison-traps/Poisontrap11",
+	#$"Spawn-poison-traps/Poisontrap12",
+	#$"Spawn-poison-traps/Poisontrap13",
+	#$"Spawn-poison-traps/Poisontrap14",
+	#$"Spawn-poison-traps/Poisontrap15",
+	#$"Spawn-poison-traps/Poisontrap16",
+	#$"Spawn-poison-traps/Poisontrap17",
+	#$"Spawn-poison-traps/Poisontrap18",
+	#$"Spawn-poison-traps/Poisontrap19",
+	#$"Spawn-poison-traps/Poisontrap20",
+	#$"Spawn-poison-traps/Poisontrap21",
+	#$"Spawn-poison-traps/Poisontrap22",
+	#$"Spawn-poison-traps/Poisontrap23",
+	#$"Spawn-poison-traps/Poisontrap24",
+	#$"Spawn-poison-traps/Poisontrap25",
+	#$"Spawn-poison-traps/Poisontrap26",
+	#$"Spawn-poison-traps/Poisontrap27",
+	#$"Spawn-poison-traps/Poisontrap28"
+#]
 
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
@@ -165,7 +162,7 @@ func _ready():
 	spawn_fire_traps()
 	spawn_bear_traps()
 	spawn_spike_traps()
-	spawn_gas_traps()
+	# spawn_gas_traps()
 	spawn_arma_polimorf()
 	spawn_espada()
 	spawn_lanzador()
@@ -318,9 +315,9 @@ func spawn_spike_traps() -> void:
 		trap.global_position = spike_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
 
-func spawn_gas_traps() -> void:
-	for index in gas_points.size():
-		var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
-		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
-		trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
-		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
+#func spawn_gas_traps() -> void:
+	#for index in gas_points.size():
+		#var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		#trap.process_mode = Node.PROCESS_MODE_PAUSABLE
+		#trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		#add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

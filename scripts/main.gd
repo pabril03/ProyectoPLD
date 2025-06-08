@@ -33,6 +33,7 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 
 #Pantalla dividida
 @onready var split_screen: SplitScreen2D = $SplitScreen2D
+@onready var play_area: Node2D = split_screen.play_area
 
 var respawn_queue: Array[int] = []
 var last_pauser_id = -1
@@ -52,11 +53,25 @@ var max_players = 4
 var toggled_on = false
 
 func _ready():
+	if not split_screen.play_area:
+		var placeholder = Node2D.new()
+		placeholder.name = "PlayArea"
+		split_screen.add_child(placeholder)
+		split_screen.play_area = placeholder
 
-	# Configuración de los dispositivos
-	# var devices = Input.get_connected_joypads()
-	if has_node("SplitScreen2D/Spawns-J-E"):
-		GameManager._init_player_spawns()
+	var packed : PackedScene
+	if GameManager.mapa == "Mapa 1":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa.tscn")
+	if GameManager.mapa == "Mapa 2":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa2.tscn")
+
+	var mapa_instancia = packed.instantiate()
+	play_area.add_child(mapa_instancia)
+
+	await get_tree().process_frame
+	split_screen.rebuild(SplitScreen2D.RebuildReason.EXTERNAL_REQUEST)
+
+	GameManager._init_player_spawns()
 
 	for i in range(GameManager.num_jugadores):
 		spawnear_jugador()
@@ -177,13 +192,25 @@ func spawnear_jugador() -> void:
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
-	match randi_range(1,3):
-		1:
-			jugador.global_position = punto_respawn.global_position
-		2:
-			jugador.global_position = punto_respawn2.global_position
-		3:
-			jugador.global_position = punto_respawn3.global_position
+	if GameManager.mapa == "Mapa 1":
+		match randi_range(1,3):
+			1:
+				jugador.global_position = punto_respawn.global_position
+			2:
+				jugador.global_position = punto_respawn2.global_position
+			3:
+				jugador.global_position = punto_respawn3.global_position
+	
+	if GameManager.mapa == "Mapa 2":
+		match randi_range(1,4):
+			1:
+				jugador.global_position = punto_respawn_m2.global_position
+			2:
+				jugador.global_position = punto_respawn_m2_2.global_position
+			3:
+				jugador.global_position = punto_respawn_m2_3.global_position
+			4:
+				jugador.global_position = punto_respawn_m2_4.global_position
 
 	split_screen.add_player(jugador)
 	await split_screen.split_screen_rebuilt
