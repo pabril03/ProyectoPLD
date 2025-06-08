@@ -149,60 +149,73 @@ offset_bottom = 101.0
 grow_horizontal = 2
 color = Color(0.196078, 0.196078, 0.196078, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -479.0
-offset_top = -248.5
-offset_right = 479.0
-offset_bottom = 248.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 100
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Selecciona tu clase"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(958, 343)
 layout_mode = 2
 theme_override_constants/separation = 250
 
-[node name="Personaje1" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+[node name="Personaje1" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
 Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_w3ft1"), SubResource("Resource_8khsw"), SubResource("Resource_0oqqe")])
 
-[node name="Personaje2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+[node name="Personaje2" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
 Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_m8yo0"), SubResource("Resource_7khji"), SubResource("Resource_k7gms")])
 
-[node name="Personaje3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+[node name="Personaje3" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
 Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_vmqmp"), SubResource("Resource_puaky"), SubResource("Resource_ojipl")])
 
-[node name="Personaje4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
+[node name="Personaje4" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_bcvsl")]
 visible = false
 layout_mode = 2
 Personajes = Array[ExtResource("2_i2etj")]([SubResource("Resource_3bqco"), SubResource("Resource_hqvb5"), SubResource("Resource_02q24")])
 
-[node name="Empezar" type="Button" parent="VBoxContainer"]
+[node name="Empezar" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Empezar"
 
+[node name="Volver" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Volver"
+
 [node name="SeleccionJuego" parent="." instance=ExtResource("8_dduyb")]
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="VBoxContainer/Empezar" to="." method="_on_empezar_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Empezar" to="." method="_on_empezar_pressed"]
+[connection signal="pressed" from="MarginContainer/Volver" to="." method="_on_volver_pressed"]

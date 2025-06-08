@@ -1,13 +1,13 @@
 extends Control
 
 @export var personajesDisponibles: Array[CharacterData]
-@onready var play_btn := $VBoxContainer/Empezar
+@onready var play_btn := $MarginContainer/VBoxContainer/Empezar
 
 @onready var personajes = [
-	$VBoxContainer/HBoxContainer/Personaje1,
-	$VBoxContainer/HBoxContainer/Personaje2,
-	$VBoxContainer/HBoxContainer/Personaje3,
-	$VBoxContainer/HBoxContainer/Personaje4
+	$MarginContainer/VBoxContainer/HBoxContainer/Personaje1,
+	$MarginContainer/VBoxContainer/HBoxContainer/Personaje2,
+	$MarginContainer/VBoxContainer/HBoxContainer/Personaje3,
+	$MarginContainer/VBoxContainer/HBoxContainer/Personaje4
 ]
 
 func _ready() -> void:
@@ -25,13 +25,17 @@ func _process(_delta: float) -> void:
 	if $SeleccionJuego.volver:
 		$SeleccionJuego.visible = false
 		$SeleccionJuego.volver = false
-		$VBoxContainer.visible = true
+		$MarginContainer/VBoxContainer.visible = true
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Volver"):
 		$SeleccionJuego.visible = false
-		$VBoxContainer.visible = true
+		$MarginContainer/VBoxContainer.visible = true
 
 func _on_empezar_pressed() -> void:
 	$SeleccionJuego.visible = true
-	$VBoxContainer.visible = false
+	$MarginContainer/VBoxContainer.visible = false
+
+
+func _on_volver_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/numJugadores.tscn")

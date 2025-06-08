@@ -1,6 +1,6 @@
 extends Control
 
-@onready var play_btn    := $VBoxContainer/HBoxContainer/Opcion1
+@onready var play_btn    := $MarginContainer/VBoxContainer/HBoxContainer/Opcion1
 
 func _ready() -> void:
 	# Al entrar en la escena, el foco cae en “Play”
@@ -48,3 +48,7 @@ func _on_opcion_4_pressed() -> void:
 	GameManager.soloplay = false
 	GameManager.configurar_dispositivos()
 	get_tree().change_scene_to_file("res://UI/selectorPersonajes.tscn")
+
+
+func _on_volver_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/inicio.tscn")
