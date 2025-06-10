@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cimfsyn1lj3c7"]
+[gd_scene load_steps=5 format=3 uid="uid://cimfsyn1lj3c7"]
 
 [ext_resource type="Script" uid="uid://cng754emwdrr7" path="res://scripts/main.gd" id="1_qkbeq"]
 [ext_resource type="Script" uid="uid://b77tyuhg6gub1" path="res://addons/split_screen_2d/split_screen_2d.gd" id="2_8r4by"]
 [ext_resource type="PackedScene" uid="uid://bklj2r23yv7p4" path="res://UI/opciones.tscn" id="4_kgy45"]
+[ext_resource type="PackedScene" uid="uid://dichi5i28eg3u" path="res://escenas/Modelos base (mapas y player)/Countdown.tscn" id="4_qkbeq"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qkbeq")
@@ -27,6 +28,8 @@ metadata/_custom_type_script = "uid://b77tyuhg6gub1"
 [node name="Opciones" parent="SplitScreen2D/UILayer" instance=ExtResource("4_kgy45")]
 layout_direction = 4
 script = null
+
+[node name="Countdown" parent="SplitScreen2D/UILayer" instance=ExtResource("4_qkbeq")]
 
 [node name="Spawns-J-E-Mapa2" type="Node" parent="SplitScreen2D"]
 

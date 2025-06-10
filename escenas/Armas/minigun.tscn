@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4dtjpkmj7ixn"]
 
-[ext_resource type="Script" uid="uid://dci28hh614h72" path="res://escenas/Armas/minigun.gd" id="1_md1e4"]
+[ext_resource type="Script" uid="uid://dci28hh614h72" path="res://scripts/minigun.gd" id="1_md1e4"]
 [ext_resource type="Texture2D" uid="uid://c50e7ddesmxa7" path="res://sprites/minigun/imgbin_53ee2d0876e168845d5c433449b1e3e3.png" id="2_eid8a"]
 
 [node name="Minigun" type="Node2D"]

@@ -25,6 +25,7 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 @onready var punto_respawn_m2_4 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn4"
 
 @onready var menu := $SplitScreen2D/UILayer/Opciones
+@onready var countdown := $SplitScreen2D/UILayer/Countdown
 
 # Parámetros de zoom
 @export var min_zoom: float = 1.0
@@ -98,7 +99,7 @@ func _ready():
 
 	GlobalSettings.set_music_enabled(false)  # Para apagar la música
 	
-	#$ColorRect.set_size(split_screen.screen_size)
+	countdown.start_countdown()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_action_pressed("pause"):
