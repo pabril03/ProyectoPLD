@@ -102,6 +102,9 @@ func _ready():
 	countdown.start_countdown()
 
 func _input(event: InputEvent) -> void:
+	if countdown.visible:
+		return
+	
 	if event is InputEventKey and event.is_action_pressed("pause"):
 		last_pauser_id = 1  # asumimos teclado = jugador 1
 		_toggle_pause()
