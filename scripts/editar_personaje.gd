@@ -20,7 +20,15 @@ func ant() -> void:
 
 func _update_ui() -> void:
 	sprite.texture = Personajes[cont].img
-	label.text     = Personajes[cont].key
+	match Personajes[cont].key:
+		"Artillero":
+			label.text = "nom_artillero"
+		"Francotirador":
+			label.text = "nom_francotirador"
+		"Asalto":
+			label.text = "nom_asalto"
+		"Rogue":
+			label.text = "nom_melee"
 
 func _on_before_pressed() -> void:
 	ant()

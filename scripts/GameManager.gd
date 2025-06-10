@@ -142,9 +142,9 @@ func initialize_spawns(count):
 
 func _init_player_spawns() -> void:
 	var parent 
-	if mapa == "Mapa 1":
+	if mapa == "mapa1":
 		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
-	if mapa == "Mapa 2":
+	if mapa == "mapa2":
 		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E-Mapa2")
 
 	for m in parent.get_children():

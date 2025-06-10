@@ -51,7 +51,7 @@ theme_override_constants/separation = 200
 
 [node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
-text = "Número de vidas"
+text = "num_vidas"
 
 [node name="Vidas" type="OptionButton" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
@@ -68,12 +68,12 @@ popup/item_3/text = "7"
 popup/item_3/id = 3
 popup/item_4/text = "10"
 popup/item_4/id = 4
-popup/item_5/text = "Ilimitadas"
+popup/item_5/text = "infinitas"
 popup/item_5/id = 5
 
 [node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Mapas"
+text = "mapas"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(750, 0)
@@ -83,22 +83,22 @@ layout_mode = 2
 custom_minimum_size = Vector2(750, 270)
 layout_mode = 2
 item_count = 2
-item_0/text = "Mapa 1"
+item_0/text = "mapa1"
 item_0/icon = ExtResource("1_0nb84")
-item_1/text = "Mapa 2"
+item_1/text = "mapa2"
 item_1/icon = ExtResource("2_8qtqf")
 
 [node name="Volver" type="Button" parent="MarginContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-text = "Volver"
+text = "but_volver"
 
 [node name="Continuar" type="Button" parent="MarginContainer/ColorRect/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-text = "Continuar"
+text = "but_empezar"
 
 [connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer/Vidas" to="." method="_on_vidas_item_selected"]
 [connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer2/ItemList" to="." method="_on_item_list_item_selected"]

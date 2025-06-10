@@ -16,7 +16,8 @@ func load_data() -> void:
 			"master_vol": 1.0,
 			"music_vol": 1.0,
 			"sfx_vol": 1.0,
-			"brightness": 1.0
+			"brightness": 1.0,
+			"language" : "es"
 		}
 		save_data()
 	else:

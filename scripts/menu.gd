@@ -8,6 +8,7 @@ func _ready() -> void:
 	# Al entrar en la escena, el foco cae en “Play”
 	play_btn.grab_focus()
 	GlobalSettings.set_music_enabled(true)
+	TranslationServer.set_locale(Save.game_data.language)
 	
 func _process(_delta: float) -> void:
 	if $SettingsMenu.volver:

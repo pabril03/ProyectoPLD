@@ -289,6 +289,9 @@ color = Color(0, 0, 0, 0.498039)
 [node name="ShieldTimer" type="Timer" parent="." index="16"]
 wait_time = 0.75
 
+[node name="ReloadLabel" parent="." index="17"]
+text = "¡CAMBIA DE ARMA!"
+
 [node name="AmmoLabel" parent="." index="18"]
 offset_left = -23.0
 offset_top = -36.0

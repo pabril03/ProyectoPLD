@@ -4,6 +4,9 @@ extends Control
 @onready var item_list = $MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer2/ItemList
 var volver : bool = false
 
+func _ready() -> void:
+	GameManager.vidas = 3
+
 func _on_item_list_item_selected(index: int) -> void:
 	var mapa_nombre = item_list.get_item_text(index)
 	GameManager.mapa = mapa_nombre
@@ -11,11 +14,10 @@ func _on_item_list_item_selected(index: int) -> void:
 
 func _on_vidas_item_selected(index: int) -> void:
 	var texto = option_button.get_item_text(index)
-	if texto == "Ilimitadas":
+	if texto == "infinitas":
 		GameManager.vidas = INF
 	else:
 		GameManager.vidas = texto.to_int()
-		print(GameManager.vidas)
 
 
 func _on_volver_pressed() -> void:

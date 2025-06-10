@@ -26,16 +26,18 @@ func _process(_delta: float) -> void:
 		$SeleccionJuego.visible = false
 		$SeleccionJuego.volver = false
 		$MarginContainer/VBoxContainer.visible = true
+		$MarginContainer/Volver.visible = true
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Volver"):
 		$SeleccionJuego.visible = false
 		$MarginContainer/VBoxContainer.visible = true
+		$MarginContainer/Volver.visible = true
 
 func _on_empezar_pressed() -> void:
 	$SeleccionJuego.visible = true
 	$MarginContainer/VBoxContainer.visible = false
-
+	$MarginContainer/Volver.visible = false
 
 func _on_volver_pressed() -> void:
 	get_tree().change_scene_to_file("res://UI/numJugadores.tscn")

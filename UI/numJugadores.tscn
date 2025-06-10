@@ -92,7 +92,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_uxjvj")
 theme_override_font_sizes/font_size = 24
-text = "Jugadores"
+text = "nom_jugadores"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -151,7 +151,7 @@ custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-text = "Volver"
+text = "but_volver"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Opcion1" to="." method="_on_opcion_1_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Opcion2" to="." method="_on_opcion_2_pressed"]

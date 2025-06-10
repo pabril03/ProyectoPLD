@@ -129,7 +129,7 @@ theme_override_fonts/font = ExtResource("3_51ai4")
 theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
-text = "INICIAR"
+text = "but_iniciar"
 
 [node name="Options" type="Button" parent="Principal/VBoxContainer"]
 material = SubResource("ShaderMaterial_yuo6r")
@@ -140,7 +140,7 @@ theme_override_fonts/font = ExtResource("3_51ai4")
 theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
-text = "OPCIONES"
+text = "but_opciones"
 
 [node name="Exit" type="Button" parent="Principal/VBoxContainer"]
 material = SubResource("ShaderMaterial_p8c5i")
@@ -151,7 +151,7 @@ theme_override_fonts/font = ExtResource("3_51ai4")
 theme_override_styles/hover = SubResource("StyleBoxTexture_i3a36")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_38inf")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yuo6r")
-text = "SALIR"
+text = "but_salir"
 
 [node name="Opciones" type="VBoxContainer" parent="."]
 visible = false

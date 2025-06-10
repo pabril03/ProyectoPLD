@@ -19,9 +19,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -424.0
+offset_left = -458.5
 offset_top = -225.5
-offset_right = 424.0
+offset_right = 458.5
 offset_bottom = 225.5
 grow_horizontal = 2
 grow_vertical = 2
@@ -59,15 +59,15 @@ columns = 2
 
 [node name="ModoPantalla" type="Label" parent="ColorRect/TabContainer/Video/MarginContainer/VideoSettings"]
 layout_mode = 2
-text = "Modo de pantalla"
+text = "modo_pantalla"
 
 [node name="OptionButton" type="OptionButton" parent="ColorRect/TabContainer/Video/MarginContainer/VideoSettings"]
 layout_mode = 2
 selected = 0
 item_count = 2
-popup/item_0/text = "Ventana"
+popup/item_0/text = "modo_ventana"
 popup/item_0/id = 0
-popup/item_1/text = "Pantalla Completa"
+popup/item_1/text = "modo_pant_comp"
 popup/item_1/id = 1
 
 [node name="Audio" type="TabBar" parent="ColorRect/TabContainer"]
@@ -93,7 +93,7 @@ columns = 2
 
 [node name="LabelMasterVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Volumen general"
+text = "volum_general"
 
 [node name="MasterVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -114,7 +114,7 @@ text = "100"
 
 [node name="LabelMusicVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Volumen de la música"
+text = "volum_musica"
 
 [node name="MusicVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -134,7 +134,7 @@ text = "100"
 
 [node name="LabelSFXVol" type="Label" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Volumen de efectos"
+text = "volum_SFX"
 
 [node name="SfxVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Audio/MarginContainer/GridContainer"]
 layout_mode = 2
@@ -152,12 +152,12 @@ value = 1.0
 layout_mode = 2
 text = "100"
 
-[node name="Accesibilidad" type="TabBar" parent="ColorRect/TabContainer"]
+[node name="accesibilidad_tab" type="TabBar" parent="ColorRect/TabContainer"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/TabContainer/Accesibilidad"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/TabContainer/accesibilidad_tab"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,21 +167,21 @@ grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 
-[node name="GridContainer" type="GridContainer" parent="ColorRect/TabContainer/Accesibilidad/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 20
 columns = 2
 
-[node name="LabelBrillo" type="Label" parent="ColorRect/TabContainer/Accesibilidad/MarginContainer/GridContainer"]
+[node name="LabelBrillo" type="Label" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "Brillo máximo"
+text = "brillo_max"
 
-[node name="BrilloVbox" type="HBoxContainer" parent="ColorRect/TabContainer/Accesibilidad/MarginContainer/GridContainer"]
+[node name="BrilloVbox" type="HBoxContainer" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SliderBrillo" type="HSlider" parent="ColorRect/TabContainer/Accesibilidad/MarginContainer/GridContainer/BrilloVbox"]
+[node name="SliderBrillo" type="HSlider" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer/BrilloVbox"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 min_value = 0.2
@@ -189,9 +189,139 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Label" type="Label" parent="ColorRect/TabContainer/Accesibilidad/MarginContainer/GridContainer/BrilloVbox"]
+[node name="Label" type="Label" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer/BrilloVbox"]
 layout_mode = 2
 text = "50"
+
+[node name="LabelIdioma" type="Label" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "idioma"
+
+[node name="OptionButtonIdioma" type="OptionButton" parent="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "idiom_es"
+popup/item_0/id = 0
+popup/item_1/text = "idiom_en"
+popup/item_1/id = 1
+
+[node name="controls_tab" type="TabBar" parent="ColorRect/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/TabContainer/controls_tab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/TabContainer/controls_tab/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 10
+columns = 4
+
+[node name="Label" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "left"
+
+[node name="Label2" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "A / L Joystick"
+
+[node name="Label3" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "right"
+
+[node name="Label4" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "D / L Joystick"
+
+[node name="Label5" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "up"
+
+[node name="Label6" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "W / L Joystick"
+
+[node name="Label7" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "down"
+
+[node name="Label8" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "S / L Joystick"
+
+[node name="Label9" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "shield"
+
+[node name="Label10" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "tecla_espacio"
+
+[node name="Label11" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "shoot"
+
+[node name="Label12" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "click_izquierdo"
+
+[node name="Label13" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "alter_shoot"
+
+[node name="Label14" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "click_derecho"
+
+[node name="Label15" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "pause"
+
+[node name="Label16" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Escape"
+
+[node name="Label17" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "volver"
+
+[node name="Label18" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Escape"
+
+[node name="Label19" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "dash"
+
+[node name="Label20" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Shift"
+
+[node name="Label21" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "sec_ability"
+
+[node name="Label22" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "E / Triangle"
+
+[node name="Label23" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "switch_weapons"
+
+[node name="Label24" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Q / Circle"
 
 [node name="Button" type="Button" parent="ColorRect"]
 layout_mode = 1
@@ -203,11 +333,12 @@ offset_top = -45.5
 offset_right = 115.0
 offset_bottom = -12.5
 grow_vertical = 0
-text = "Volver"
+text = "but_volver"
 
 [connection signal="item_selected" from="ColorRect/TabContainer/Video/MarginContainer/VideoSettings/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MasterVbox/SliderMasterVol" to="." method="_on_slider_master_vol_value_changed"]
 [connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/MusicVbox/SliderMusicVol" to="." method="_on_slider_music_vol_value_changed"]
 [connection signal="value_changed" from="ColorRect/TabContainer/Audio/MarginContainer/GridContainer/SfxVbox/SliderSFXVol" to="." method="_on_slider_sfx_vol_value_changed"]
-[connection signal="value_changed" from="ColorRect/TabContainer/Accesibilidad/MarginContainer/GridContainer/BrilloVbox/SliderBrillo" to="." method="_on_slider_brillo_value_changed"]
+[connection signal="value_changed" from="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer/BrilloVbox/SliderBrillo" to="." method="_on_slider_brillo_value_changed"]
+[connection signal="item_selected" from="ColorRect/TabContainer/accesibilidad_tab/MarginContainer/GridContainer/OptionButtonIdioma" to="." method="_on_option_button_idioma_item_selected"]
 [connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]

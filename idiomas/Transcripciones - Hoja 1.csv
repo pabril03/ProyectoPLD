@@ -1,0 +1,50 @@
+keys,es,en
+but_iniciar,Iniciar,Play
+but_opciones,Opciones,Options
+but_salir,Salir,Exit
+but_aceptar,Aceptar,Select
+but_volver,Volver,Back
+but_empezar,Empezar,Ready
+but_resumir,Continuar,Resume
+nom_jugadores,Jugadores,Players
+selec_clase,Selecciona tu clase,Select your class
+nom_artillero,Artillero,Artillery
+nom_francotirador,Francotirador,Sniper
+nom_asalto,Asalto,Assault
+nom_melee,Asesino,Rogue
+num_vidas,Número de vidas,Lifes
+mapas,Mapas,Maps
+mapa1,Mapa 1,Map 1
+mapa2,Mapa 2,Map 2
+but_continuar,Continuar,Next
+modo_pantalla,Modo de pantalla,Screen mode
+modo_ventana,Ventana,Windowed
+modo_pant_comp,Pantalla completa,Fullscreen
+volum_general,Volumen general,Master volume
+volum_musica,Volumen de la música,Music volume
+volum_SFX,Volumen de efectos,Sound effects
+brillo_max,Brillo máximo,Max brightness
+idioma,Idioma,Language
+idiom_es,Español,Spanish
+idiom_en,Inglés,English
+video_tab,Video,Video
+audio_tab,Audio,Audio
+accesibilidad_tab,Accesibilidad,Accesibility
+controls_tab,Controles,Controls
+cambia_arma,¡CAMBIA DE ARMA!,CHANGE WEAPON!
+left,Izquierda,Left
+right,Derecha,Right
+up,Arriba,Up
+down,Abajo,Down
+shield,Escudo,Shield
+shoot,Disparar,Shoot
+alter_shoot,Disparo alternativo,Alternative shoot
+pause,Pausa,Pause
+volver,Volver,Volver
+dash,Sprint,Dash
+sec_ability,Habilidad secundaria,Secondary ability
+switch_weapons,Cambiar armas,Switch weapons
+tecla_espacio,Espacio,Space
+click_izquierdo,Click izquierdo,Mouse left button
+click_derecho,Click derecho,Mouse right button
+infinitas,Infinitas,Infinite
