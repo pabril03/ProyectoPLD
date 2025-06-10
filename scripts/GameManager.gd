@@ -201,9 +201,10 @@ func register_kill(shooter_id: int, victim_id: int) -> void:
 	guardar_id_jugador(victim_id)
 
 	# Ejemplo de log en consola:
-	print("Jugador %d ha matado a Jugador %d (Kills totales: %d)" %
-		  [shooter_id, victim_id, scores[shooter_id]])
-		
+	if shooter_id != 0 and shooter_id != 5:
+		print("Jugador %d ha matado a Jugador %d (Kills totales: %d)" %
+			  [shooter_id, victim_id, scores[shooter_id]])
+
 func dead_player() -> void:
 	dead_players_count += 1
 

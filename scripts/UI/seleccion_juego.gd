@@ -15,6 +15,7 @@ func _on_vidas_item_selected(index: int) -> void:
 		GameManager.vidas = INF
 	else:
 		GameManager.vidas = texto.to_int()
+		print(GameManager.vidas)
 
 
 func _on_volver_pressed() -> void:

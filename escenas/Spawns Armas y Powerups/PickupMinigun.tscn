@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgxc6la0g1ewm"]
+
+[ext_resource type="Script" uid="uid://ck0mrcdq6dnlu" path="res://escenas/Spawns Armas y Powerups/pickup_minigun.gd" id="1_b4ss6"]
+[ext_resource type="Texture2D" uid="uid://c50e7ddesmxa7" path="res://sprites/minigun/imgbin_53ee2d0876e168845d5c433449b1e3e3.png" id="2_e63hm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o4x8j"]
+radius = 21.2132
+
+[node name="PickupMinigun" type="Node2D"]
+script = ExtResource("1_b4ss6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.38419e-07, 2.38419e-07)
+scale = Vector2(0.0441321, 0.06)
+texture = ExtResource("2_e63hm")
+
+[node name="ItemRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemRange"]
+shape = SubResource("CircleShape2D_o4x8j")
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 10.0

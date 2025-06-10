@@ -8,6 +8,7 @@ var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.t
 var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimorf.tscn")
 var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
 var PickUpLauncher = preload("res://escenas/Spawns Armas y Powerups/PickupLauncher.tscn")
+var PickUpMinigun = preload("res://escenas/Spawns Armas y Powerups/PickupMinigun.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 const BearTrapScene: PackedScene = preload("res://escenas/Trampas/bear_trap.tscn")
@@ -74,6 +75,10 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawns-launcher/LauncherRestock"
 ]
 
+@onready var spawn_minigun = [
+	$"Spawns-minigun/MinigunRestock"
+]
+
 @onready var trap_points := [
 	$"Spawn-fire-traps/Firetrap1",
 	$"Spawn-fire-traps/Firetrap2",
@@ -97,37 +102,6 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawn-spike-traps/Spiketrap5",
 	$"Spawn-spike-traps/Spiketrap6",
 ]
-
-#@onready var gas_points := [
-	#$"Spawn-poison-traps/Poisontrap",
-	#$"Spawn-poison-traps/Poisontrap2",
-	#$"Spawn-poison-traps/Poisontrap3",
-	#$"Spawn-poison-traps/Poisontrap4",
-	#$"Spawn-poison-traps/Poisontrap5",
-	#$"Spawn-poison-traps/Poisontrap6",
-	#$"Spawn-poison-traps/Poisontrap7",
-	#$"Spawn-poison-traps/Poisontrap8",
-	#$"Spawn-poison-traps/Poisontrap9",
-	#$"Spawn-poison-traps/Poisontrap10",
-	#$"Spawn-poison-traps/Poisontrap11",
-	#$"Spawn-poison-traps/Poisontrap12",
-	#$"Spawn-poison-traps/Poisontrap13",
-	#$"Spawn-poison-traps/Poisontrap14",
-	#$"Spawn-poison-traps/Poisontrap15",
-	#$"Spawn-poison-traps/Poisontrap16",
-	#$"Spawn-poison-traps/Poisontrap17",
-	#$"Spawn-poison-traps/Poisontrap18",
-	#$"Spawn-poison-traps/Poisontrap19",
-	#$"Spawn-poison-traps/Poisontrap20",
-	#$"Spawn-poison-traps/Poisontrap21",
-	#$"Spawn-poison-traps/Poisontrap22",
-	#$"Spawn-poison-traps/Poisontrap23",
-	#$"Spawn-poison-traps/Poisontrap24",
-	#$"Spawn-poison-traps/Poisontrap25",
-	#$"Spawn-poison-traps/Poisontrap26",
-	#$"Spawn-poison-traps/Poisontrap27",
-	#$"Spawn-poison-traps/Poisontrap28"
-#]
 
 var last_pauser_id = -1
 var jugador: CharacterBody2D  # Referencia al jugador
@@ -162,10 +136,10 @@ func _ready():
 	spawn_fire_traps()
 	spawn_bear_traps()
 	spawn_spike_traps()
-	# spawn_gas_traps()
 	spawn_arma_polimorf()
 	spawn_espada()
 	spawn_lanzador()
+	spawn_rotativa()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -293,6 +267,12 @@ func spawn_lanzador():
 		launcher.global_position = spawn_launcher[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(launcher)
 
+func spawn_rotativa():
+	for index in spawn_minigun.size():
+		var minigun = PickUpMinigun.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		minigun.global_position = spawn_minigun[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(minigun)
+
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():
 		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
@@ -314,10 +294,3 @@ func spawn_spike_traps() -> void:
 		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
 		trap.global_position = spike_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
-
-#func spawn_gas_traps() -> void:
-	#for index in gas_points.size():
-		#var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
-		#trap.process_mode = Node.PROCESS_MODE_PAUSABLE
-		#trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
-		#add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

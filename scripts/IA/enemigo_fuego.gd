@@ -91,7 +91,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	# 4) Aplicamos el daño por contacto
 	if body.has_method("take_damage") and not body.get_escudo_activo():
-		body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "mordisco")
+		body.take_damage(damage_on_touch, 0, tipo_enemigo, "mordisco")
 
 	# 5) Programamos la quemadura retrasada
 	_start_burn_delay(body)
@@ -144,7 +144,7 @@ func _on_damage_timer_timeout() -> void:
 	# Mantiene daño periódicamente mientras siga en contacto
 	for body in cuerpos_en_contacto:
 		if is_instance_valid(body) and body.is_in_group("player") and not body.get_escudo_activo():
-			body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "microondas")
+			body.take_damage(damage_on_touch, 0, tipo_enemigo, "microondas")
 
 func _on_explosion_timeout() -> void:
 	# Aquí puedes añadir efectos visuales o eliminar el nodo si es necesario
@@ -156,5 +156,5 @@ func _on_explosion_timeout() -> void:
 
 	if target_close and target_close.is_inside_tree():
 		if target_close.has_method("take_damage"):
-			target_close.take_damage(explosion_damage)
+			target_close.take_damage(explosion_damage, 0, tipo_enemigo, "explosión")
 	queue_free()

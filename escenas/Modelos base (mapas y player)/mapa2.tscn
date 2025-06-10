@@ -400,10 +400,15 @@ position = Vector2(222, 264)
 [node name="Pot4" type="Marker2D" parent="Spawns-PowerUp"]
 position = Vector2(638, 293)
 
+[node name="Spawns-minigun" type="Node2D" parent="."]
+
+[node name="MinigunRestock" type="Marker2D" parent="Spawns-minigun"]
+position = Vector2(391, 48)
+
 [node name="Spawns-launcher" type="Node2D" parent="."]
 
 [node name="LauncherRestock" type="Marker2D" parent="Spawns-launcher"]
-position = Vector2(640, 459)
+position = Vector2(631, 462)
 
 [node name="Spawns-sword" type="Node2D" parent="."]
 
