@@ -20,30 +20,8 @@ func _input(event: InputEvent) -> void:
 		$SettingsMenu.visible = false
 
 func _on_play_pressed() -> void:
-	var joypads = Input.get_connected_joypads()
-	match joypads.size():
-		0:
-			GameManager.num_jugadores = 1
-			GameManager.soloplay = true
-		1:
-			GameManager.num_jugadores = 2
-			GameManager.soloplay = false
-		2:
-			GameManager.num_jugadores = 2
-			GameManager.soloplay = false
-		3:
-			GameManager.num_jugadores = 3
-			GameManager.soloplay = false
-		4:
-			GameManager.num_jugadores = 4
-			GameManager.soloplay = false
-
-	GameManager.resetearStats()
 	GameManager.configurar_dispositivos()
 	get_tree().change_scene_to_file("res://UI/selectorPersonajes.tscn")
-
-	# get_tree().change_scene_to_file("res://UI/numJugadores.tscn")
-
 
 func _on_options_pressed() -> void:
 	$SettingsMenu.visible = true
