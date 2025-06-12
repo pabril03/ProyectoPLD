@@ -2,9 +2,9 @@
 extends Control
 
 const SCORE_ROW_SCENE: PackedScene = preload("res://UI/ScoreRow.tscn")
-@onready var scores_list := $MarginContainer/ScoresList
-@onready var again_button := $Button
-@onready var back_button := $Button2
+@onready var scores_list := $MarginContainer2/MarginContainer/ScoresList
+@onready var again_button := $MarginContainer2/HBoxContainer/Button
+@onready var back_button := $MarginContainer2/HBoxContainer/Button2
 
 func _ready() -> void:
 	again_button.grab_focus()
