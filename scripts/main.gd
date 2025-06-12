@@ -125,12 +125,6 @@ func _toggle_pause():
 		var resume_btn = menu.get_node("Div/VBoxContainer/Opcion1") as Button
 		resume_btn.grab_focus()
 
-	# Opcional: mostrar/ocultar tu menú de pausa
-	# if tree.paused:
-	#     $CanvasLayer/PauseMenu.visible = true
-	# else:
-	#     $CanvasLayer/PauseMenu.visible = false
-
 # Resume game
 func _on_Opcion1_pressed() -> void:
 	# Fuerza la reanudación
@@ -140,9 +134,7 @@ func _on_Opcion1_pressed() -> void:
 
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:
-	#$SettingsMenu.visible = true
 	$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = true
-	#print("Pulso Opcion2: abre opciones avanzadas…")
 
 # Salir al menú principal
 func _on_Salir_pressed() -> void:
@@ -189,7 +181,7 @@ func spawnear_jugador() -> void:
 
 	jugador.player_id = id_a_usar
 	GameManager.registrar_jugador(jugador.player_id)
-	jugador.connect("died", Callable(self, "_on_jugador_died"))
+	jugador.connect("perma_death", Callable(self, "_on_player_died"))
 	jugador.collision_layer = 1 << jugador.player_id
 	jugador.collision_mask = 1
 	jugador.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -225,3 +217,27 @@ func spawnear_jugador() -> void:
 
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [id_a_usar])
+
+func _on_player_died(player_id: int) -> void:
+	# 1) Encuentra el nodo jugador con ese ID
+	var nodo_a_remover: Node2D = null
+	for p in split_screen.players:
+		if p.player_id == player_id:
+			nodo_a_remover = p
+			break
+	if not nodo_a_remover:
+		push_warning("Jugador con ID %d no encontrado en split_screen.players" % player_id)
+		return
+
+	# 2) Quitarlo del split-screen
+	split_screen.remove_player(nodo_a_remover)
+	# 3) Borrarlo de la escena (opcional)
+	nodo_a_remover.queue_free()
+
+	# 4) Esperar a que el split-screen se haya reconstruido
+	await split_screen.split_screen_rebuilt
+
+	# 5) Reactivar el tracking de cámara para los que queden
+	for p in split_screen.players:
+		var cam = split_screen.get_player_camera(p)
+		split_screen.make_camera_track_player(cam, p)

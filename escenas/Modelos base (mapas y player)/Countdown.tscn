@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dichi5i28eg3u"]
 
-[ext_resource type="Script" uid="uid://dkv71l4423d0p" path="res://escenas/Modelos base (mapas y player)/countdown.gd" id="1_3x865"]
+[ext_resource type="Script" uid="uid://dkv71l4423d0p" path="res://scripts/countdown.gd" id="1_3x865"]
 
 [node name="Countdown" type="Control"]
 layout_mode = 3

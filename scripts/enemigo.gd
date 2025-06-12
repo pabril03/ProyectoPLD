@@ -77,7 +77,6 @@ func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: Str
 		
 		if health <= 0:
 			muriendo = true
-			emit_signal("died")
 			var msj = generar_frase(autor, String(tipo_enemigo))
 			print(msj)
 
@@ -184,5 +183,3 @@ func _on_damage_timer_timeout() -> void:
 			if body.is_in_group("player") and body.has_method("take_damage"):
 				if not body.get_escudo_activo():
 					body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "mordisco")
-
-signal died()

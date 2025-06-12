@@ -43,6 +43,8 @@ var en_polimorf: bool = false
 
 signal health_changed(new_health)
 
+
+
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
 @onready var escudo = $Escudo
 @onready var escudo_sprite = $Escudo/Sprite2D
@@ -144,7 +146,6 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 
 		if health <= 0:
 			muriendo = true
-			emit_signal("died", player_id)
 
 			# Deshabilitamos colisión y sprite
 			# collision.disabled = true
@@ -545,6 +546,7 @@ func _respawn_in_place() -> void:
 	remainingHP -= 1
 	if remainingHP == 0:
 		GameManager.dead_player()
+		emit_signal("perma_death", player_id)
 		return
 	remaining_hp()
 	eliminado = false
@@ -656,8 +658,7 @@ func remaining_hp()-> void:
 	await get_tree().create_timer(2.0).timeout
 	liveslabel.visible = false
 
-signal died
-
+signal perma_death(player_id)
 
 func _on_cd_trap_timeout() -> void:
 	cd_trap = false
