@@ -5,6 +5,9 @@ const daga = preload("res://escenas/Armas/daga.tscn")
 const SPEED : float = 100.0
 var lanzando : bool = false
 
+#Audio
+@onready var audio_dagas := AudioStreamPlayer.new()
+
 @onready var spawn_dagas : Array = [
 	$Proyectiles/Daga1,
 	$Proyectiles/Daga2,
@@ -23,6 +26,9 @@ func _ready() -> void:
 	damage_timer.connect("timeout", Callable(self, "_on_damage_timer_timeout"))
 	velocity = super.get_velocity()
 	_instanciar_dagas()
+	add_child(audio_dagas)
+	audio_dagas.stream = preload("res://audio/sonido_dagas.mp3")
+	audio_dagas.bus = "SFX"
 
 func _physics_process(_delta: float) -> void:
 
@@ -66,6 +72,8 @@ func lanzar_dagas_a(body: Node2D) -> void:
 		proyectil.active = true
 		proyectil.returning = false
 	lanzando = true
+		
+	audio_dagas.play()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if cuerpos_en_contacto.has(body):

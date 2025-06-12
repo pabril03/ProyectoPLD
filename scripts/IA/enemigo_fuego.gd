@@ -17,6 +17,9 @@ var burn_delay_off: float = 1.0
 var target: Node2D = null
 var target_close: Node2D = null
 
+#Audio
+@onready var audio_fuego := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	super._ready()
 	damage_timer.connect("timeout", Callable(self, "_on_damage_timer_timeout"))
@@ -33,6 +36,12 @@ func _ready() -> void:
 	explosion_timer.wait_time = explosion_delay
 	explosion_timer.one_shot = true
 	explosion_timer.connect("timeout", Callable(self, "_on_explosion_timeout"))
+	
+	add_child(audio_fuego)
+	audio_fuego.stream = preload("res://audio/sonido_fuego.mp3")
+	audio_fuego.bus = "SFX"
+	audio_fuego.volume_db = -15.0
+	
 
 func _physics_process(_delta: float) -> void:
 	if target:
@@ -80,6 +89,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	# 2) Encendemos partículas de "pre-burn"
 	burn_particles.emitting = true
+	
+	# Añadimos audio
+	audio_fuego.play()
 
 	# 3) Creamos un temporizador one-shot para el daño inicial
 	var t_on = get_tree().create_timer(burn_delay_on)
@@ -95,6 +107,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	# 5) Programamos la quemadura retrasada
 	_start_burn_delay(body)
+	
+	
 
 func _on_area_2d_body_entered_ext(body: Node2D) -> void:
 	if not body.is_in_group("player") or muriendo:
@@ -130,6 +144,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 		if not any_player_left:
 			burn_particles.emitting = false
+			audio_fuego.stop()
 
 func _on_area_2d_body_exited_ext(body: Node2D) -> void:
 	if body.is_in_group("player"):

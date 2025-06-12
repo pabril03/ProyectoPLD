@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyaytq4iew6k3"]
+[gd_scene load_steps=3 format=3 uid="uid://cyaytq4iew6k3"]
 
 [ext_resource type="Script" uid="uid://djftlpkmwsu60" path="res://UI/score_board.gd" id="1_le08a"]
+[ext_resource type="Texture2D" uid="uid://yherf0oro2rr" path="res://UI/PNG/imagen_menu2.png" id="2_ckdub"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -10,6 +11,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_le08a")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ckdub")
+expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

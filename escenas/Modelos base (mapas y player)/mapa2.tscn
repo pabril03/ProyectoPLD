@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=4 uid="uid://byr3jexukggrq"]
+[gd_scene load_steps=13 format=4 uid="uid://byr3jexukggrq"]
 
 [ext_resource type="Texture2D" uid="uid://hcmgyxv0eotv" path="res://0x72_DungeonTilesetII_v1.7/atlas_floor-16x16.png" id="1_gmesr"]
 [ext_resource type="Script" uid="uid://dgneu266sijoc" path="res://scripts/mapa_2.gd" id="1_lukw3"]
 [ext_resource type="Texture2D" uid="uid://bfyw406e1n3ho" path="res://0x72_DungeonTilesetII_v1.7/atlas_walls_high-16x32.png" id="2_lukw3"]
+[ext_resource type="AudioStream" uid="uid://bqftpnxo3f8ol" path="res://audio/musica_mapa2.mp3" id="4_vxtyl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jumxm"]
 friction = 0.0
@@ -533,3 +534,8 @@ position = Vector2(141, 40)
 
 [node name="PuntoRespawnEnemigoEsqueleto" type="Marker2D" parent="."]
 position = Vector2(70, 62)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_vxtyl")
+autoplay = true
+bus = &"Music"

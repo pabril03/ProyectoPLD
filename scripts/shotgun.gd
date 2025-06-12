@@ -25,11 +25,16 @@ var direccion_disparo = Vector2.ZERO
 
 var tipo_arma: String = "Shotgun"
 
+#Audio
+@onready var audio_balas := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	shoot_timer.wait_time = 1.5
 	alt_timer.wait_time = 2.25
 
 	visibility_layer = get_parent().player_id + 1
+	
+	add_child(audio_balas)
 
 func _process(_delta: float) -> void:
 	
@@ -135,6 +140,12 @@ func disparo():
 
 		bullet_i.velocity = dir * bullet_i.SPEED
 		bullet_i.rotation = dir.angle()
+		
+		audio_balas.stream = preload("res://audio/disparo_escopeta.mp3")
+		audio_balas.bus = "SFX"
+		
+		audio_balas.play()
+		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 
@@ -187,6 +198,13 @@ func disparo_largo():
 
 		bullet_i.velocity = dir * bullet_i.SPEED
 		bullet_i.rotation = dir.angle()
+		
+		#Audio
+		audio_balas.stream = preload("res://audio/disparo_escopeta.mp3")
+		audio_balas.bus = "SFX"
+		
+		audio_balas.play()
+		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 

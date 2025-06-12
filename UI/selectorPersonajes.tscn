@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ddylj2mvljleq"]
+[gd_scene load_steps=27 format=3 uid="uid://ddylj2mvljleq"]
 
 [ext_resource type="PackedScene" uid="uid://djag447q837gp" path="res://UI/editarPersonaje.tscn" id="1_bcvsl"]
 [ext_resource type="Script" uid="uid://bxfimb1bn2uqy" path="res://scripts/selector_personajes.gd" id="1_fjnxs"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://poyd5hemmmgb" path="res://sprites/sniper2_resized.png" id="4_k6fdu"]
 [ext_resource type="Texture2D" uid="uid://dsrq5hlfe3mja" path="res://sprites/shotgun.png" id="5_uf3pn"]
 [ext_resource type="Texture2D" uid="uid://dkfbfuuev7hnx" path="res://0x72_DungeonTilesetII_v1.7/frames/weapon_anime_sword.png" id="6_k6fdu"]
+[ext_resource type="Texture2D" uid="uid://yherf0oro2rr" path="res://UI/PNG/imagen_menu2.png" id="7_vxhlt"]
+[ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="8_6dy1r"]
 [ext_resource type="PackedScene" uid="uid://54b0vej2j4po" path="res://UI/seleccionJuego.tscn" id="8_dduyb"]
 
 [sub_resource type="Resource" id="Resource_dduyb"]
@@ -136,6 +138,16 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.384314, 0.384314, 0.384314, 1)
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_vxhlt")
+expand_mode = 1
+
 [node name="ColorRect2" type="ColorRect" parent="."]
 visible = false
 layout_mode = 1
@@ -170,6 +182,8 @@ theme_override_constants/separation = 100
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("8_6dy1r")
+theme_override_font_sizes/font_size = 20
 text = "selec_clase"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -214,7 +228,6 @@ size_flags_vertical = 8
 text = "but_volver"
 
 [node name="SeleccionJuego" parent="." instance=ExtResource("8_dduyb")]
-visible = false
 layout_mode = 1
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Empezar" to="." method="_on_empezar_pressed"]

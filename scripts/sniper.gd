@@ -29,6 +29,10 @@ var LAYER_INVIS = 0
 var _my_viewport_idx: int
 var _original_vp_masks := []
 
+# Audio
+@onready var audio_balas := AudioStreamPlayer.new()
+
+
 func _ready() -> void:
 	await get_tree().create_timer(0.05).timeout
 	var player = get_parent()
@@ -52,6 +56,8 @@ func _ready() -> void:
 
 	visibility_layer = get_parent().player_id + 5
 	activar_invisibilidad()
+	
+	add_child(audio_balas)
 
 func _process(_delta: float) -> void:
 	
@@ -152,6 +158,14 @@ func disparo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
+		
+		audio_balas.stream = preload("res://audio/disparo_sniper.mp3")
+		audio_balas.bus = "SFX"
+		
+		audio_balas.play()
+		
+		
+		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 
@@ -201,6 +215,12 @@ func disparo_largo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
+		
+		audio_balas.stream = preload("res://audio/disparo_sniper.mp3")
+		audio_balas.bus = "SFX"
+		
+		audio_balas.play()
+		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 
