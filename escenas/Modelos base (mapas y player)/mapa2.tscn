@@ -537,5 +537,6 @@ position = Vector2(70, 62)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_vxtyl")
+volume_db = -5.0
 autoplay = true
 bus = &"Music"

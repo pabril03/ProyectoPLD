@@ -21,6 +21,10 @@ var tipo_arma: String = "sword"
 var listo: bool = true
 var listo_alt: bool = true
 
+# Audio
+@onready var audio_ataque1 := AudioStreamPlayer.new()
+@onready var audio_ataque2 := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	timer.one_shot      = true
@@ -41,6 +45,15 @@ func _ready() -> void:
 	mask |= 1 << 6  # Añadir la capa 7 (bit 6)
 	mask |= 1 << 7  # Añadimos la capa 8, la de los enemigos
 	attack_area.collision_mask = mask
+	
+	add_child(audio_ataque1)
+	audio_ataque1.stream = preload("res://audio/barrido_espada.mp3")
+	audio_ataque1.bus = "SFX"
+	
+	add_child(audio_ataque2)
+	audio_ataque2.stream = preload("res://audio/estocada_espada.mp3")
+	audio_ataque2.bus = "SFX"
+	audio_ataque2.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	# Rotación hacia cursor o joystick derecho
@@ -105,7 +118,9 @@ func attack_arc() -> void:
 
 	# Activar área y reproducir animación de corte en arco
 	anim_player.play("arc_hit")
+	audio_ataque1.play()
 	timer.start()
+	
 
 func attack_thrust() -> void:
 	
@@ -117,6 +132,7 @@ func attack_thrust() -> void:
 
 	# Activar área y reproducir animación de estocada
 	anim_player.play("thrust_hit")
+	audio_ataque2.play()
 	alt_timer.start()
 
 func _on_arc_timeout() -> void:

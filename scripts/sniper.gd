@@ -58,6 +58,9 @@ func _ready() -> void:
 	activar_invisibilidad()
 	
 	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/disparo_sniper.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = 5.0
 
 func _process(_delta: float) -> void:
 	
@@ -159,12 +162,7 @@ func disparo():
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
 		
-		audio_balas.stream = preload("res://audio/disparo_sniper.mp3")
-		audio_balas.bus = "SFX"
-		
 		audio_balas.play()
-		
-		
 		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)

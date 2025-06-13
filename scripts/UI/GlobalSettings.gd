@@ -9,6 +9,7 @@ func _ready():
 	
 	audio.stream = preload("res://audio/default_song.mp3")
 	audio.bus = "Music"
+	audio.volume_db = -5.0
 	if play_music:
 		audio.play()
 	

@@ -35,6 +35,9 @@ func _ready() -> void:
 	visibility_layer = get_parent().player_id + 1
 	
 	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/disparo_escopeta.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	
@@ -141,9 +144,8 @@ func disparo():
 		bullet_i.velocity = dir * bullet_i.SPEED
 		bullet_i.rotation = dir.angle()
 		
-		audio_balas.stream = preload("res://audio/disparo_escopeta.mp3")
-		audio_balas.bus = "SFX"
 		
+		#Audio
 		audio_balas.play()
 		
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
