@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dqy1wh6hffjte" path="res://scripts/menu.gd" id="1_i3a36"]
 [ext_resource type="Shader" uid="uid://bsvp5rexvit2e" path="res://UI/botones.gdshader" id="1_s3mox"]
 [ext_resource type="Texture2D" uid="uid://dvy6efymytkmq" path="res://UI/PNG/Default/Border/panel-border-027.png" id="1_t6o4n"]
-[ext_resource type="Texture2D" uid="uid://cl6cvje4lu5db" path="res://UI/PNG/imagen_inicio.png" id="2_yuo6r"]
+[ext_resource type="Texture2D" uid="uid://dgrek0qqeojsk" path="res://UI/PNG/image_inicio_mejor.png" id="2_yuo6r"]
 [ext_resource type="FontFile" uid="uid://cu30vymlismke" path="res://UI/Fonts/Kenney Pixel Square.ttf" id="3_51ai4"]
 [ext_resource type="PackedScene" uid="uid://bc3gqbpjnrymw" path="res://UI/settings_menu.tscn" id="7_yuo6r"]
 
@@ -73,7 +73,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_yuo6r")
-expand_mode = 3
+expand_mode = 1
 
 [node name="Principal" type="VBoxContainer" parent="."]
 layout_mode = 1

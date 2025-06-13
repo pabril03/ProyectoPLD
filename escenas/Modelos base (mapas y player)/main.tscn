@@ -26,6 +26,7 @@ metadata/_custom_type_script = "uid://b77tyuhg6gub1"
 [node name="UILayer" type="CanvasLayer" parent="SplitScreen2D"]
 
 [node name="Opciones" parent="SplitScreen2D/UILayer" instance=ExtResource("4_kgy45")]
+visible = false
 layout_direction = 4
 script = null
 

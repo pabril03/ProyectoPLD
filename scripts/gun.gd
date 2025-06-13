@@ -26,7 +26,7 @@ func _ready() -> void:
 	add_child(audio_balas)
 	audio_balas.stream = preload("res://audio/raygun_shot.mp3")
 	audio_balas.bus = "SFX"
-	audio_balas.volume_db = -5.0
+	audio_balas.volume_db = -20.0
 		
 func _process(_delta: float) -> void:
 

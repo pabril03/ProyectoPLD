@@ -61,7 +61,7 @@ func _ready():
 		split_screen.play_area = placeholder
 
 	var packed : PackedScene
-	if GameManager.mapa == "mapa1":
+	if GameManager.mapa == "mapa1" or GameManager.mapa == "":
 		packed = load("res://escenas/Modelos base (mapas y player)/mapa.tscn")
 	if GameManager.mapa == "mapa2":
 		packed = load("res://escenas/Modelos base (mapas y player)/mapa2.tscn")
@@ -188,7 +188,7 @@ func spawnear_jugador() -> void:
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
-	if GameManager.mapa == "mapa1":
+	if GameManager.mapa == "mapa1" or GameManager.mapa == "":
 		match randi_range(1,3):
 			1:
 				jugador.global_position = punto_respawn.global_position
