@@ -6,6 +6,7 @@ var volver : bool = false
 
 func _ready() -> void:
 	GameManager.vidas = 3
+	item_list.grab_focus()
 
 func _on_item_list_item_selected(index: int) -> void:
 	var mapa_nombre = item_list.get_item_text(index)

@@ -31,16 +31,13 @@ func _ready() -> void:
 	configurar_dispositivos()
 
 func configurar_dispositivos() -> void:
-		# Obtener lista de joypads conectados
+	# Obtener lista de joypads conectados
 	var joypads = Input.get_connected_joypads()
 
 	if !device_for_player.is_empty():
 		print("Joypads: ", joypads)
 		device_for_player.clear()
 		player_devices.clear()
-
-	if joypads.size() == 0:
-		soloplay = true
 
 	if soloplay:
 		if joypads.size() == 0:

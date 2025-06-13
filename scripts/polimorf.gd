@@ -23,11 +23,17 @@ var direccion_disparo = Vector2.ZERO
 
 var tipo_arma: String = "polimorf"
 
+@onready var audio_balas := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	shoot_timer.wait_time = 3.0
-	#alt_timer.wait_time = 2.25
 
 	visibility_layer = get_parent().player_id + 1
+
+	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/polimorf.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	
@@ -123,6 +129,9 @@ func disparo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
+
+		audio_balas.play()
+
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 

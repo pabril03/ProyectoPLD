@@ -250,8 +250,12 @@ texture = ExtResource("15_riq8v")
 [node name="Counter" parent="Panel/HBoxContainer/AbilityButton/TextureRect" index="1"]
 offset_top = -20.0
 
+[node name="Cuack_timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="Polimorf" to="." method="_on_polimorf_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="ActivarDash" to="." method="_on_activar_dash_timeout"]
+[connection signal="timeout" from="Cuack_timer" to="." method="_on_cuack_timer_timeout"]
 
 [editable path="Panel/HBoxContainer/AbilityButton"]

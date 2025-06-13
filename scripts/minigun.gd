@@ -20,11 +20,18 @@ var direccion_disparo = Vector2.ZERO
 @export var SPREAD_DEGREES := 15.0
 @export var DANIO := 2.0
 
+@onready var audio_balas := AudioStreamPlayer.new()
+
 var tipo_arma: String = "Minigun"
 
 func _ready() -> void:
 	shoot_timer.wait_time = 0.1
 	visibility_layer = get_parent().player_id + 1
+
+	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/minigun.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	
@@ -122,6 +129,9 @@ func disparo():
 
 	bullet_i.velocity = dir * bullet_i.SPEED
 	bullet_i.rotation = dir.angle()
+
+	audio_balas.play()
+
 	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 	world.add_child(bullet_i)
 

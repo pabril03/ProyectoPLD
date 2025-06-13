@@ -27,6 +27,7 @@ func _process(_delta: float) -> void:
 		$SeleccionJuego.volver = false
 		$MarginContainer/VBoxContainer.visible = true
 		$MarginContainer/Volver.visible = true
+		play_btn.grab_focus()
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Volver"):
@@ -36,6 +37,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_empezar_pressed() -> void:
 	$SeleccionJuego.visible = true
+	$SeleccionJuego.option_button.grab_focus()
 	$MarginContainer/VBoxContainer.visible = false
 	$MarginContainer/Volver.visible = false
 

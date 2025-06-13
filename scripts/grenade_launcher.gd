@@ -18,6 +18,7 @@ var direccion_disparo = Vector2.RIGHT
 
 @onready var punta: Marker2D = $Marker2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var audio_balas := AudioStreamPlayer.new()
 
 var puedoDisparar: bool = true
 var en_rafaga = false
@@ -26,6 +27,12 @@ var racimo_shots = 5 # granadas lanzadas
 var max_spread_radius := 50.0 # grados de dispersión en el racimo
 
 var tipo_arma: String = "grenade_launcher"
+
+func _ready() -> void:
+	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/throw_grenade.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 
@@ -83,14 +90,14 @@ func _process(_delta: float) -> void:
 
 func disparo():
 	var player = get_parent()
-	
+
 	if player.escudo_activo:
 		return
-	
+
 	if municion == 0:
 		player.recarga_ammo_label()
 		return
-	
+
 	if can_throw_grenade:
 		var target: Vector2
 		if dispositivo == null:
@@ -114,6 +121,8 @@ func disparo():
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(grenade)
 		grenade.throw_to(target)
+		audio_balas.play()
+
 		# cooldown
 		can_throw_grenade = false
 		await get_tree().create_timer(normal_grenade_cooldown).timeout
@@ -122,14 +131,14 @@ func disparo():
 
 func disparo_rafaga():
 	var player = get_parent()
-	
+
 	if player.escudo_activo:
 		return
-	
+
 	if municion == 0:
 		player.recarga_ammo_label()
 		return
-	
+
 	if can_throw_grenade_disperse:
 		var target: Vector2
 		if dispositivo == null:
@@ -165,9 +174,11 @@ func disparo_rafaga():
 			var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 			world.add_child(grenade)
 			grenade.throw_to(offset_target)
-		
+			audio_balas.play()
+			can_throw_grenade_disperse = false
+			await get_tree().create_timer(0.05).timeout
+
 		# cooldown
-		can_throw_grenade_disperse = false
 		await get_tree().create_timer(disperse_grenade_cooldown).timeout
 		can_throw_grenade_disperse = true
 

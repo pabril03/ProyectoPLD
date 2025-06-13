@@ -8,6 +8,7 @@ var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.t
 var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimorf.tscn")
 var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
 var PickUpLauncher = preload("res://escenas/Spawns Armas y Powerups/PickupLauncher.tscn")
+var PickUpMinigun = preload("res://escenas/Spawns Armas y Powerups/PickupMinigun.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 const BearTrapScene: PackedScene = preload("res://escenas/Trampas/bear_trap.tscn")
@@ -81,6 +82,10 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 
 @onready var spawn_launcher = [
 	$"Spawns-launcher/LauncherRestock"
+]
+
+@onready var spawn_minigun = [
+	$"Spawns-minigun/MinigunRestock"
 ]
 
 @onready var trap_points := [
@@ -169,6 +174,7 @@ func _ready():
 	spawn_arma_polimorf()
 	spawn_espada()
 	spawn_lanzador()
+	spawn_rotativa()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
@@ -295,6 +301,12 @@ func spawn_lanzador():
 		var launcher = PickUpLauncher.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
 		launcher.global_position = spawn_launcher[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(launcher)
+
+func spawn_rotativa():
+	for index in spawn_minigun.size():
+		var minigun = PickUpMinigun.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		minigun.global_position = spawn_minigun[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(minigun)
 
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():

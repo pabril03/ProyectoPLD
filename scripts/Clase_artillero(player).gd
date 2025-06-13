@@ -43,8 +43,6 @@ var en_polimorf: bool = false
 
 signal health_changed(new_health)
 
-
-
 @onready var animaciones:AnimatedSprite2D = $AnimatedSprite2D
 @onready var escudo = $Escudo
 @onready var escudo_sprite = $Escudo/Sprite2D
@@ -64,8 +62,12 @@ signal health_changed(new_health)
 @onready var dashTimer = $DashTimer
 @onready var dashCD = $ActivarDash
 @onready var timer_trap = $Timer_trap
+@onready var cuack_timer = $Cuack_timer
 
 var cd_trap : bool = false
+
+@onready var audio_polimorf := AudioStreamPlayer.new()
+@onready var audio_escudo := AudioStreamPlayer.new()
 
 func _ready():
 	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -93,6 +95,17 @@ func _ready():
 
 	muriendo = false
 	original_frames = animaciones.sprite_frames
+
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
+
 
 func get_shooter_id() -> int:
 	return player_id
@@ -263,6 +276,7 @@ func _physics_process(_delta: float) -> void:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
@@ -325,6 +339,7 @@ func activar_escudo():
 	if not puede_activar_escudo:
 		return
 
+	audio_escudo.play()
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
 	escudo_sprite.visible = true #Muestra sprite
@@ -662,3 +677,6 @@ signal perma_death(player_id)
 
 func _on_cd_trap_timeout() -> void:
 	cd_trap = false
+
+func _on_cuack_timer_timeout() -> void:
+	audio_polimorf.play()

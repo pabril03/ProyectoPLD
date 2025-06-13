@@ -20,6 +20,10 @@ func _input(event: InputEvent) -> void:
 		$SettingsMenu.visible = false
 
 func _on_play_pressed() -> void:
+	var joypads = Input.get_connected_joypads()
+	if joypads.size() <= 1:
+		GameManager.soloplay = true
+
 	GameManager.configurar_dispositivos()
 	get_tree().change_scene_to_file("res://UI/selectorPersonajes.tscn")
 

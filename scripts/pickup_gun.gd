@@ -20,7 +20,7 @@ func _ready() -> void:
 	RespawnTimer.timeout.connect(Callable(self, "_on_respawn_timeout"))
 	
 	add_child(audio_balas)
-	audio_balas.stream = preload("res://audio/coger_arma.mp3")
+	audio_balas.stream = preload("res://audio/recarga_raygun.mp3")
 	audio_balas.bus = "SFX"
 	audio_balas.volume_db = -5.0
 

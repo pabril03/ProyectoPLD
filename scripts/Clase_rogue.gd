@@ -65,6 +65,16 @@ func _ready() -> void:
 	muriendo = false
 	original_frames = animaciones.sprite_frames
 
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
+
 func _physics_process(_delta: float) -> void:
 	var usar_escudo := false
 	var usar_dash := false
@@ -131,6 +141,7 @@ func _physics_process(_delta: float) -> void:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
@@ -177,6 +188,8 @@ func _physics_process(_delta: float) -> void:
 func activar_escudo():
 	if not puede_activar_escudo:
 		return
+
+	audio_escudo.play()
 
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
