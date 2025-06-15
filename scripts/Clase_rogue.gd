@@ -114,7 +114,13 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_joy_button_pressed(dispositivo, 10)
 		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
 		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 3)
-		cambiar_arma = Input.is_joy_button_pressed(dispositivo, 1)
+
+		var current := Input.is_joy_button_pressed(dispositivo, 1)
+		# Si ahora está presionado y antes no, es “just pressed”
+		if current and not last_cambiar_arma:
+			cambiar_arma = true
+		# Actualizamos historial
+		last_cambiar_arma = current
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)

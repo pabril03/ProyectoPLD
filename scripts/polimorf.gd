@@ -10,6 +10,7 @@ var puedoDisparar: bool = true
 const MAX_AMMO = 5
 var municion = 5
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
