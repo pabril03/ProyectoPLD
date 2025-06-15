@@ -27,7 +27,7 @@ func _on_opcion_2_pressed() -> void:
 
 func _on_opcion_3_pressed() -> void:
 	var joypads = Input.get_connected_joypads()
-	if joypads.size() < 3:
+	if joypads.size() < 2:
 		print("IMPOSIBLE, hay menos de 3 dispositivos conectados.")
 		return
 
@@ -39,7 +39,7 @@ func _on_opcion_3_pressed() -> void:
 
 func _on_opcion_4_pressed() -> void:
 	var joypads = Input.get_connected_joypads()
-	if joypads.size() < 4:
+	if joypads.size() < 3:
 		print("IMPOSIBLE, hay menos de 4 dispositivos conectados.")
 		return
 		

@@ -57,18 +57,30 @@ func configurar_dispositivos() -> void:
 				device_for_player.append(joypads[0]) # Jugador 2
 
 			2:
-				# Dos o más mandos: asigna los dos primeros
-				device_for_player.append(joypads[0]) # Jugador 1
-				device_for_player.append(joypads[1]) # Jugador 2
+				if GameManager.num_jugadores == 2:
+					# Dos o más mandos: asigna los dos primeros
+					device_for_player.append(joypads[0]) # Jugador 1
+					device_for_player.append(joypads[1]) # Jugador 2
+
+				if GameManager.num_jugadores == 3:
+					device_for_player.append(null)      # Jugador 1
+					device_for_player.append(joypads[0]) # Jugador 2
+					device_for_player.append(joypads[1]) # Jugador 3
 
 			3:
-				# Dos o más mandos: asigna los dos primeros
-				device_for_player.append(joypads[0]) # Jugador 1
-				device_for_player.append(joypads[1]) # Jugador 2
-				device_for_player.append(joypads[2]) # Jugador 3
+				if GameManager.num_jugadores == 3:
+					# Dos o más mandos: asigna los dos primeros
+					device_for_player.append(joypads[0]) # Jugador 1
+					device_for_player.append(joypads[1]) # Jugador 2
+					device_for_player.append(joypads[2]) # Jugador 3
+
+				if GameManager.num_jugadores == 4:
+					device_for_player.append(null)      # Jugador 1
+					device_for_player.append(joypads[0]) # Jugador 2
+					device_for_player.append(joypads[1]) # Jugador 3
+					device_for_player.append(joypads[2]) # Jugador 4
 
 			4:
-				# Dos o más mandos: asigna los dos primeros
 				device_for_player.append(joypads[0]) # Jugador 1
 				device_for_player.append(joypads[1]) # Jugador 2
 				device_for_player.append(joypads[2]) # Jugador 3
