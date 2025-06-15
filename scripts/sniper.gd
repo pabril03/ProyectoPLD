@@ -11,6 +11,7 @@ var puedoDisparar: bool = true
 const MAX_AMMO = 10
 var municion = 10
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
@@ -85,19 +86,13 @@ func _process(_delta: float) -> void:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
 		
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
-		if dispositivo == 1:
-			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
-		if dispositivo == 2:
-			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
-		if dispositivo == 3:
-			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
+		var R2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_RIGHT)
+		if R2_threshold > TRIGGER_THRESHOLD:
+			disparar = true
+
+		var L2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_LEFT)
+		if L2_threshold > TRIGGER_THRESHOLD:
+			disparar_alterno = true
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
@@ -140,7 +135,7 @@ func disparo():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
 
@@ -192,7 +187,7 @@ func disparo_largo():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
 

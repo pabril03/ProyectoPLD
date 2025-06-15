@@ -9,6 +9,7 @@ extends Node2D
 
 var dispositivo: Variant = null # null = teclado/ratón, int = joypad id
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const JOY_ID := 0 # primer mando
 const MAX_MUNICION = "INF"
 var municion = INF
@@ -73,20 +74,14 @@ func _process(_delta: float) -> void:
 		
 		if input_vec.length() > DEADZONE:
 			rotation = input_vec.angle()
-			
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
-		if dispositivo == 1:
-			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
-		if dispositivo == 2:
-			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
-		if dispositivo == 3:
-			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
+
+		var R2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_RIGHT)
+		if R2_threshold > TRIGGER_THRESHOLD:
+			disparar = true
+
+		var L2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_LEFT)
+		if L2_threshold > TRIGGER_THRESHOLD:
+			disparar_alterno = true
 
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	# Voltear sprite según orientación

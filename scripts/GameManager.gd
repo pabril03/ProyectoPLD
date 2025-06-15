@@ -40,10 +40,7 @@ func configurar_dispositivos() -> void:
 		player_devices.clear()
 
 	if soloplay:
-		if joypads.size() == 0:
-			device_for_player.append(null)
-		else:
-			device_for_player.append(joypads[0])
+		device_for_player.append(null)
 
 	else:
 		match joypads.size():
@@ -57,34 +54,15 @@ func configurar_dispositivos() -> void:
 				device_for_player.append(joypads[0]) # Jugador 2
 
 			2:
-				if GameManager.num_jugadores == 2:
-					# Dos o más mandos: asigna los dos primeros
-					device_for_player.append(joypads[0]) # Jugador 1
-					device_for_player.append(joypads[1]) # Jugador 2
-
-				if GameManager.num_jugadores == 3:
-					device_for_player.append(null)      # Jugador 1
-					device_for_player.append(joypads[0]) # Jugador 2
-					device_for_player.append(joypads[1]) # Jugador 3
+				device_for_player.append(null)      # Jugador 1
+				device_for_player.append(joypads[0]) # Jugador 2
+				device_for_player.append(joypads[1]) # Jugador 3
 
 			3:
-				if GameManager.num_jugadores == 3:
-					# Dos o más mandos: asigna los dos primeros
-					device_for_player.append(joypads[0]) # Jugador 1
-					device_for_player.append(joypads[1]) # Jugador 2
-					device_for_player.append(joypads[2]) # Jugador 3
-
-				if GameManager.num_jugadores == 4:
-					device_for_player.append(null)      # Jugador 1
-					device_for_player.append(joypads[0]) # Jugador 2
-					device_for_player.append(joypads[1]) # Jugador 3
-					device_for_player.append(joypads[2]) # Jugador 4
-
-			4:
-				device_for_player.append(joypads[0]) # Jugador 1
-				device_for_player.append(joypads[1]) # Jugador 2
-				device_for_player.append(joypads[2]) # Jugador 3
-				device_for_player.append(joypads[3]) # Jugador 4
+				device_for_player.append(null)      # Jugador 1
+				device_for_player.append(joypads[0]) # Jugador 2
+				device_for_player.append(joypads[1]) # Jugador 3
+				device_for_player.append(joypads[2]) # Jugador 4
 
 func registrar_jugador(id_jugador: int) -> void:
 	if jugadores.size() >= max_players:
