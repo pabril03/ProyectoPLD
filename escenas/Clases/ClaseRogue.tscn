@@ -241,6 +241,10 @@ _data = {
 
 [node name="Player" instance=ExtResource("1_6ws63")]
 script = ExtResource("2_uvxfe")
+SPEED = 100.0
+SPEED_DEFAULT = 100.0
+SPEED_DASH = 300.0
+active_slows = []
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(0, -10)
@@ -300,6 +304,12 @@ offset_bottom = 20.0
 
 [node name="Timer_invisible" type="Timer" parent="." index="21"]
 wait_time = 6.0
+
+[node name="PolimorfExplosion" parent="." index="25"]
+collision_mask = 1
+
+[node name="CollisionShape2D" parent="PolimorfExplosion" index="0"]
+position = Vector2(0, 0)
 
 [connection signal="timeout" from="Gun/AltTimer" to="Gun" method="_on_thrust_timeout"]
 [connection signal="timeout" from="ShieldTimer" to="." method="_on_shield_timer_timeout"]

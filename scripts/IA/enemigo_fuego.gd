@@ -103,7 +103,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	# 4) Aplicamos el daño por contacto
 	if body.has_method("take_damage") and not body.get_escudo_activo():
-		body.take_damage(damage_on_touch, 0, tipo_enemigo, "mordisco")
+		body.take_damage(damage_on_touch, 2, tipo_enemigo, "mordisco")
 
 	# 5) Programamos la quemadura retrasada
 	_start_burn_delay(body)

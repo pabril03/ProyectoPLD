@@ -109,6 +109,13 @@ func _physics_process(_delta: float) -> void:
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_action_just_pressed(dispositivo, 10):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:

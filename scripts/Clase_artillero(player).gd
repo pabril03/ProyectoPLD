@@ -52,6 +52,7 @@ signal health_changed(new_health)
 @onready var reloadlabel = $ReloadLabel
 @onready var liveslabel = $RemainingHP
 @onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var detector: Area2D = $PolimorfExplosion
 
 # Auras de potenciadores
 @onready var auraDamage = $AuraDamage
@@ -162,7 +163,6 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 			muriendo = true
 
 			# Deshabilitamos colisión y sprite
-			# collision.disabled = true
 			collision.call_deferred("set_disabled", true)
 			animaciones.visible = false
 
@@ -271,6 +271,13 @@ func _physics_process(_delta: float) -> void:
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_action_just_pressed(dispositivo, 10):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:
@@ -668,3 +675,26 @@ func _on_cd_trap_timeout() -> void:
 
 func _on_cuack_timer_timeout() -> void:
 	audio_polimorf.play()
+
+
+func explotar() -> void:
+	if muriendo:
+		return
+
+	# Aquí puedes añadir efectos visuales o eliminar el nodo si es necesario
+	var death_FX = DeathAnimation.instantiate()
+	death_FX.global_position = global_position
+	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+	world.add_child(death_FX)
+	death_FX._play_vfx(2)
+
+	for body in detector.get_overlapping_bodies():
+		if body.has_method("take_damage"):
+			if body.is_in_group("player") and body.player_id != player_id:
+				body.take_damage(20, player_id, "jugador", "explosión")
+				print("Hola")
+			if !body.is_in_group("player"):
+				body.take_damage(20, player_id, "jugador", "explosión")
+	
+	take_damage(max_health, player_id, "jugador", "explosion")
+	polimorf = false
