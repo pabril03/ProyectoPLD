@@ -65,7 +65,7 @@ func configurar_dispositivos() -> void:
 				device_for_player.append(joypads[2]) # Jugador 4
 
 func registrar_jugador(id_jugador: int) -> void:
-	if jugadores.size() >= max_players:
+	if jugadores.size() > max_players:
 		return
 
 	jugadores.append(id_jugador)

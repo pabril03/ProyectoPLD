@@ -12,3 +12,6 @@ weapon_name = "polimorf"
 texture_filter = 1
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_iu382")
+
+[node name="ItemRange" parent="." index="1"]
+collision_mask = 30

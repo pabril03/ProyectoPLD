@@ -14,7 +14,7 @@ const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
-var direccion_disparo = Vector2.ZERO
+var direccion_disparo = Vector2.RIGHT
 
 @export var SPEED := 250
 @export var BOUNCES := 1
