@@ -6,14 +6,13 @@ var play_music : bool = true
 signal brightness_updated(value)
 
 func _ready():
-	
+	add_child(audio)
 	audio.stream = preload("res://audio/default_song.mp3")
 	audio.bus = "Music"
 	audio.volume_db = -5.0
 	if play_music:
 		audio.play()
 	
-	add_child(audio)
 
 # Función para desactivar la música del menú
 func set_music_enabled(enabled: bool) -> void:

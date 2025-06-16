@@ -56,3 +56,17 @@ position = Vector2(824, 53)
 
 [node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-E"]
 position = Vector2(160, 56)
+
+[node name="Spawns-J-Mapa3" type="Node" parent="SplitScreen2D"]
+
+[node name="PuntoRespawn1" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(43, 155)
+
+[node name="PuntoRespawn2" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(50, 501)
+
+[node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(973, 140)
+
+[node name="PuntoRespawn4" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(983, 462)

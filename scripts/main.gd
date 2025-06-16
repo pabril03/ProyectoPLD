@@ -24,6 +24,11 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 @onready var punto_respawn_m2_3 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn3"
 @onready var punto_respawn_m2_4 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn4"
 
+@onready var punto_respawn_m3 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn1"  # Un marcador para el punto de respawn
+@onready var punto_respawn_m3_2 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn2"
+@onready var punto_respawn_m3_3 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn3"
+@onready var punto_respawn_m3_4 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn4"
+
 @onready var menu := $SplitScreen2D/UILayer/Opciones
 @onready var countdown := $SplitScreen2D/UILayer/Countdown
 
@@ -65,6 +70,8 @@ func _ready():
 		packed = load("res://escenas/Modelos base (mapas y player)/mapa.tscn")
 	if GameManager.mapa == "mapa2":
 		packed = load("res://escenas/Modelos base (mapas y player)/mapa2.tscn")
+	if GameManager.mapa == "mapa3":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa3.tscn")
 
 	var mapa_instancia = packed.instantiate()
 	play_area.add_child(mapa_instancia)
@@ -207,6 +214,17 @@ func spawnear_jugador() -> void:
 				jugador.global_position = punto_respawn_m2_3.global_position
 			4:
 				jugador.global_position = punto_respawn_m2_4.global_position
+	
+	if GameManager.mapa == "mapa3":
+		match randi_range(1,4):
+			1:
+				jugador.global_position = punto_respawn_m3.global_position
+			2:
+				jugador.global_position = punto_respawn_m3_2.global_position
+			3:
+				jugador.global_position = punto_respawn_m3_3.global_position
+			4:
+				jugador.global_position = punto_respawn_m3_4.global_position
 
 	split_screen.add_player(jugador)
 	await split_screen.split_screen_rebuilt

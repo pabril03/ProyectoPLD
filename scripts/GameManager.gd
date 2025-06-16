@@ -149,6 +149,8 @@ func _init_player_spawns() -> void:
 		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
 	if mapa == "mapa2":
 		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E-Mapa2")
+	if mapa == "mapa3":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-Mapa3")
 
 	for m in parent.get_children():
 		if m is Marker2D:

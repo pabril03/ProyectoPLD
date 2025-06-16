@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://54b0vej2j4po"]
+[gd_scene load_steps=5 format=3 uid="uid://54b0vej2j4po"]
 
 [ext_resource type="Texture2D" uid="uid://b0lujx1bvekbw" path="res://UI/PNG/mapa1_resized.png" id="1_0nb84"]
 [ext_resource type="Script" uid="uid://drj4eq3wujfnf" path="res://scripts/UI/seleccion_juego.gd" id="1_8qtqf"]
 [ext_resource type="Texture2D" uid="uid://blgond8fhjtt1" path="res://UI/PNG/mapa2_resized.png" id="2_8qtqf"]
+[ext_resource type="Texture2D" uid="uid://xplxwmih4fmm" path="res://UI/PNG/mapa3_resized.png" id="4_3iq7c"]
 
 [node name="Control" type="Control"]
 visible = false
@@ -83,11 +84,13 @@ layout_mode = 2
 [node name="ItemList" type="ItemList" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(750, 270)
 layout_mode = 2
-item_count = 2
+item_count = 3
 item_0/text = "mapa1"
 item_0/icon = ExtResource("1_0nb84")
 item_1/text = "mapa2"
 item_1/icon = ExtResource("2_8qtqf")
+item_2/text = "mapa3"
+item_2/icon = ExtResource("4_3iq7c")
 
 [node name="Volver" type="Button" parent="MarginContainer/ColorRect/MarginContainer"]
 layout_mode = 2
