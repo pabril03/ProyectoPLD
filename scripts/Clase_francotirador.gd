@@ -126,7 +126,7 @@ func _physics_process(_delta: float) -> void:
 				if Input.is_action_just_pressed("shield"):
 					explotar()
 			else:
-				if Input.is_action_just_pressed(dispositivo, 10):
+				if Input.is_joy_button_pressed(dispositivo, 9):
 					explotar()
 	else:
 		# Escudo
