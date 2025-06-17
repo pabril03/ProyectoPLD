@@ -158,6 +158,9 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 		
 		emit_signal("health_changed", health)
 
+		if muriendo:
+			return
+
 		if health <= 0:
 			muriendo = true
 
