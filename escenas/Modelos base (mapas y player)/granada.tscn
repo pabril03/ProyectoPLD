@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bdk3548x3b18c" path="res://scripts/granada.gd" id="1_ogfl5"]
 [ext_resource type="Texture2D" uid="uid://cktl2rqwh72f1" path="res://sprites/granadas/—Pngtree—pixel art game supplies cartoon_6460115.png" id="2_lmvsa"]
-[ext_resource type="Texture2D" uid="uid://dj4gulqpv11si" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f0.png" id="4_p6y8w"]
-[ext_resource type="Texture2D" uid="uid://dnq505hhtmgvf" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f1.png" id="5_h443j"]
-[ext_resource type="Texture2D" uid="uid://sbwyp5lwb62t" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f2.png" id="6_yny70"]
-[ext_resource type="Texture2D" uid="uid://c0eml6eey1ptv" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f3.png" id="7_ef8rs"]
-[ext_resource type="Texture2D" uid="uid://d00mpi3ochuce" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f0.png" id="8_wwskm"]
-[ext_resource type="Texture2D" uid="uid://cel20mvwy8778" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f1.png" id="9_wphsq"]
-[ext_resource type="Texture2D" uid="uid://cd2fjikwjf7np" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f2.png" id="10_6pp5d"]
-[ext_resource type="Texture2D" uid="uid://ckl5d2tj61f2p" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f3.png" id="11_jsvel"]
+[ext_resource type="Texture2D" uid="uid://iydw7wbgug4p" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f0.png" id="4_p6y8w"]
+[ext_resource type="Texture2D" uid="uid://dd3bxda7nwogr" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f1.png" id="5_h443j"]
+[ext_resource type="Texture2D" uid="uid://cqhxdhfjk6f8w" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f2.png" id="6_yny70"]
+[ext_resource type="Texture2D" uid="uid://bthrtpp5lagt7" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_idle_anim_f3.png" id="7_ef8rs"]
+[ext_resource type="Texture2D" uid="uid://mp5q5oouqf1f" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f0.png" id="8_wwskm"]
+[ext_resource type="Texture2D" uid="uid://bgebv04n471r1" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f1.png" id="9_wphsq"]
+[ext_resource type="Texture2D" uid="uid://cpfd1if5lr12h" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f2.png" id="10_6pp5d"]
+[ext_resource type="Texture2D" uid="uid://bnflmj4yk8qxo" path="res://0x72_DungeonTilesetII_v1.7/frames/big_demon_run_anim_f3.png" id="11_jsvel"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ogfl5"]
 radius = 3.0
