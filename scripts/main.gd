@@ -57,8 +57,13 @@ var next_enemy_id = ENEMY_ID_START
 var max_players = 4
 
 var toggled_on = false
+var reload = false
 
 func _ready():
+	reload = false
+	next_player_id = PLAYER_ID_START
+	next_enemy_id = ENEMY_ID_START
+	
 	if not split_screen.play_area:
 		var placeholder = Node2D.new()
 		placeholder.name = "PlayArea"
@@ -148,9 +153,11 @@ func _on_Salir_pressed() -> void:
 	var tree = Engine.get_main_loop() as SceneTree
 	tree.paused = false
 	GameManager.soloplay = false
+	GameManager.resetearStats()
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
+
 	if $SplitScreen2D/UILayer/Opciones/SettingsMenu.volver:
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = false
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.volver = false

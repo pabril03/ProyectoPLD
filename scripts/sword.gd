@@ -37,7 +37,6 @@ func _ready() -> void:
 	
 	var player = get_parent()
 	var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 	for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 		if i != player.player_id:
 			mask |= 1 << i  # activar ese bit

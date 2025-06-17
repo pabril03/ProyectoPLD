@@ -170,6 +170,7 @@ func _on_explosion_timeout() -> void:
 	death_FX._play_vfx(2)
 
 	if target_close and target_close.is_inside_tree():
-		if target_close.has_method("take_damage"):
-			target_close.take_damage(explosion_damage, 0, tipo_enemigo, "explosión")
+		for body in detector.get_overlapping_bodies():
+			if body.has_method("take_damage"):
+				body.take_damage(explosion_damage, 0, tipo_enemigo, "explosión")
 	queue_free()

@@ -112,7 +112,6 @@ func disparo():
 		# - todos los jugadores excepto el que dispara
 
 		var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 		for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 			if i != player.player_id:
 				mask |= 1 << i  # activar ese bit
@@ -179,7 +178,6 @@ func disparo_rafaga():
 		# - todos los jugadores excepto el que dispara
 
 		var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 		for j in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 			if j != player.player_id:
 				mask |= 1 << j  # activar ese bit

@@ -157,7 +157,6 @@ func _physics_process(_delta: float) -> void:
 		if usar_habilidad and not cd_tp:
 			# Condición de teleport, cada 2 segundos. Tepear se pone a true dentro de teletransportador.gd
 			if tepear:
-				#print("ENTRO")
 				teletransportar()
 				tepear = false
 				cd_tp = true

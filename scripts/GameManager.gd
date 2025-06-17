@@ -26,6 +26,8 @@ var mapa : String = ""
 
 var dead_players_count = 0
 
+var reload_main := false
+
 func _ready() -> void:
 	scores[0] = 0
 	configurar_dispositivos()
@@ -35,7 +37,6 @@ func configurar_dispositivos() -> void:
 	var joypads = Input.get_connected_joypads()
 
 	if !device_for_player.is_empty():
-		print("Joypads: ", joypads)
 		device_for_player.clear()
 		player_devices.clear()
 
@@ -155,8 +156,6 @@ func _init_player_spawns() -> void:
 	for m in parent.get_children():
 		if m is Marker2D:
 			spawn_markers.append(m)
-	
-	#print(spawn_markers.size())
 
 func get_spawn_point() -> Vector2:
 	var idx = randi() % spawn_markers.size()
@@ -167,12 +166,12 @@ func resetearStats() -> void:
 
 	# Variable global para el número de jugadores
 	num_jugadores = 1
-	jugadores_eliminados = [] # Guardamos los ID de los jugadores eliminnados en orden
-	jugadores = []
-	spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
+	jugadores_eliminados.clear() # Guardamos los ID de los jugadores eliminnados en orden
+	jugadores.clear()
+	spawn_states.clear()  # 0 = libre para reponer, 1 = ocupado Potenciadores
 
 	# Índices de player: 0 = jugador1, 1 = jugador2
-	device_for_player = []
+	device_for_player.clear()
 	player_devices = {}
 	jugadores_vivos = 0
 	clases = [null,null,null,null]

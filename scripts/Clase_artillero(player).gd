@@ -108,9 +108,6 @@ func _ready():
 	audio_escudo.bus = "SFX"
 	audio_escudo.volume_db = -5.0
 
-	#print("Vidas" + str(GameManager.vidas))
-
-
 func get_shooter_id() -> int:
 	return player_id
 	
@@ -179,7 +176,7 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 				print(generar_frase_pvp(autor, player_id, tipo_muerte))
 
 			elif autor == 5:
-				print("Trampeado xd")
+				print("Trampeado")
 
 			else:
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
@@ -572,21 +569,26 @@ func _respawn_in_place() -> void:
 	is_invulnerable = true
 	animaciones.visible = true
 	collision.disabled = false
-	
+
 	if weapons.size() > 1:
-		arma_secundaria.aparecer()
-		arma_secundaria.set_process(true)
+		arma_secundaria.desaparecer()
+		arma_secundaria.set_process(false)
+
 	arma.aparecer()
 	arma.set_process(true)
 	set_physics_process(true)
-	
+
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	if rng.randf() < 0.8 and weapons.size() > 1:  
+	if rng.randf() < 0.7 and weapons.size() > 1:  
+		recuperar_arma(arma)
 		arma_actual = 0
 		weapons.pop_back()
 		arma_secundaria.queue_free()
-		# add_weapon(original_gun)
+	elif weapons.size() > 1:
+		inutilizar_arma(arma_secundaria)
+		recuperar_arma(arma)
+		arma_actual = 0
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false
@@ -694,9 +696,9 @@ func explotar() -> void:
 		if body.has_method("take_damage"):
 			if body.is_in_group("player") and body.player_id != player_id:
 				body.take_damage(20, player_id, "jugador", "explosión")
-				print("Hola")
 			if !body.is_in_group("player"):
 				body.take_damage(20, player_id, "jugador", "explosión")
-	
+
+	revertir_apariencia()
 	take_damage(max_health, player_id, "jugador", "explosion")
 	polimorf = false
