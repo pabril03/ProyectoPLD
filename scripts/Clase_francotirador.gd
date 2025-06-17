@@ -9,10 +9,11 @@ var colocados : bool = false
 
 var teleport1: Node2D = null
 var teleport2: Node2D = null
-var tp_timer
-
+var cd_tp : bool = false
+@onready var timer_teleport = $Cd_teleport
 
 func _ready() -> void:
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
 	SPEED = 120.0
 	SPEED_DEFAULT = 120.0
@@ -45,6 +46,16 @@ func _ready() -> void:
 
 	muriendo = false
 	original_frames = animaciones.sprite_frames
+
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
 
 func _physics_process(_delta: float) -> void:
 
@@ -83,64 +94,40 @@ func _physics_process(_delta: float) -> void:
 		else:
 			velocity.y = 0
 
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			usar_escudo = Input.is_action_pressed("shield_p1")
-			usar_dash = Input.is_action_pressed("dash_p1")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p1")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
-		if dispositivo == 1:
-			usar_escudo = Input.is_action_pressed("shield_p2")
-			usar_dash = Input.is_action_pressed("dash_p2")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p2")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
-		if dispositivo == 2:
-			usar_escudo = Input.is_action_pressed("shield_p3")
-			usar_dash = Input.is_action_pressed("dash_p3")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p3")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p3")
-		if dispositivo == 3:
-			usar_escudo = Input.is_action_pressed("shield_p4")
-			usar_dash = Input.is_action_pressed("dash_p4")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p4")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p4")
+		usar_escudo = Input.is_joy_button_pressed(dispositivo, 9)
+		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
+		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 10)
+
+		var current := Input.is_joy_button_pressed(dispositivo, 1)
+		# Si ahora está presionado y antes no, es “just pressed”
+		if current and not last_cambiar_arma:
+			cambiar_arma = true
+		# Actualizamos historial
+		last_cambiar_arma = current
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
 	move_and_slide()
 	
-	# Condición de teleport, cada 2 segundos. Tepear se pone a true dentro de teletransportador.gd
-	if tepear and id_tp != -1 and colocados:
-		#print("ENTRO")
-		teletransportar()
-		tepear = false
-		# Si ya existe un timer previo, lo eliminamos
-		if tp_timer and tp_timer.is_inside_tree():
-			tp_timer.queue_free()
-			tp_timer = null
-
-		# Crear nuevo timer
-		tp_timer = Timer.new()
-		tp_timer.wait_time = 2.0
-		tp_timer.one_shot = true
-		tp_timer.connect("timeout", Callable(self, "_on_tp_timer_timeout"))
-		add_child(tp_timer)
-		tp_timer.start()
-
-		# Mientras tanto, impedir nuevo teletransporte
-		teleport1.tp_cooldown = true
-		teleport2.tp_cooldown = true
 
 	if polimorf:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_joy_button_pressed(dispositivo, 9):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:
@@ -167,36 +154,22 @@ func _physics_process(_delta: float) -> void:
 				arma_actual = 0
 		
 		# Habilidad de teletransporte (Tecla E)
-		if usar_habilidad:
-			if tp_activo and teleport1 and teleport2:
-				if teleport1.parar and teleport2.parar:
-					teleport1.queue_free()
-					teleport2.queue_free()
-					tp_activo = false
-					colocados = false
-					if tp_timer:
-						tp_timer.queue_free()
-			
-			# Si no hay teleports activos, se crean
-			if not tp_activo:
-				teleport2 = teleport.instantiate()
-				teleport2.global_position = global_position
-				teleport2.id = 2
-				teleport2.player_id = player_id
-				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
-				world.add_child(teleport2)
-				tp_activo = true
-			# Cuando se coloca el segundo teleport con la E, fija la posicion del segundo teleport
+		if usar_habilidad and not cd_tp:
+			# Condición de teleport, cada 2 segundos. Tepear se pone a true dentro de teletransportador.gd
+			if tepear:
+				teletransportar()
+				tepear = false
+				cd_tp = true
+				teleport1.queue_free()
+				timer_teleport.start()
+				
 			else:
 				teleport1 = teleport.instantiate()
-				teleport1.id = 1
-				teleport1.player_id = player_id
 				teleport1.global_position = global_position
-				teleport1.parar = true
+				#teleport1.parar = true
 				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 				world.add_child(teleport1)
-				teleport2.parar = true
-				colocados = true
+				tepear = true
 		
 		# Dash del jugador, le aumenta la velocidad respecto al Timer
 		if usar_dash and activar_dash:
@@ -208,6 +181,8 @@ func _physics_process(_delta: float) -> void:
 func activar_escudo():
 	if not puede_activar_escudo:
 		return
+
+	audio_escudo.play()
 
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
@@ -231,20 +206,9 @@ func activar_escudo():
 	puede_activar_escudo = true
 
 func teletransportar():
-	if id_tp == 1:
-		global_position = teleport2.global_position
-	else:
-		global_position = teleport1.global_position
-	teleport1.tp_cooldown = true
-	teleport2.tp_cooldown = true
+	global_position = teleport1.global_position
+	
 
-# Cooldown del timer del teleport
-func _on_tp_timer_timeout():
-	# Cooldown finalizado, permitir nuevo teletransporte
-	teleport1.tp_cooldown = false
-	teleport2.tp_cooldown = false
 
-	# Eliminar el timer
-	if tp_timer and tp_timer.is_inside_tree():
-		tp_timer.queue_free()
-		tp_timer = null
+func _on_cd_teleport_timeout() -> void:
+	cd_tp = false

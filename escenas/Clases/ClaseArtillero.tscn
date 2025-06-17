@@ -58,5 +58,10 @@ animation = &"artillero_run"
 [node name="ProgressBar" parent="." index="4"]
 modulate = Color(0, 0.989946, 0.439899, 1)
 
+[node name="Timer_trap2" type="Timer" parent="." index="19"]
+wait_time = 2.0
+
+[connection signal="timeout" from="Timer_trap" to="." method="_on_cd_trap_timeout"]
+
 [editable path="Gun"]
 [editable path="Panel/HBoxContainer/AbilityButton"]

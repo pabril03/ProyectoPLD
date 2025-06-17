@@ -3,6 +3,7 @@ extends Area2D
 var escudo_id: int
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	collision_layer = 1 << 6  # Capa 7 (bit 6) 
 	collision_mask = 1 << 5  # Establece las capas con las que el escudo debe colisionar.
 

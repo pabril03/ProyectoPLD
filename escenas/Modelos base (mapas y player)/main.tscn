@@ -2,24 +2,49 @@
 
 [ext_resource type="Script" uid="uid://cng754emwdrr7" path="res://scripts/main.gd" id="1_qkbeq"]
 [ext_resource type="Script" uid="uid://b77tyuhg6gub1" path="res://addons/split_screen_2d/split_screen_2d.gd" id="2_8r4by"]
-[ext_resource type="PackedScene" uid="uid://byjsyqi4d1xia" path="res://escenas/Modelos base (mapas y player)/mapa.tscn" id="3_mk8gy"]
 [ext_resource type="PackedScene" uid="uid://bklj2r23yv7p4" path="res://UI/opciones.tscn" id="4_kgy45"]
+[ext_resource type="PackedScene" uid="uid://dichi5i28eg3u" path="res://escenas/Modelos base (mapas y player)/Countdown.tscn" id="4_qkbeq"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_qkbeq")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 3022.0
+offset_bottom = 1629.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0110876, 0.0110876, 0.0110876, 1)
+
 [node name="SplitScreen2D" type="Node2D" parent="." node_paths=PackedStringArray("play_area")]
 script = ExtResource("2_8r4by")
 play_area = NodePath("Mapa")
+transparent_background = true
 metadata/_custom_type_script = "uid://b77tyuhg6gub1"
 
-[node name="Mapa" parent="SplitScreen2D" instance=ExtResource("3_mk8gy")]
+[node name="Mapa" type="Node2D" parent="SplitScreen2D"]
 
 [node name="UILayer" type="CanvasLayer" parent="SplitScreen2D"]
 
 [node name="Opciones" parent="SplitScreen2D/UILayer" instance=ExtResource("4_kgy45")]
+visible = false
 layout_direction = 4
 script = null
+
+[node name="Countdown" parent="SplitScreen2D/UILayer" instance=ExtResource("4_qkbeq")]
+
+[node name="Spawns-J-E-Mapa2" type="Node" parent="SplitScreen2D"]
+
+[node name="PuntoRespawn1" type="Marker2D" parent="SplitScreen2D/Spawns-J-E-Mapa2"]
+position = Vector2(35, 271)
+
+[node name="PuntoRespawn2" type="Marker2D" parent="SplitScreen2D/Spawns-J-E-Mapa2"]
+position = Vector2(701, 137)
+
+[node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-E-Mapa2"]
+position = Vector2(704, 351)
+
+[node name="PuntoRespawn4" type="Marker2D" parent="SplitScreen2D/Spawns-J-E-Mapa2"]
+position = Vector2(507, 342)
 
 [node name="Spawns-J-E" type="Node" parent="SplitScreen2D"]
 
@@ -31,3 +56,17 @@ position = Vector2(824, 53)
 
 [node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-E"]
 position = Vector2(160, 56)
+
+[node name="Spawns-J-Mapa3" type="Node" parent="SplitScreen2D"]
+
+[node name="PuntoRespawn1" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(43, 155)
+
+[node name="PuntoRespawn2" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(50, 501)
+
+[node name="PuntoRespawn3" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(973, 140)
+
+[node name="PuntoRespawn4" type="Marker2D" parent="SplitScreen2D/Spawns-J-Mapa3"]
+position = Vector2(983, 462)

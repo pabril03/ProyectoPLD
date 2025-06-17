@@ -8,13 +8,16 @@ func _ready() -> void:
 	load_data()
 
 func load_data() -> void:
+	print(ProjectSettings.globalize_path("user://savegame.dat"))
 	if not FileAccess.file_exists(SAVEFILE):
 		# Si no existe el archivo, asignamos valores por defecto
 		game_data = {
 			"full_screen_on": false,
 			"master_vol": 1.0,
 			"music_vol": 1.0,
-			"sfx_vol": 1.0
+			"sfx_vol": 1.0,
+			"brightness": 1.0,
+			"language" : "es"
 		}
 		save_data()
 	else:

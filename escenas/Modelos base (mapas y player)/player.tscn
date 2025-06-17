@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bghg4cc4p4p7q"]
+[gd_scene load_steps=23 format=3 uid="uid://bghg4cc4p4p7q"]
 
 [ext_resource type="Script" uid="uid://b1e0wxulbydo6" path="res://scripts/Clase_artillero(player).gd" id="1_k2ov8"]
 [ext_resource type="Texture2D" uid="uid://lh5m1qjorhm2" path="res://0x72_DungeonTilesetII_v1.7/frames/angel_idle_anim_f0.png" id="2_3ikes"]
@@ -71,6 +71,9 @@ colors = PackedColorArray(0.0253431, 0.179135, 0.944003, 1, 0.152912, 0.526801, 
 [sub_resource type="Gradient" id="Gradient_8b7ct"]
 offsets = PackedFloat32Array(0, 0.22, 0.493333, 0.78, 1)
 colors = PackedColorArray(0, 0.361296, 0.129855, 1, 0.114389, 0.605875, 0.391132, 1, 0.1279, 0.94771, 0.221667, 1, 0.619608, 0.976471, 0.662745, 0, 1, 1, 1, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_riq8v"]
+radius = 38.0132
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_priority = 2.0
@@ -171,7 +174,7 @@ offset_right = 302.0
 offset_bottom = 30.0
 scale = Vector2(0.2, 0.2)
 theme_override_font_sizes/font_size = 36
-text = "¡CAMBIA DE ARMA!"
+text = "cambia_arma"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -199,6 +202,9 @@ theme_override_font_sizes/font_size = 24
 text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Timer_trap" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="Panel" type="ColorRect" parent="."]
 anchors_preset = 8
@@ -247,8 +253,19 @@ texture = ExtResource("15_riq8v")
 [node name="Counter" parent="Panel/HBoxContainer/AbilityButton/TextureRect" index="1"]
 offset_top = -20.0
 
+[node name="Cuack_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PolimorfExplosion" type="Area2D" parent="."]
+collision_mask = 158
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PolimorfExplosion"]
+position = Vector2(2, -1)
+shape = SubResource("CircleShape2D_riq8v")
+
 [connection signal="timeout" from="Polimorf" to="." method="_on_polimorf_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="ActivarDash" to="." method="_on_activar_dash_timeout"]
+[connection signal="timeout" from="Cuack_timer" to="." method="_on_cuack_timer_timeout"]
 
 [editable path="Panel/HBoxContainer/AbilityButton"]

@@ -10,11 +10,12 @@ var puedoDisparar: bool = true
 const MAX_AMMO = 5
 var municion = 5
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
 var dispositivo: Variant = null # null = teclado/rató, int = joy_id
 var x := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_X)
 var y := Input.get_joy_axis(JOY_ID, JOY_AXIS_RIGHT_Y)
-var direccion_disparo = Vector2.ZERO
+var direccion_disparo = Vector2.RIGHT
 
 @export var SPEED := 400
 @export var BOUNCES := 1
@@ -23,11 +24,17 @@ var direccion_disparo = Vector2.ZERO
 
 var tipo_arma: String = "polimorf"
 
+@onready var audio_balas := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	shoot_timer.wait_time = 3.0
-	#alt_timer.wait_time = 2.25
 
 	visibility_layer = get_parent().player_id + 1
+
+	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/polimorf.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	
@@ -52,15 +59,9 @@ func _process(_delta: float) -> void:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
 		
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
-		if dispositivo == 1:
-			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
-		if dispositivo == 2:
-			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
-		if dispositivo == 3:
-			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
+		var R2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_RIGHT)
+		if R2_threshold > TRIGGER_THRESHOLD:
+			disparar = true
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
@@ -91,6 +92,7 @@ func disparo():
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		bullet_i.polimorf = true
@@ -101,7 +103,7 @@ func disparo():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
 
@@ -122,6 +124,9 @@ func disparo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
+
+		audio_balas.play()
+
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 
@@ -140,6 +145,7 @@ func disparo_largo():
 	for j in range(PELLETS):
 
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
@@ -149,7 +155,7 @@ func disparo_largo():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
 

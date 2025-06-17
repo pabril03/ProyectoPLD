@@ -7,8 +7,12 @@ var LAYER_INVIS = 0
 var _my_viewport_idx: int
 var _original_vp_masks := []
 
+@onready var timer_invisible = $Timer_invisible
+var cd_invisible : bool = false
+
 func _ready() -> void:
 	await get_tree().create_timer(0.05).timeout
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	var split = get_tree().current_scene.get_node("SplitScreen2D") as SplitScreen2D
 	_my_viewport_idx = split.players.find(self)
 	if _my_viewport_idx == -1:
@@ -61,6 +65,16 @@ func _ready() -> void:
 	muriendo = false
 	original_frames = animaciones.sprite_frames
 
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
+
 func _physics_process(_delta: float) -> void:
 	var usar_escudo := false
 	var usar_dash := false
@@ -97,27 +111,16 @@ func _physics_process(_delta: float) -> void:
 		else:
 			velocity.y = 0
 
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			usar_escudo = Input.is_action_pressed("shield_p1")
-			usar_dash = Input.is_action_pressed("dash_p1")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p1")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
-		if dispositivo == 1:
-			usar_escudo = Input.is_action_pressed("shield_p2")
-			usar_dash = Input.is_action_pressed("dash_p2")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p2")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
-		if dispositivo == 2:
-			usar_escudo = Input.is_action_pressed("shield_p3")
-			usar_dash = Input.is_action_pressed("dash_p3")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p3")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p3")
-		if dispositivo == 3:
-			usar_escudo = Input.is_action_pressed("shield_p4")
-			usar_dash = Input.is_action_pressed("dash_p4")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p4")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p4")
+		usar_escudo = Input.is_joy_button_pressed(dispositivo, 9)
+		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
+		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 10)
+
+		var current := Input.is_joy_button_pressed(dispositivo, 1)
+		# Si ahora está presionado y antes no, es “just pressed”
+		if current and not last_cambiar_arma:
+			cambiar_arma = true
+		# Actualizamos historial
+		last_cambiar_arma = current
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -127,12 +130,20 @@ func _physics_process(_delta: float) -> void:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_joy_button_pressed(dispositivo, 9):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:
@@ -157,8 +168,10 @@ func _physics_process(_delta: float) -> void:
 				recuperar_arma(arma)
 				arma_actual = 0
 		
-	if usar_habilidad:
+	if usar_habilidad and not cd_invisible:
 		activar_invisibilidad()
+		cd_invisible = true
+		timer_invisible.start()
 		
 
 	# Dash del jugador, le aumenta la velocidad respecto al Timer
@@ -171,6 +184,8 @@ func _physics_process(_delta: float) -> void:
 func activar_escudo():
 	if not puede_activar_escudo:
 		return
+
+	audio_escudo.play()
 
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
@@ -239,3 +254,7 @@ func activar_invisibilidad():
 	# 7) Restaura todas las máscaras originales
 	for i in GameManager.player_viewports.size():
 		GameManager.player_viewports[i].canvas_cull_mask = _original_vp_masks[i]
+
+
+func _on_timer_invisible_timeout() -> void:
+	cd_invisible = false

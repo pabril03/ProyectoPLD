@@ -7,7 +7,7 @@ const BearTrapScene = preload("res://escenas/Trampas/bear_trap.tscn")
 @export var SPEED_DEFAULT = 100.0
 @export var SPEED_DASH = 300.0
 @export var active_slows: Array = []
-@export var remainingHP = 3
+@export var remainingHP = GameManager.vidas
 
 var DEADZONE := 0.2
 var escudo_activo:bool = false
@@ -26,7 +26,7 @@ var muriendo = false
 var is_invulnerable: bool = false
 var original_gun: String = "Vacio"
 
-var cooldown_escudo: float = 1.0
+var cooldown_escudo: float = 1.25
 var eliminado = false
 
 var afecta_daga = true
@@ -36,6 +36,7 @@ var original_frames: SpriteFrames
 var arma_secundaria
 var weapons: Array[String] = []
 var arma_actual: int = 0
+var last_cambiar_arma = false
 
 var polimorf: bool = false
 var en_polimorf: bool = false
@@ -51,6 +52,7 @@ signal health_changed(new_health)
 @onready var reloadlabel = $ReloadLabel
 @onready var liveslabel = $RemainingHP
 @onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var detector: Area2D = $PolimorfExplosion
 
 # Auras de potenciadores
 @onready var auraDamage = $AuraDamage
@@ -61,8 +63,16 @@ signal health_changed(new_health)
 @onready var healTimer   = $HealTimer
 @onready var dashTimer = $DashTimer
 @onready var dashCD = $ActivarDash
+@onready var timer_trap = $Timer_trap
+@onready var cuack_timer = $Cuack_timer
+
+var cd_trap : bool = false
+
+@onready var audio_polimorf := AudioStreamPlayer.new()
+@onready var audio_escudo := AudioStreamPlayer.new()
 
 func _ready():
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
 	emit_signal("health_changed", health)
 	#Nuevas funciones para registrar jugador en el juego (sirve para colisiones)
@@ -87,6 +97,16 @@ func _ready():
 
 	muriendo = false
 	original_frames = animaciones.sprite_frames
+
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
 
 func get_shooter_id() -> int:
 	return player_id
@@ -138,12 +158,13 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 		
 		emit_signal("health_changed", health)
 
+		if muriendo:
+			return
+
 		if health <= 0:
 			muriendo = true
-			emit_signal("died", player_id)
 
 			# Deshabilitamos colisión y sprite
-			# collision.disabled = true
 			collision.call_deferred("set_disabled", true)
 			animaciones.visible = false
 
@@ -158,7 +179,7 @@ func take_damage(amount: float, autor: int = 0, tipo_enemigo: String = "Jugador"
 				print(generar_frase_pvp(autor, player_id, tipo_muerte))
 
 			elif autor == 5:
-				print("Trampeado xd")
+				print("Trampeado")
 
 			else:
 				print(generar_frase_muerte(tipo_enemigo, tipo_muerte))
@@ -209,8 +230,6 @@ func _physics_process(_delta: float) -> void:
 		usar_escudo = Input.is_action_pressed("shield")
 		usar_dash = Input.is_action_pressed("dash")
 		usar_habilidad = Input.is_action_just_pressed("second_ability")
-		
-		
 		cambiar_arma = Input.is_action_just_pressed("switch_weapons")
 		
 	else:
@@ -228,27 +247,16 @@ func _physics_process(_delta: float) -> void:
 		else:
 			velocity.y = 0
 
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			usar_escudo = Input.is_action_pressed("shield_p1")
-			usar_dash = Input.is_action_pressed("dash_p1")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p1")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
-		if dispositivo == 1:
-			usar_escudo = Input.is_action_pressed("shield_p2")
-			usar_dash = Input.is_action_pressed("dash_p2")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p2")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
-		if dispositivo == 2:
-			usar_escudo = Input.is_action_pressed("shield_p3")
-			usar_dash = Input.is_action_pressed("dash_p3")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p3")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p3")
-		if dispositivo == 3:
-			usar_escudo = Input.is_action_pressed("shield_p4")
-			usar_dash = Input.is_action_pressed("dash_p4")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p4")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p4")
+		usar_escudo = Input.is_joy_button_pressed(dispositivo, 9)
+		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
+		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 10)
+
+		var current := Input.is_joy_button_pressed(dispositivo, 1)
+		# Si ahora está presionado y antes no, es “just pressed”
+		if current and not last_cambiar_arma:
+			cambiar_arma = true
+		# Actualizamos historial
+		last_cambiar_arma = current
 
 	# Movimiento real
 	velocity = velocity.move_toward(Vector2.ZERO, SPEED * 0.1)
@@ -258,12 +266,20 @@ func _physics_process(_delta: float) -> void:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_joy_button_pressed(dispositivo, 9):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:
@@ -299,13 +315,15 @@ func _physics_process(_delta: float) -> void:
 				traps_used.front().queue_free()
 				traps_used.pop_front()
 
-			if traps_used.size() <= 3:
+			if traps_used.size() <= 3 and not cd_trap:
 				var new_trap = BearTrapScene.instantiate()
 				new_trap.owner_id = player_id
 				new_trap.global_position = global_position
 				traps_used.append(new_trap)
 				var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 				world.add_child(new_trap)
+				cd_trap = true
+				timer_trap.start()
 		
 		# Dash del jugador, le aumenta la velocidad respecto al Timer
 		if usar_dash and activar_dash:
@@ -318,6 +336,7 @@ func activar_escudo():
 	if not puede_activar_escudo:
 		return
 
+	audio_escudo.play()
 	escudo_activo = true
 	escudo.visible = true #Muestra el Area2D
 	escudo_sprite.visible = true #Muestra sprite
@@ -338,6 +357,8 @@ func activar_escudo():
 	await get_tree().create_timer(cooldown_escudo).timeout
 	
 	puede_activar_escudo = true
+	
+	
 
 func desactivar_escudo():
 	escudo_activo = false
@@ -537,6 +558,7 @@ func _respawn_in_place() -> void:
 	remainingHP -= 1
 	if remainingHP == 0:
 		GameManager.dead_player()
+		emit_signal("perma_death", player_id)
 		return
 	remaining_hp()
 	eliminado = false
@@ -550,21 +572,26 @@ func _respawn_in_place() -> void:
 	is_invulnerable = true
 	animaciones.visible = true
 	collision.disabled = false
-	
+
 	if weapons.size() > 1:
-		arma_secundaria.aparecer()
-		arma_secundaria.set_process(true)
+		arma_secundaria.desaparecer()
+		arma_secundaria.set_process(false)
+
 	arma.aparecer()
 	arma.set_process(true)
 	set_physics_process(true)
-	
+
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	if rng.randf() < 0.8 and weapons.size() > 1:  
+	if rng.randf() < 0.7 and weapons.size() > 1:  
+		recuperar_arma(arma)
 		arma_actual = 0
 		weapons.pop_back()
 		arma_secundaria.queue_free()
-		# add_weapon(original_gun)
+	elif weapons.size() > 1:
+		inutilizar_arma(arma_secundaria)
+		recuperar_arma(arma)
+		arma_actual = 0
 
 	await get_tree().create_timer(2.0).timeout
 	is_invulnerable = false
@@ -640,9 +667,41 @@ func recarga_ammo_label() -> void:
 	reloadlabel.visible = false
 
 func remaining_hp()-> void:
+	if remainingHP > 10:
+		return
+	
 	liveslabel.visible = true
 	liveslabel.text = "%d" % remainingHP
 	await get_tree().create_timer(2.0).timeout
 	liveslabel.visible = false
 
-signal died
+signal perma_death(player_id)
+
+func _on_cd_trap_timeout() -> void:
+	cd_trap = false
+
+func _on_cuack_timer_timeout() -> void:
+	audio_polimorf.play()
+
+
+func explotar() -> void:
+	if muriendo:
+		return
+
+	# Aquí puedes añadir efectos visuales o eliminar el nodo si es necesario
+	var death_FX = DeathAnimation.instantiate()
+	death_FX.global_position = global_position
+	var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+	world.add_child(death_FX)
+	death_FX._play_vfx(2)
+
+	for body in detector.get_overlapping_bodies():
+		if body.has_method("take_damage"):
+			if body.is_in_group("player") and body.player_id != player_id:
+				body.take_damage(20, player_id, "jugador", "explosión")
+			if !body.is_in_group("player"):
+				body.take_damage(20, player_id, "jugador", "explosión")
+
+	revertir_apariencia()
+	take_damage(max_health, player_id, "jugador", "explosion")
+	polimorf = false

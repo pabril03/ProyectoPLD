@@ -9,9 +9,10 @@ extends Node2D
 
 var dispositivo: Variant = null # null = teclado/ratón, int = joypad id
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const JOY_ID := 0 # primer mando
 const MAX_MUNICION = "INF"
-var municion = "INF"
+var municion = INF
 
 @export var SPEED := 200
 @export var DANIO := 7.5
@@ -21,8 +22,12 @@ var tipo_arma: String = "sword"
 var listo: bool = true
 var listo_alt: bool = true
 
+# Audio
+@onready var audio_ataque1 := AudioStreamPlayer.new()
+@onready var audio_ataque2 := AudioStreamPlayer.new()
+
 func _ready() -> void:
-	
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	timer.one_shot      = true
 	alt_timer.one_shot  = true
 	
@@ -32,7 +37,6 @@ func _ready() -> void:
 	
 	var player = get_parent()
 	var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 	for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 		if i != player.player_id:
 			mask |= 1 << i  # activar ese bit
@@ -41,6 +45,15 @@ func _ready() -> void:
 	mask |= 1 << 6  # Añadir la capa 7 (bit 6)
 	mask |= 1 << 7  # Añadimos la capa 8, la de los enemigos
 	attack_area.collision_mask = mask
+	
+	add_child(audio_ataque1)
+	audio_ataque1.stream = preload("res://audio/barrido_espada.mp3")
+	audio_ataque1.bus = "SFX"
+	
+	add_child(audio_ataque2)
+	audio_ataque2.stream = preload("res://audio/estocada_espada.mp3")
+	audio_ataque2.bus = "SFX"
+	audio_ataque2.volume_db = -5.0
 
 func _process(_delta: float) -> void:
 	# Rotación hacia cursor o joystick derecho
@@ -60,20 +73,14 @@ func _process(_delta: float) -> void:
 		
 		if input_vec.length() > DEADZONE:
 			rotation = input_vec.angle()
-			
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
-		if dispositivo == 1:
-			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
-		if dispositivo == 2:
-			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
-		if dispositivo == 3:
-			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
+
+		var R2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_RIGHT)
+		if R2_threshold > TRIGGER_THRESHOLD:
+			disparar = true
+
+		var L2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_LEFT)
+		if L2_threshold > TRIGGER_THRESHOLD:
+			disparar_alterno = true
 
 	rotation_degrees = wrap(rotation_degrees, 0, 360)
 	# Voltear sprite según orientación
@@ -105,7 +112,9 @@ func attack_arc() -> void:
 
 	# Activar área y reproducir animación de corte en arco
 	anim_player.play("arc_hit")
+	audio_ataque1.play()
 	timer.start()
+	
 
 func attack_thrust() -> void:
 	
@@ -117,6 +126,7 @@ func attack_thrust() -> void:
 
 	# Activar área y reproducir animación de estocada
 	anim_player.play("thrust_hit")
+	audio_ataque2.play()
 	alt_timer.start()
 
 func _on_arc_timeout() -> void:

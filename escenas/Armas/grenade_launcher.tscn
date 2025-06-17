@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2m2tivu2kv8t"]
 
-[ext_resource type="Script" uid="uid://ctm8dunnhd1c2" path="res://escenas/Armas/grenade_launcher.gd" id="1_j235d"]
+[ext_resource type="Script" uid="uid://ctm8dunnhd1c2" path="res://scripts/grenade_launcher.gd" id="1_j235d"]
 [ext_resource type="Texture2D" uid="uid://b6rdomt1tnaal" path="res://sprites/grenade_launcher.png" id="2_resbn"]
 
 [node name="GrenadeLauncher" type="Node2D"]

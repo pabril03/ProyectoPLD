@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=3 uid="uid://54b0vej2j4po"]
+
+[ext_resource type="Texture2D" uid="uid://b0lujx1bvekbw" path="res://UI/PNG/mapa1_resized.png" id="1_0nb84"]
+[ext_resource type="Script" uid="uid://drj4eq3wujfnf" path="res://scripts/UI/seleccion_juego.gd" id="1_8qtqf"]
+[ext_resource type="Texture2D" uid="uid://blgond8fhjtt1" path="res://UI/PNG/mapa2_resized.png" id="2_8qtqf"]
+[ext_resource type="Texture2D" uid="uid://xplxwmih4fmm" path="res://UI/PNG/mapa3_resized.png" id="4_3iq7c"]
+
+[node name="Control" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8qtqf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.168627, 0.168627, 0.168627, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 30
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(750, 30)
+layout_mode = 2
+theme_override_constants/separation = 200
+
+[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+text = "num_vidas"
+
+[node name="Vidas" type="OptionButton" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 1
+item_count = 6
+popup/item_0/text = "1"
+popup/item_0/id = 0
+popup/item_1/text = "3"
+popup/item_1/id = 1
+popup/item_2/text = "5"
+popup/item_2/id = 2
+popup/item_3/text = "7"
+popup/item_3/id = 3
+popup/item_4/text = "10"
+popup/item_4/id = 4
+popup/item_5/text = "infinitas"
+popup/item_5/id = 5
+
+[node name="Label" type="Label" parent="MarginContainer/ColorRect/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "mapas"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/ColorRect/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(750, 0)
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(750, 270)
+layout_mode = 2
+item_count = 3
+item_0/text = "mapa1"
+item_0/icon = ExtResource("1_0nb84")
+item_1/text = "mapa2"
+item_1/icon = ExtResource("2_8qtqf")
+item_2/text = "mapa3"
+item_2/icon = ExtResource("4_3iq7c")
+
+[node name="Volver" type="Button" parent="MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "but_volver"
+
+[node name="Continuar" type="Button" parent="MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "but_empezar"
+
+[connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer/Vidas" to="." method="_on_vidas_item_selected"]
+[connection signal="item_selected" from="MarginContainer/ColorRect/MarginContainer/GridContainer/HBoxContainer2/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/Volver" to="." method="_on_volver_pressed"]
+[connection signal="pressed" from="MarginContainer/ColorRect/MarginContainer/Continuar" to="." method="_on_continuar_pressed"]

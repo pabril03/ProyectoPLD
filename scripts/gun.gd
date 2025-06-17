@@ -3,6 +3,7 @@ extends Node2D
 const bala = preload("res://escenas/Modelos base (mapas y player)/bala.tscn")
 @export var DANIO = 2
 const DEADZONE := 0.2
+const TRIGGER_THRESHOLD := 0.5
 const MAX_AMMO : float = 20.0
 var municion : float = 20.0
 const JOY_ID := 0 # Normalmente 0 para el primer mando conectado
@@ -20,6 +21,14 @@ var cooldown_rafaga = true
 
 var tipo_arma: String = "Gun"
 
+@onready var audio_balas := AudioStreamPlayer.new()
+
+func _ready() -> void:
+	add_child(audio_balas)
+	audio_balas.stream = preload("res://audio/raygun_shot.mp3")
+	audio_balas.bus = "SFX"
+	audio_balas.volume_db = -20.0
+		
 func _process(_delta: float) -> void:
 
 	var player = get_parent()
@@ -42,20 +51,14 @@ func _process(_delta: float) -> void:
 		if input_vector.length() > DEADZONE:
 			rotation = input_vector.angle()
 			direccion_disparo = input_vector.normalized()
-		
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			disparar = Input.is_action_pressed("shoot_p1") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p1") # o el que definas
-		if dispositivo == 1:
-			disparar = Input.is_action_pressed("shoot_p2") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p2") # o el que definas
-		if dispositivo == 2:
-			disparar = Input.is_action_pressed("shoot_p3") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p3") # o el que definas
-		if dispositivo == 3:
-			disparar = Input.is_action_pressed("shoot_p4") # o el que definas
-			disparar_alterno = Input.is_action_pressed("alter-shoot_p4") # o el que definas
+
+		var R2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_RIGHT)
+		if R2_threshold > TRIGGER_THRESHOLD:
+			disparar = true
+
+		var L2_threshold =  Input.get_joy_axis(dispositivo, JOY_AXIS_TRIGGER_LEFT)
+		if L2_threshold > TRIGGER_THRESHOLD:
+			disparar_alterno = true
 
 	rotation_degrees = wrap(rotation_degrees, 0 ,360)
 	if rotation_degrees > 90 and rotation_degrees < 270:
@@ -87,6 +90,7 @@ func disparo():
 	if puedoDisparar:
 		$Timer.start()
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1.0
 		var spriteBala = bullet_i.get_node("Sprite2D")
 		bullet_i.shooter_id = player.player_id
@@ -96,12 +100,10 @@ func disparo():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
-		# Capa de la bala: del 6 al 9 según el player_id
-		# Para la capa del jugador que dispara
-		
+
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bullet_i.collision_layer = 1 << 5  # = 32
 		bullet_i.set_dano(DANIO)
@@ -110,7 +112,6 @@ func disparo():
 		# - todos los jugadores excepto el que dispara
 
 		var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 		for i in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 			if i != player.player_id:
 				mask |= 1 << i  # activar ese bit
@@ -124,6 +125,10 @@ func disparo():
 
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = rotation
+
+		# Audio
+		audio_balas.play()
+
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 		puedoDisparar = false
@@ -151,6 +156,7 @@ func disparo_rafaga():
 			return
 		
 		var bullet_i = bala.instantiate()
+		bullet_i.process_mode = Node.PROCESS_MODE_PAUSABLE
 		municion -= 1.0
 		bullet_i.shooter_id = player.player_id
 		var spriteBala = bullet_i.get_node("Sprite2D")
@@ -160,9 +166,10 @@ func disparo_rafaga():
 			2:
 				spriteBala.self_modulate = Color(0,1,0)
 			3:
-				spriteBala.self_modulate = Color(0,1,0)
+				spriteBala.self_modulate = Color(0,0,1)
 			4:
 				spriteBala.self_modulate = Color(0,1,1)
+
 		# Colocamos a la bala en la capa 6 (bit 5)
 		bullet_i.collision_layer = 1 << 5  # = 32
 		bullet_i.set_dano(DANIO)
@@ -171,7 +178,6 @@ func disparo_rafaga():
 		# - todos los jugadores excepto el que dispara
 
 		var mask = 1  # siempre incluir el entorno (bit 0)
-		#print(player.player_id)
 		for j in range(1, 5):  # ID 1 a 4 → capas 2 a 5 → bits 1 a 4
 			if j != player.player_id:
 				mask |= 1 << j  # activar ese bit
@@ -184,6 +190,10 @@ func disparo_rafaga():
 		bullet_i.set_start_position(posicion_rafaga)
 		bullet_i.velocity = direccion_disparo * bullet_i.SPEED
 		bullet_i.rotation = direccion_disparo.angle()
+
+		#Audio
+		audio_balas.play()
+
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
 		world.add_child(bullet_i)
 		await get_tree().create_timer(0.075).timeout

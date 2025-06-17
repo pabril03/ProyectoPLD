@@ -21,27 +21,27 @@ var clases: Array = [null,null,null,null]
 
 var scores := {}
 var kill_log: Array = []
+var vidas : int = 3
+var mapa : String = ""
 
 var dead_players_count = 0
+
+var reload_main := false
 
 func _ready() -> void:
 	scores[0] = 0
 	configurar_dispositivos()
 
 func configurar_dispositivos() -> void:
-		# Obtener lista de joypads conectados
+	# Obtener lista de joypads conectados
 	var joypads = Input.get_connected_joypads()
 
 	if !device_for_player.is_empty():
-		print("Joypads: ", joypads)
 		device_for_player.clear()
 		player_devices.clear()
 
 	if soloplay:
-		if joypads.size() == 0:
-			device_for_player.append(null)
-		else:
-			device_for_player.append(joypads[0])
+		device_for_player.append(null)
 
 	else:
 		match joypads.size():
@@ -54,13 +54,19 @@ func configurar_dispositivos() -> void:
 				device_for_player.append(null)      # Jugador 1
 				device_for_player.append(joypads[0]) # Jugador 2
 
-			_:
-				# Dos o más mandos: asigna los dos primeros
-				device_for_player.append(joypads[0]) # Jugador 1
-				device_for_player.append(joypads[1]) # Jugador 2
+			2:
+				device_for_player.append(null)      # Jugador 1
+				device_for_player.append(joypads[0]) # Jugador 2
+				device_for_player.append(joypads[1]) # Jugador 3
+
+			3:
+				device_for_player.append(null)      # Jugador 1
+				device_for_player.append(joypads[0]) # Jugador 2
+				device_for_player.append(joypads[1]) # Jugador 3
+				device_for_player.append(joypads[2]) # Jugador 4
 
 func registrar_jugador(id_jugador: int) -> void:
-	if jugadores.size() >= max_players:
+	if jugadores.size() > max_players:
 		return
 
 	jugadores.append(id_jugador)
@@ -139,7 +145,14 @@ func initialize_spawns(count):
 		spawn_states.append(0)  # Al inicio todos están libres
 
 func _init_player_spawns() -> void:
-	var parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
+	var parent 
+	if mapa == "mapa1" or mapa == "":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E")
+	if mapa == "mapa2":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-E-Mapa2")
+	if mapa == "mapa3":
+		parent = get_tree().current_scene.get_node("SplitScreen2D/Spawns-J-Mapa3")
+
 	for m in parent.get_children():
 		if m is Marker2D:
 			spawn_markers.append(m)
@@ -153,12 +166,12 @@ func resetearStats() -> void:
 
 	# Variable global para el número de jugadores
 	num_jugadores = 1
-	jugadores_eliminados = [] # Guardamos los ID de los jugadores eliminnados en orden
-	jugadores = []
-	spawn_states = []  # 0 = libre para reponer, 1 = ocupado Potenciadores
+	jugadores_eliminados.clear() # Guardamos los ID de los jugadores eliminnados en orden
+	jugadores.clear()
+	spawn_states.clear()  # 0 = libre para reponer, 1 = ocupado Potenciadores
 
 	# Índices de player: 0 = jugador1, 1 = jugador2
-	device_for_player = []
+	device_for_player.clear()
 	player_devices = {}
 	jugadores_vivos = 0
 	clases = [null,null,null,null]
@@ -194,9 +207,10 @@ func register_kill(shooter_id: int, victim_id: int) -> void:
 	guardar_id_jugador(victim_id)
 
 	# Ejemplo de log en consola:
-	print("Jugador %d ha matado a Jugador %d (Kills totales: %d)" %
-		  [shooter_id, victim_id, scores[shooter_id]])
-		
+	if shooter_id != 0 and shooter_id != 5:
+		print("Jugador %d ha matado a Jugador %d (Kills totales: %d)" %
+			  [shooter_id, victim_id, scores[shooter_id]])
+
 func dead_player() -> void:
 	dead_players_count += 1
 

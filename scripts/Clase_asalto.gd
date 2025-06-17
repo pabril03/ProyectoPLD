@@ -6,6 +6,7 @@ extends "Clase_artillero(player).gd"
 var _can_throw_grenade: bool = true
 
 func _ready() -> void:
+	escudo.process_mode = Node.PROCESS_MODE_PAUSABLE
 	visibility_layer = 1 << player_id
 	SPEED = 75.0
 	SPEED_DEFAULT = 75.0
@@ -38,6 +39,16 @@ func _ready() -> void:
 
 	muriendo = false
 	original_frames = animaciones.sprite_frames
+
+	add_child(audio_polimorf)
+	audio_polimorf.stream = preload("res://audio/polimorfed_duck.mp3")
+	audio_polimorf.bus = "SFX"
+	audio_polimorf.volume_db = +15.0
+
+	add_child(audio_escudo)
+	audio_escudo.stream = preload("res://audio/shield.mp3")
+	audio_escudo.bus = "SFX"
+	audio_escudo.volume_db = -5.0
 
 func _physics_process(_delta: float) -> void:
 
@@ -76,38 +87,35 @@ func _physics_process(_delta: float) -> void:
 		else:
 			velocity.y = 0
 
-		# Solo activar escudo si ese jugador pulsa su botón (ej: botón L1 → ID 4 en la mayoría)
-		if dispositivo == 0:
-			usar_escudo = Input.is_action_pressed("shield_p1")
-			usar_dash = Input.is_action_pressed("dash_p1")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p1")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p1")
-		if dispositivo == 1:
-			usar_escudo = Input.is_action_pressed("shield_p2")
-			usar_dash = Input.is_action_pressed("dash_p2")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p2")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p2")
-		if dispositivo == 2:
-			usar_escudo = Input.is_action_pressed("shield_p3")
-			usar_dash = Input.is_action_pressed("dash_p3")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p3")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p3")
-		if dispositivo == 3:
-			usar_escudo = Input.is_action_pressed("shield_p4")
-			usar_dash = Input.is_action_pressed("dash_p4")
-			usar_habilidad = Input.is_action_just_pressed("second_ability_p4")
-			cambiar_arma = Input.is_action_just_pressed("switch_weapons_p4")
+		usar_escudo = Input.is_joy_button_pressed(dispositivo, 9)
+		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
+		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 10)
+
+		var current := Input.is_joy_button_pressed(dispositivo, 1)
+		# Si ahora está presionado y antes no, es “just pressed”
+		if current and not last_cambiar_arma:
+			cambiar_arma = true
+		# Actualizamos historial
+		last_cambiar_arma = current
 
 	if polimorf:
 		if not en_polimorf:
 			cambiar_apariencia(textura)
 			$Polimorf.start()
+			cuack_timer.start()
 		else:
 			if velocity.length() > 0:
 				animaciones.play("run")
 				animaciones.flip_h = velocity.x > 0
 			else:
 				animaciones.play("idle")
+
+			if dispositivo == null:
+				if Input.is_action_just_pressed("shield"):
+					explotar()
+			else:
+				if Input.is_joy_button_pressed(dispositivo, 9):
+					explotar()
 	else:
 		# Escudo
 		if usar_escudo:
@@ -148,6 +156,7 @@ func _physics_process(_delta: float) -> void:
 				target = global_position + dir.normalized() * (max_grenade_distance * strength)
 		# instanciar y lanzar
 		var grenade = Grenade.instantiate()
+		grenade.process_mode = Node.PROCESS_MODE_PAUSABLE
 		grenade.global_position = global_position
 		grenade.owner_id = player_id
 		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area

@@ -5,10 +5,21 @@ extends Node2D
 	$Death4, $Death5, $Death6
 ]
 
+@onready var audio_explosion := AudioStreamPlayer.new()
+
 var rng := RandomNumberGenerator.new()
 var chosen_sprite: AnimatedSprite2D
 
+func _ready() -> void:
+	add_child(audio_explosion)
+	audio_explosion.stream = preload("res://audio/sonido_explosion.mp3")
+	audio_explosion.bus = "SFX"
+	audio_explosion.volume_db = -5.0
+
 func _enter_tree() -> void:
+	_ready()
+
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 
 	# Reconstruye el Array cuando ya existan los nodos hijos
 	death_sprites = [
@@ -32,6 +43,7 @@ func _enter_tree() -> void:
 	# Conecta la señal a la función que ocultará TODO el nodo
 	chosen_sprite.animation_finished.connect(_on_anim_finished)
 	chosen_sprite.play(chosen_sprite.animation)
+	audio_explosion.play()
 
 func _on_anim_finished() -> void:
 	# Oculta toda la escena de muerte de una vez
@@ -58,3 +70,4 @@ func _play_vfx(index: int) -> void:
 		chosen_sprite.sprite_frames.set_animation_loop(chosen_sprite.animation, false)
 		chosen_sprite.animation_finished.connect(_on_anim_finished)
 		chosen_sprite.play(chosen_sprite.animation)
+		audio_explosion.play()

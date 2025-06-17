@@ -8,6 +8,9 @@ extends "enemigo_generico.gd"
 var target: Node2D = null
 var target_close: Node2D = null
 
+#Audio
+@onready var audio_hueso := AudioStreamPlayer.new()
+
 func _ready() -> void:
 	super._ready()
 	damage_timer.connect("timeout", Callable(self, "_on_damage_timer_timeout"))
@@ -15,6 +18,10 @@ func _ready() -> void:
 	detector2.monitoring = true
 	detector2.body_entered.connect(_on_area_2d_body_entered_damage)
 	detector2.body_exited.connect(_on_area_2d_body_exited_damage)
+	
+	add_child(audio_hueso)
+	audio_hueso.stream = preload("res://audio/sonido_esqueleto.mp3")
+	audio_hueso.bus = "SFX"
 
 func _physics_process(_delta: float) -> void:
 	if target:
@@ -73,12 +80,14 @@ func _on_area_2d_body_exited_damage(body: Node2D) -> void:
 		return
 
 	damage_timer.stop()
+	audio_hueso.stop()
 
 func _on_damage_timer_timeout() -> void:
 	# Mantiene daño periódicamente mientras siga en contacto
 	for body in cuerpos_en_contacto:
 		if is_instance_valid(body) and body.is_in_group("player") and not body.get_escudo_activo():
 			body.take_damage(damage_on_touch, enemy_id, tipo_enemigo, "golpetazo")
+			audio_hueso.play()
 
 func take_damage(amount: float, autor: int, _aux: String = "Jugador", _aux2: String = "Disparo") -> void:
 	if !muriendo:

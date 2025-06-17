@@ -8,6 +8,7 @@ var PickUpSniper = preload("res://escenas/Spawns Armas y Powerups/PickupSniper.t
 var PickUpPolimorf = preload("res://escenas/Spawns Armas y Powerups/PickupPolimorf.tscn")
 var PickUpSword = preload("res://escenas/Spawns Armas y Powerups/PickupSword.tscn")
 var PickUpLauncher = preload("res://escenas/Spawns Armas y Powerups/PickupLauncher.tscn")
+var PickUpMinigun = preload("res://escenas/Spawns Armas y Powerups/PickupMinigun.tscn")
 var Potenciador = preload("res://escenas/Spawns Armas y Powerups/potenciador.tscn")
 const FireTrapScene: PackedScene = preload("res://escenas/Trampas/fire_trap.tscn")
 const BearTrapScene: PackedScene = preload("res://escenas/Trampas/bear_trap.tscn")
@@ -83,6 +84,10 @@ const EnemigoEsqueleto = preload("res://escenas/Modelos base (mapas y player)/en
 	$"Spawns-launcher/LauncherRestock"
 ]
 
+@onready var spawn_minigun = [
+	$"Spawns-minigun/MinigunRestock"
+]
+
 @onready var trap_points := [
 	$"Spawn-fire-traps/Firetrap1",
 	$"Spawn-fire-traps/Firetrap2",
@@ -146,6 +151,9 @@ var max_players = 4
 
 var toggled_on = false
 
+var luz
+
+
 func _ready():
 
 	spawnear_dummy()
@@ -166,8 +174,17 @@ func _ready():
 	spawn_arma_polimorf()
 	spawn_espada()
 	spawn_lanzador()
+	spawn_rotativa()
 
 	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	# Para ajustar el brillo
+	if not luz:
+		var env_scene = preload("res://escenas/luz.tscn")
+		luz = env_scene.instantiate()
+		
+		var world = get_tree().current_scene.get_node("SplitScreen2D").play_area
+		world.add_child(luz)
 
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:
@@ -285,15 +302,23 @@ func spawn_lanzador():
 		launcher.global_position = spawn_launcher[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(launcher)
 
+func spawn_rotativa():
+	for index in spawn_minigun.size():
+		var minigun = PickUpMinigun.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		minigun.global_position = spawn_minigun[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
+		add_child(minigun)
+
 func spawn_fire_traps() -> void:
 	for index in trap_points.size():
 		var trap = FireTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
 		trap.global_position = trap_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
 
 func spawn_bear_traps() -> void:
 	for index in bear_points.size():
 		var trap = BearTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
 		trap.global_position = bear_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
 
@@ -301,11 +326,13 @@ func spawn_bear_traps() -> void:
 func spawn_spike_traps() -> void:
 	for index in spike_points.size():
 		var trap = SpikeTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
 		trap.global_position = spike_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}
 
 func spawn_gas_traps() -> void:
 	for index in gas_points.size():
 		var trap = GasTrapScene.instantiate()    # Crea una instancia de la trampa :contentReference[oaicite:6]{index=6}
+		trap.process_mode = Node.PROCESS_MODE_PAUSABLE
 		trap.global_position = gas_points[index].global_position  # La sitúa en el marcador :contentReference[oaicite:7]{index=7}
 		add_child(trap)                            # La añade al árbol de escena :contentReference[oaicite:8]{index=8}

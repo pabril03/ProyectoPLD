@@ -19,7 +19,18 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 @onready var punto_respawn2 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn2"
 @onready var punto_respawn3 = $"SplitScreen2D/Spawns-J-E/PuntoRespawn3"
 
+@onready var punto_respawn_m2 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn1"  # Un marcador para el punto de respawn
+@onready var punto_respawn_m2_2 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn2"
+@onready var punto_respawn_m2_3 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn3"
+@onready var punto_respawn_m2_4 = $"SplitScreen2D/Spawns-J-E-Mapa2/PuntoRespawn4"
+
+@onready var punto_respawn_m3 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn1"  # Un marcador para el punto de respawn
+@onready var punto_respawn_m3_2 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn2"
+@onready var punto_respawn_m3_3 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn3"
+@onready var punto_respawn_m3_4 = $"SplitScreen2D/Spawns-J-Mapa3/PuntoRespawn4"
+
 @onready var menu := $SplitScreen2D/UILayer/Opciones
+@onready var countdown := $SplitScreen2D/UILayer/Countdown
 
 # Parámetros de zoom
 @export var min_zoom: float = 1.0
@@ -28,6 +39,7 @@ const RogueEscena = preload("res://escenas/Clases/ClaseRogue.tscn")
 
 #Pantalla dividida
 @onready var split_screen: SplitScreen2D = $SplitScreen2D
+@onready var play_area: Node2D = split_screen.play_area
 
 var respawn_queue: Array[int] = []
 var last_pauser_id = -1
@@ -45,13 +57,34 @@ var next_enemy_id = ENEMY_ID_START
 var max_players = 4
 
 var toggled_on = false
+var reload = false
 
 func _ready():
+	reload = false
+	next_player_id = PLAYER_ID_START
+	next_enemy_id = ENEMY_ID_START
+	
+	if not split_screen.play_area:
+		var placeholder = Node2D.new()
+		placeholder.name = "PlayArea"
+		split_screen.add_child(placeholder)
+		split_screen.play_area = placeholder
 
-	# Configuración de los dispositivos
-	# var devices = Input.get_connected_joypads()
-	if has_node("SplitScreen2D/Spawns-J-E"):
-		GameManager._init_player_spawns()
+	var packed : PackedScene
+	if GameManager.mapa == "mapa1" or GameManager.mapa == "":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa.tscn")
+	if GameManager.mapa == "mapa2":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa2.tscn")
+	if GameManager.mapa == "mapa3":
+		packed = load("res://escenas/Modelos base (mapas y player)/mapa3.tscn")
+
+	var mapa_instancia = packed.instantiate()
+	play_area.add_child(mapa_instancia)
+
+	await get_tree().process_frame
+	split_screen.rebuild(SplitScreen2D.RebuildReason.EXTERNAL_REQUEST)
+
+	GameManager._init_player_spawns()
 
 	for i in range(GameManager.num_jugadores):
 		spawnear_jugador()
@@ -77,8 +110,13 @@ func _ready():
 	btnSalir.pressed.connect(Callable(self, "_on_Salir_pressed"))
 
 	GlobalSettings.set_music_enabled(false)  # Para apagar la música
+	
+	countdown.start_countdown()
 
 func _input(event: InputEvent) -> void:
+	if countdown.visible:
+		return
+	
 	if event is InputEventKey and event.is_action_pressed("pause"):
 		last_pauser_id = 1  # asumimos teclado = jugador 1
 		_toggle_pause()
@@ -99,12 +137,6 @@ func _toggle_pause():
 		var resume_btn = menu.get_node("Div/VBoxContainer/Opcion1") as Button
 		resume_btn.grab_focus()
 
-	# Opcional: mostrar/ocultar tu menú de pausa
-	# if tree.paused:
-	#     $CanvasLayer/PauseMenu.visible = true
-	# else:
-	#     $CanvasLayer/PauseMenu.visible = false
-
 # Resume game
 func _on_Opcion1_pressed() -> void:
 	# Fuerza la reanudación
@@ -114,18 +146,18 @@ func _on_Opcion1_pressed() -> void:
 
 # Aquí podrías abrir un sub-menú de ajustes
 func _on_Opcion2_pressed() -> void:
-	#$SettingsMenu.visible = true
 	$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = true
-	#print("Pulso Opcion2: abre opciones avanzadas…")
 
 # Salir al menú principal
 func _on_Salir_pressed() -> void:
 	var tree = Engine.get_main_loop() as SceneTree
 	tree.paused = false
 	GameManager.soloplay = false
+	GameManager.resetearStats()
 	tree.change_scene_to_file("res://UI/inicio.tscn")
 
 func _process(_delta: float) -> void:
+
 	if $SplitScreen2D/UILayer/Opciones/SettingsMenu.volver:
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.visible = false
 		$SplitScreen2D/UILayer/Opciones/SettingsMenu.volver = false
@@ -163,20 +195,43 @@ func spawnear_jugador() -> void:
 
 	jugador.player_id = id_a_usar
 	GameManager.registrar_jugador(jugador.player_id)
-	jugador.connect("died", Callable(self, "_on_jugador_died"))
+	jugador.connect("perma_death", Callable(self, "_on_player_died"))
 	jugador.collision_layer = 1 << jugador.player_id
 	jugador.collision_mask = 1
 	jugador.process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 	# Asignamos la posición global del respawn y le añadimos un pequeño offset vertical
 	# para que no se solape con el suelo.
-	match randi_range(1,3):
-		1:
-			jugador.global_position = punto_respawn.global_position
-		2:
-			jugador.global_position = punto_respawn2.global_position
-		3:
-			jugador.global_position = punto_respawn3.global_position
+	if GameManager.mapa == "mapa1" or GameManager.mapa == "":
+		match randi_range(1,3):
+			1:
+				jugador.global_position = punto_respawn.global_position
+			2:
+				jugador.global_position = punto_respawn2.global_position
+			3:
+				jugador.global_position = punto_respawn3.global_position
+	
+	if GameManager.mapa == "mapa2":
+		match randi_range(1,4):
+			1:
+				jugador.global_position = punto_respawn_m2.global_position
+			2:
+				jugador.global_position = punto_respawn_m2_2.global_position
+			3:
+				jugador.global_position = punto_respawn_m2_3.global_position
+			4:
+				jugador.global_position = punto_respawn_m2_4.global_position
+	
+	if GameManager.mapa == "mapa3":
+		match randi_range(1,4):
+			1:
+				jugador.global_position = punto_respawn_m3.global_position
+			2:
+				jugador.global_position = punto_respawn_m3_2.global_position
+			3:
+				jugador.global_position = punto_respawn_m3_3.global_position
+			4:
+				jugador.global_position = punto_respawn_m3_4.global_position
 
 	split_screen.add_player(jugador)
 	await split_screen.split_screen_rebuilt
@@ -187,3 +242,27 @@ func spawnear_jugador() -> void:
 
 	GameManager.jugador_vivo()
 	print("¡Ha aparecido el soldado %d!" % [id_a_usar])
+
+func _on_player_died(player_id: int) -> void:
+	# 1) Encuentra el nodo jugador con ese ID
+	var nodo_a_remover: Node2D = null
+	for p in split_screen.players:
+		if p.player_id == player_id:
+			nodo_a_remover = p
+			break
+	if not nodo_a_remover:
+		push_warning("Jugador con ID %d no encontrado en split_screen.players" % player_id)
+		return
+
+	# 2) Quitarlo del split-screen
+	split_screen.remove_player(nodo_a_remover)
+	# 3) Borrarlo de la escena (opcional)
+	nodo_a_remover.queue_free()
+
+	# 4) Esperar a que el split-screen se haya reconstruido
+	await split_screen.split_screen_rebuilt
+
+	# 5) Reactivar el tracking de cámara para los que queden
+	for p in split_screen.players:
+		var cam = split_screen.get_player_camera(p)
+		split_screen.make_camera_track_player(cam, p)

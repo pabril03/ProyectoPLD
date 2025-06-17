@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://v8wfaltovsg0"]
+
+[ext_resource type="Script" uid="uid://wq7uxmf8qhyt" path="res://scripts/WorldEnvironment.gd" id="1_ifd6n"]
+
+[node name="ColorRect" type="CanvasModulate"]
+script = ExtResource("1_ifd6n")

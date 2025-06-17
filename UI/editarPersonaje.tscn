@@ -83,7 +83,7 @@ text = ">"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-text = "Aceptar"
+text = "but_aceptar"
 
 [connection signal="pressed" from="MarginContainer/before" to="." method="_on_before_pressed"]
 [connection signal="pressed" from="MarginContainer/next" to="." method="_on_next_pressed"]
