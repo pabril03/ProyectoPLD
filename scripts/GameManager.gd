@@ -21,7 +21,7 @@ var clases: Array = [null,null,null,null]
 
 var scores := {}
 var kill_log: Array = []
-var vidas : int = 1
+var vidas : int = 3
 var mapa : String = ""
 
 var dead_players_count = 0
@@ -155,6 +155,8 @@ func _init_player_spawns() -> void:
 	for m in parent.get_children():
 		if m is Marker2D:
 			spawn_markers.append(m)
+	
+	#print(spawn_markers.size())
 
 func get_spawn_point() -> Vector2:
 	var idx = randi() % spawn_markers.size()

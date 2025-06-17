@@ -9,6 +9,7 @@ func _ready() -> void:
 	play_btn.grab_focus()
 	GlobalSettings.set_music_enabled(true)
 	TranslationServer.set_locale(Save.game_data.language)
+	GameManager.spawn_markers.clear()
 	
 func _process(_delta: float) -> void:
 	if $SettingsMenu.volver:

@@ -241,10 +241,6 @@ _data = {
 
 [node name="Player" instance=ExtResource("1_6ws63")]
 script = ExtResource("2_uvxfe")
-SPEED = 100.0
-SPEED_DEFAULT = 100.0
-SPEED_DASH = 300.0
-active_slows = []
 
 [node name="AnimatedSprite2D" parent="." index="1"]
 position = Vector2(0, -10)

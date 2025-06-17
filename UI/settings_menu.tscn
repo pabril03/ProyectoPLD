@@ -34,9 +34,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 3
 
 [node name="Video" type="TabBar" parent="ColorRect/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -207,7 +208,6 @@ popup/item_1/text = "idiom_en"
 popup/item_1/id = 1
 
 [node name="controls_tab" type="TabBar" parent="ColorRect/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
@@ -313,7 +313,7 @@ text = "sec_ability"
 
 [node name="Label22" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
 layout_mode = 2
-text = "E / Triangle"
+text = "E / R1"
 
 [node name="Label23" type="Label" parent="ColorRect/TabContainer/controls_tab/MarginContainer/GridContainer"]
 layout_mode = 2

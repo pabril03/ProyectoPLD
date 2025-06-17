@@ -111,9 +111,9 @@ func _physics_process(_delta: float) -> void:
 		else:
 			velocity.y = 0
 
-		usar_escudo = Input.is_joy_button_pressed(dispositivo, 10)
+		usar_escudo = Input.is_joy_button_pressed(dispositivo, 9)
 		usar_dash = Input.is_joy_button_pressed(dispositivo, 2)
-		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 3)
+		usar_habilidad = Input.is_joy_button_pressed(dispositivo, 10)
 
 		var current := Input.is_joy_button_pressed(dispositivo, 1)
 		# Si ahora está presionado y antes no, es “just pressed”

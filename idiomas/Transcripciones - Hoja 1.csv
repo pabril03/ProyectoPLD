@@ -16,6 +16,7 @@ num_vidas,Número de vidas,Lifes
 mapas,Mapas,Maps
 mapa1,Mapa 1,Map 1
 mapa2,Mapa 2,Map 2
+mapa3,Mapa 3,Map 3
 but_continuar,Continuar,Next
 modo_pantalla,Modo de pantalla,Screen mode
 modo_ventana,Ventana,Windowed
@@ -44,7 +45,7 @@ volver,Volver,Volver
 dash,Sprint,Dash
 sec_ability,Habilidad secundaria,Secondary ability
 switch_weapons,Cambiar armas,Switch weapons
-tecla_espacio,Espacio,Space
+tecla_espacio,Espacio / L1,Space / L1
 click_izquierdo,Click izquierdo,Mouse left button
 click_derecho,Click derecho,Mouse right button
 infinitas,Infinitas,Infinite
